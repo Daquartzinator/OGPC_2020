@@ -5,6 +5,7 @@ using namespace sf;
 
 int main(){
     bool windowTextIn = true;
+    string playerName;
 	cout << "That's how Mafia Works" << endl;
 	cout << "This is a prototype file" << endl;
 	cout << "type your name, when you're done press enter." << endl;
@@ -21,8 +22,9 @@ int main(){
             if (event.type == Event::TextEntered && windowTextIn){
                 if (event.text.unicode == 13){
                     windowTextIn = false;
+                    cout << playerName << endl;
                 } else {
-                    cout << (char)event.text.unicode;
+                    playerName = playerName + (char)event.text.unicode;
                 }
             }
         }
