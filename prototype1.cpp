@@ -4,8 +4,10 @@ using namespace std;
 using namespace sf;
 
 int main(){
+    bool windowTextIn = true;
 	cout << "That's how Mafia Works" << endl;
 	cout << "This is a prototype file" << endl;
+	cout << "type your name, when you're done press enter." << endl;
 
     RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
     window.setFramerateLimit(30);
@@ -14,6 +16,14 @@ int main(){
         while (window.pollEvent(event)){
             if (event.type == Event::Closed){
                 window.close();
+            }
+
+            if (event.type == Event::TextEntered && windowTextIn){
+                if (event.text.unicode == 13){
+                    windowTextIn = false;
+                } else {
+                    cout << (char)event.text.unicode;
+                }
             }
         }
     }
