@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1576005618 source:f:\testingproject\add.cpp
+
+1576177742 source:f:\testingproject\main.cpp
+	<iostream>
+	"add.h"
+
+1576177812 f:\testingproject\add.h
+
