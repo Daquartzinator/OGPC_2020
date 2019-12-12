@@ -21,9 +21,12 @@ int main(){
             }
 
             if (event.type == Event::TextEntered && windowTextIn){
+                //cout << event.text.unicode << endl;
                 if (event.text.unicode == 13){
                     windowTextIn = false;
                     cout << playerName << endl;
+                } else if (event.text.unicode == 8){
+                    playerName = playerName.substr(0, playerName.size()-1);
                 } else {
                     playerName = playerName + (char)event.text.unicode;
                 }
