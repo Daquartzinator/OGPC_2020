@@ -1,5 +1,6 @@
 #include<iostream>
 #include<SFML/Graphics.hpp>
+#include "add.h"
 using namespace std;
 using namespace sf;
 
