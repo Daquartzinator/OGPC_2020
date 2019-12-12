@@ -5,6 +5,7 @@ using namespace sf;
 
 int main(){
     bool windowTextIn = true;
+    bool playerControl = false;
     string playerName;
 	cout << "That's how Mafia Works" << endl;
 	cout << "This is a prototype file" << endl;
