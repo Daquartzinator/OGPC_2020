@@ -9,7 +9,6 @@ int main(){
     bool playerControl = false;
     string playerName;
 	cout << "That's how Mafia Works" << endl;
-	cout << "This is a prototype file" << endl;
 	cout << "type your name, when you're done press enter." << endl;
 
     RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
