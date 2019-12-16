@@ -38,10 +38,11 @@ string CrewMember::getName(){
     return name;
 }
 
-void managementUpdate(int c, CrewMember *cList){
+void managementUpdate(int c, CrewMember *cList, int money, int expenses, int moneyUsed){
     cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-    cout << cList[c].getName() << "\n----------\nMorale: "
-        << cList[c].getMorale() << "\nCurrent Pay: "
+
+    cout << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;
+    cout << cList[c].getName() << "\n----------\nMorale: " << cList[c].getMorale() << "\nCurrent Pay: "
         << cList[c].currentPay;
     cout << "\n\nPay them: " << cList[c].currentPayNext;
 }
@@ -58,6 +59,8 @@ int main(){
     bool bHeld;
 
     int money = 400;
+    int expenses = 100;
+    int moneyUsed = 350;
 
     int currentCrewMember = 0;
 
@@ -84,25 +87,27 @@ int main(){
                     upHeld = true;
                     if (management){
                         members[currentCrewMember].currentPayNext += 10;
-                        managementUpdate(currentCrewMember, members);
+                        moneyUsed += 10;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
                     if (management){
                         members[currentCrewMember].currentPayNext -= 10;
-                        managementUpdate(currentCrewMember, members);
+                        moneyUsed -= 10;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
-                        managementUpdate(currentCrewMember, members);
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + 1) % 3;
-                        managementUpdate(currentCrewMember, members);
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
