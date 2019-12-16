@@ -9,16 +9,21 @@ using namespace sf;
 class CrewMember {
 private:
     int morale;
+    string name;
 public:
     int currentPay;
-    CrewMember(int sCurrentPay);
+    int currentPayNext;
+    CrewMember(int sCurrentPay, int sMorale, string sName);
     void updateMorale();
     int getMorale();
+    string getName();
 };
 
-CrewMember::CrewMember(int sCurrentPay){
-    morale = sCurrentPay;
+CrewMember::CrewMember(int sCurrentPay, int sMorale, string sName){
+    morale = sMorale;
     currentPay = sCurrentPay;
+    name = sName;
+    currentPayNext = currentPay;
 }
 
 void CrewMember::updateMorale(){
@@ -29,10 +34,20 @@ int CrewMember::getMorale(){
     return morale;
 }
 
-int main(){
-    bool windowTextIn = true;
+string CrewMember::getName(){
+    return name;
+}
 
-    bool management = false;
+void managementUpdate(int c, CrewMember *cList){
+    cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    cout << cList[c].getName() << "\n----------\nMorale: "
+        << cList[c].getMorale() << "\nCurrent Pay: "
+        << cList[c].currentPay;
+    cout << "\n\nPay them: " << cList[c].currentPayNext;
+}
+
+int main(){
+    bool management = true;
     bool playerControl = false;
 
     bool upHeld;
@@ -41,13 +56,17 @@ int main(){
     bool rightHeld;
     bool aHeld;
     bool bHeld;
-    string playerTextIn = "";
-
-    string playerName = "";
 
     int money = 400;
 
-    CrewMember member1(100);
+    int currentCrewMember = 0;
+
+    CrewMember member1(100, 100, "Barbara");
+    CrewMember member2(100, 100, "Newt");
+    CrewMember member3(50, 100, "Larry");
+
+    CrewMember members[3] = {member1, member2, member3};
+    int memberCount = 3;
 
 	cout << "That's how Mafia Works" << endl;
 
@@ -60,19 +79,41 @@ int main(){
                 window.close();
             }
 
-            if (event.type == Event::KeyPressed){
-                if (event.key.code == Keyboard::Up){
+            if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
+                if (event.key.code == Keyboard::Up && !upHeld){
                     upHeld = true;
-                } else if (event.key.code == Keyboard::Down){
+                } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
-                } else if (event.key.code == Keyboard::Left){
+                } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
-                } else if (event.key.code == Keyboard::Right){
+                    if (management){
+                        currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
+                        managementUpdate(currentCrewMember, members);
+                    }
+                } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
-                } else if (event.key.code == Keyboard::A){
+                    if (management){
+                        currentCrewMember = (currentCrewMember + 1) % 3;
+                        managementUpdate(currentCrewMember, members);
+                    }
+                } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
-                } else if (event.key.code == Keyboard::B){
+                } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
+                }
+            } else if (event.type == Event::KeyReleased){
+                if (event.key.code == Keyboard::Up){
+                    upHeld = false;
+                } else if (event.key.code == Keyboard::Down){
+                    downHeld = false;
+                } else if (event.key.code == Keyboard::Right){
+                    rightHeld = false;
+                } else if (event.key.code == Keyboard::Left){
+                    leftHeld = false;
+                } else if (event.key.code == Keyboard::A){
+                    aHeld = false;
+                } else if (event.key.code == Keyboard::B){
+                    bHeld = false;
                 }
             }
 
