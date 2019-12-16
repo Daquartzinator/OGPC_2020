@@ -82,8 +82,16 @@ int main(){
             if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
                 if (event.key.code == Keyboard::Up && !upHeld){
                     upHeld = true;
+                    if (management){
+                        members[currentCrewMember].currentPayNext += 10;
+                        managementUpdate(currentCrewMember, members);
+                    }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
+                    if (management){
+                        members[currentCrewMember].currentPayNext -= 10;
+                        managementUpdate(currentCrewMember, members);
+                    }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
                     if (management){
