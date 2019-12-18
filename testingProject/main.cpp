@@ -1,42 +1,11 @@
 #include<iostream>
 #include<string>
 #include<SFML/Graphics.hpp>
-#include "add.h"
+#include "crewmember.h"
+
 using namespace std;
 using namespace sf;
 
-/** Move the class to header later **/
-class CrewMember {
-private:
-    int morale;
-    string name;
-public:
-    int currentPay;
-    int currentPayNext;
-    CrewMember(int sCurrentPay, int sMorale, string sName);
-    void updateMorale();
-    int getMorale();
-    string getName();
-};
-
-CrewMember::CrewMember(int sCurrentPay, int sMorale, string sName){
-    morale = sMorale;
-    currentPay = sCurrentPay;
-    name = sName;
-    currentPayNext = currentPay;
-}
-
-void CrewMember::updateMorale(){
-    morale = (morale + currentPay)/2;
-}
-
-int CrewMember::getMorale(){
-    return morale;
-}
-
-string CrewMember::getName(){
-    return name;
-}
 
 void managementUpdate(int c, CrewMember *cList, int money, int expenses, int moneyUsed){
     cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
