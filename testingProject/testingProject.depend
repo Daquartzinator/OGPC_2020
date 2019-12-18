@@ -12,17 +12,19 @@
 
 1576179827 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\add.h
 
-1576535652 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\main.cpp
+1576692244 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\main.cpp
 	<iostream>
 	<string>
 	<SFML/Graphics.hpp>
 	"crewmember.h"
-	"add.h"
+	"managementlib.h"
 
 1576535757 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.cpp
 	<iostream>
 	"crewmember.h"
 
-1576535730 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.h
+1576692093 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.h
 	<iostream>
+
+1576692244 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.h
 

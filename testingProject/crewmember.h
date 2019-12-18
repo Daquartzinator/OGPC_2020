@@ -9,10 +9,13 @@ private:
 public:
     int currentPay;
     int currentPayNext;
+
     CrewMember(int sCurrentPay, int sMorale, std::string sName);
-    void updateMorale();
+
     int getMorale();
     std::string getName();
+
+    void updateMorale();
 };
 
 #endif // CREWMEMBER_H_INCLUDED
