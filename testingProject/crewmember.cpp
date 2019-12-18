@@ -7,6 +7,7 @@ CrewMember::CrewMember(int sCurrentPay, int sMorale, string sName){
     currentPay = sCurrentPay;
     name = sName;
     currentPayNext = currentPay;
+    manageConfirm = false;
 }
 
 void CrewMember::updateMorale(){

@@ -49,31 +49,39 @@ int main(){
                     if (management){
                         members[currentCrewMember].currentPayNext += 10;
                         moneyUsed += 10;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
                     if (management){
                         members[currentCrewMember].currentPayNext -= 10;
                         moneyUsed -= 10;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + 1) % 3;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
+                    if (management){
+                        members[currentCrewMember].manageConfirm = true;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                    }
                 } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
+                    if (management){
+                        members[currentCrewMember].manageConfirm = false;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                    }
                 }
             } else if (event.type == Event::KeyReleased){
                 if (event.key.code == Keyboard::Up){
@@ -90,28 +98,6 @@ int main(){
                     bHeld = false;
                 }
             }
-
-            /*if (event.type == Event::TextEntered && windowTextIn){
-                cout << event.text.unicode << endl;
-                if (event.text.unicode == 13){  ///pressed enter
-                    playerTextIn = "";
-                    if (playerName == ""){
-                        windowTextIn = false;
-                        playerName = playerTextIn;
-                        cout << playerName << endl;
-
-                        management = true;
-                        cout << "How much money do you want to pay crew member 1?\n";
-                        cout << "You have $" << money << ".\n";
-                    } else if (management){
-
-                    }
-                } else if (event.text.unicode == 8){ ///pressed backspace
-                    playerTextIn = playerTextIn.substr(0, playerTextIn.size()-1);
-                } else {
-                    playerTextIn = playerTextIn + (char)event.text.unicode;
-                }
-            }*/
         }
     }
 }

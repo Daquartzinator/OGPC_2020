@@ -9,6 +9,7 @@ private:
 public:
     int currentPay;
     int currentPayNext;
+    bool manageConfirm;
 
     CrewMember(int sCurrentPay, int sMorale, std::string sName);
 
