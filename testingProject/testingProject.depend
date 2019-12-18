@@ -12,3 +12,14 @@
 
 1576179211 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\add.h
 
+1576521864 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\add.cpp
+	"add.h"
+
+1576521489 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\add.h
+	<stdbool.h>
+
+1576692826 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
+	<iostream>
+	<SFML/Graphics.hpp>
+	"add.h"
+
