@@ -1,47 +1,69 @@
 #include<iostream>
+#include<string>
+#include<sstream>
 #include<SFML/Graphics.hpp>
-#include "add.h"
+#include "crewmember.h"
+#include "managementlib.h"
+
 using namespace std;
 using namespace sf;
 
+
 int main(){
-
-    bool windowTextIn = true;
+    bool management = true;
     bool playerControl = false;
+    stringstream mss; // Management String Stream
 
+    bool upHeld;
+    bool downHeld;
+    bool leftHeld;
+    bool rightHeld;
+    bool aHeld;
+    bool bHeld;
+
+    int money = 400;
+    int expenses = 100;
+    int moneyUsed = 350;
+
+    mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;;
+    string mu = mss.str();
+
+    int currentCrewMember = 0;
+
+    CrewMember member1(100, 100, "Barbara");
+    CrewMember member2(100, 100, "Newt");
+    CrewMember member3(50, 100, "Larry");
+
+    CrewMember members[3] = {member1, member2, member3};
+    int memberCount = 3;
+
+    Font font;
+    Text manageUpdate;
     Texture SpriteSheet;
-    if (!SpriteSheet.loadFromFile("spritesheet.png")){
-        cout<<"spritesheet broken rip"<<endl;
-	}
     Sprite Area1, Area2, Area3;
     Sprite bigBorder;
 
-    Area1.setTexture(SpriteSheet);
-    Area1.setPosition(0,0);
-    Area1.setTextureRect(IntRect(0,0,150,200));
-
-    Area2.setTexture(SpriteSheet);
-    Area2.setPosition(150,0);
-    Area2.setTextureRect(IntRect(150,0,250,116));
-
-    Area3.setTexture(SpriteSheet);
-    Area3.setPosition(150,116);
-    Area3.setTextureRect(IntRect(150,116,250,94));
+    if (!font.loadFromFile("Steve.ttf")){
+        cout<<"font broken rip"<<endl;
+    }
+    if (!SpriteSheet.loadFromFile("spritesheet.png")){
+        cout<<"sprite sheet broken rip"<<endl;
+	}
+	manageUpdate.setFont(font);
+	manageUpdate.setString(mu);
+	manageUpdate.setCharacterSize(9);
+	manageUpdate.setPosition(15,25);
 
     bigBorder.setTexture(SpriteSheet);
     bigBorder.setPosition(0,0);
     bigBorder.setTextureRect(IntRect(0,200,400,200));
 
-
-    string playerName;
-
 	cout << "That's how Mafia Works" << endl;
-	cout << "This is a prototype file" << endl;
-	cout << "type your name, when you're done press enter." << endl;
-
 
     RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
     window.setFramerateLimit(30);
+
+
 
     while (window.isOpen()){
         Event event;
@@ -50,24 +72,80 @@ int main(){
                 window.close();
             }
 
-            if (event.type == Event::TextEntered && windowTextIn){
+            if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
+                if (event.key.code == Keyboard::Up && !upHeld){
+                    upHeld = true;
+                    if (management){
+                        members[currentCrewMember].currentPayNext += 10;
+                        moneyUsed += 10;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
+                        //window.clear(Color::Black);
+                        window.draw(manageUpdate);
+                        window.display();
+                    }
+                } else if (event.key.code == Keyboard::Down && !downHeld){
+                    downHeld = true;
+                    if (management){
+                        members[currentCrewMember].currentPayNext -= 10;
+                        moneyUsed -= 10;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
+                    }
+                } else if (event.key.code == Keyboard::Left  && !leftHeld){
+                    leftHeld = true;
+                    if (management){
+                        currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
 
-                if (event.text.unicode == 13){
-                    windowTextIn = false;
-                    playerControl = true;
-                    cout << playerName << endl;
-                } else if (event.text.unicode == 8){ //if 'enter' key pressed
-                    playerName = playerName.substr(0, playerName.size()-1);
-                } else {
-                    playerName = playerName + (char)event.text.unicode;
+                    }
+                } else if (event.key.code == Keyboard::Right && !rightHeld){
+                    rightHeld = true;
+                    if (management){
+                        currentCrewMember = (currentCrewMember + 1) % 3;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed);
+
+
+                   }
+                } else if (event.key.code == Keyboard::A && !aHeld){
+                    aHeld = true;
+                } else if (event.key.code == Keyboard::B && !bHeld){
+                    bHeld = true;
+                }
+            } else if (event.type == Event::KeyReleased){
+                if (event.key.code == Keyboard::Up){
+                    upHeld = false;
+                } else if (event.key.code == Keyboard::Down){
+                    downHeld = false;
+                } else if (event.key.code == Keyboard::Right){
+                    rightHeld = false;
+                } else if (event.key.code == Keyboard::Left){
+                    leftHeld = false;
+                } else if (event.key.code == Keyboard::A){
+                    aHeld = false;
+                } else if (event.key.code == Keyboard::B){
+                    bHeld = false;
                 }
             }
+
         }
-        if (windowTextIn == true){
+        if (management == true){
+            Area1.setTexture(SpriteSheet);
+            Area1.setPosition(0,0);
+            Area1.setTextureRect(IntRect(0,0,150,200));
+
+            Area2.setTexture(SpriteSheet);
+            Area2.setPosition(150,0);
+            Area2.setTextureRect(IntRect(150,0,250,116));
+
+            Area3.setTexture(SpriteSheet);
+            Area3.setPosition(150,116);
+            Area3.setTextureRect(IntRect(150,116,250,94));
+
             window.clear(Color::Black);
             window.draw(Area1);
             window.draw(Area2);
             window.draw(Area3);
+            window.draw(manageUpdate);
+
             window.display();
         }
         else if (playerControl == true){
@@ -75,7 +153,8 @@ int main(){
             window.draw(bigBorder);
             window.display();
         }
-
-
     }
 }
+
+
+
