@@ -7,8 +7,24 @@
 
 1576177812 f:\testingproject\add.h
 
-1576179211 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\add.cpp
+1576179827 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\add.cpp
 	"add.h"
 
-1576179211 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\add.h
+1576179827 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\add.h
+
+1576696863 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\main.cpp
+	<iostream>
+	<string>
+	<SFML/Graphics.hpp>
+	"crewmember.h"
+	"managementlib.h"
+
+1576695952 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.cpp
+	<iostream>
+	"crewmember.h"
+
+1576695953 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.h
+	<iostream>
+
+1576696471 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.h
 

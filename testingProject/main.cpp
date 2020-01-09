@@ -1,16 +1,38 @@
 #include<iostream>
+#include<string>
 #include<SFML/Graphics.hpp>
-#include "add.h"
+#include "crewmember.h"
+#include "managementlib.h"
+
 using namespace std;
 using namespace sf;
 
+
 int main(){
-    bool windowTextIn = true;
+    bool management = true;
     bool playerControl = false;
-    string playerName;
+
+    bool upHeld;
+    bool downHeld;
+    bool leftHeld;
+    bool rightHeld;
+    bool aHeld;
+    bool bHeld;
+
+    int money = 400;
+    int expenses = 100;
+    int moneyUsed = 350;
+
+    int currentCrewMember = 0;
+
+    CrewMember member1(100, 100, "Barbara");
+    CrewMember member2(100, 100, "Newt");
+    CrewMember member3(50, 100, "Larry");
+
+    CrewMember members[3] = {member1, member2, member3};
+    int memberCount = 3;
+
 	cout << "That's how Mafia Works" << endl;
-	cout << "This is a prototype file" << endl;
-	cout << "type your name, when you're done press enter." << endl;
 
     RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
     window.setFramerateLimit(30);
@@ -21,15 +43,59 @@ int main(){
                 window.close();
             }
 
-            if (event.type == Event::TextEntered && windowTextIn){
-                //cout << event.text.unicode << endl;
-                if (event.text.unicode == 13){
-                    windowTextIn = false;
-                    cout << playerName << endl;
-                } else if (event.text.unicode == 8){
-                    playerName = playerName.substr(0, playerName.size()-1);
-                } else {
-                    playerName = playerName + (char)event.text.unicode;
+            if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
+                if (event.key.code == Keyboard::Up && !upHeld){
+                    upHeld = true;
+                    if (management){
+                        members[currentCrewMember].currentPayNext += 10;
+                        moneyUsed += 10;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                    }
+                } else if (event.key.code == Keyboard::Down && !downHeld){
+                    downHeld = true;
+                    if (management){
+                        members[currentCrewMember].currentPayNext -= 10;
+                        moneyUsed -= 10;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                    }
+                } else if (event.key.code == Keyboard::Left  && !leftHeld){
+                    leftHeld = true;
+                    if (management){
+                        currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                    }
+                } else if (event.key.code == Keyboard::Right && !rightHeld){
+                    rightHeld = true;
+                    if (management){
+                        currentCrewMember = (currentCrewMember + 1) % 3;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                    }
+                } else if (event.key.code == Keyboard::A && !aHeld){
+                    aHeld = true;
+                    if (management){
+                        members[currentCrewMember].manageConfirm = true;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                    }
+                } else if (event.key.code == Keyboard::B && !bHeld){
+                    bHeld = true;
+                    if (management){
+                        members[currentCrewMember].manageConfirm = false;
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                    }
+                }
+            } else if (event.type == Event::KeyReleased){
+                if (event.key.code == Keyboard::Up){
+                    upHeld = false;
+                } else if (event.key.code == Keyboard::Down){
+                    downHeld = false;
+                } else if (event.key.code == Keyboard::Right){
+                    rightHeld = false;
+                } else if (event.key.code == Keyboard::Left){
+                    leftHeld = false;
+                } else if (event.key.code == Keyboard::A){
+                    aHeld = false;
+                } else if (event.key.code == Keyboard::B){
+                    bHeld = false;
                 }
             }
         }
