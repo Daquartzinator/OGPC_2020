@@ -25,7 +25,7 @@ int main(){
     int expenses = 100;
     int moneyUsed = 350;
 
-    mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;;
+    mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;
     string mu = mss.str();
     int currentCrewMember = 0;
 
@@ -77,7 +77,7 @@ int main(){
                     if (management){
                         members[currentCrewMember].currentPayNext += 10;
                         moneyUsed += 10;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                         //window.clear(Color::Black);
                         window.draw(manageUpdate);
                         window.display();
@@ -87,32 +87,32 @@ int main(){
                     if (management){
                         members[currentCrewMember].currentPayNext -= 10;
                         moneyUsed -= 10;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
 
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + 1) % 3;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
                     if (management){
                         members[currentCrewMember].manageConfirm = true;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
                     if (management){
                         members[currentCrewMember].manageConfirm = false;
-                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                     }
                 }
             } else if (event.type == Event::KeyReleased){
