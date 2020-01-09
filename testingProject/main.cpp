@@ -42,7 +42,7 @@ int main(){
     Sprite Area1, Area2, Area3;
     Sprite bigBorder;
 
-    if (!font.loadFromFile("Steve.ttf")){
+    if (!font.loadFromFile("Consolas.ttf")){
         cout<<"font broken rip"<<endl;
     }
     if (!SpriteSheet.loadFromFile("spritesheet.png")){
