@@ -17,6 +17,7 @@ public:
     std::string getName();
 
     void updateMorale();
+    /** update's CrewMember's morale according to the formula **/
 };
 
 #endif // CREWMEMBER_H_INCLUDED
