@@ -25,6 +25,9 @@ string managementUpdate(int c, CrewMember *cList, int money, int expenses, int m
     } else {
         if (money - moneyUsed < 0){
             ss << "You're using too much\nmoney! Press B to go back.";
+            for(int i = 0; i < memberCount; i++){
+                cList[i].manageConfirm = false;
+            }
         } else {
             ss << "A to confirm all.";
         }
