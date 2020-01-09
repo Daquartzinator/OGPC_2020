@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<sstream>
 #include<SFML/Graphics.hpp>
 #include "crewmember.h"
 #include "managementlib.h"
@@ -11,6 +12,7 @@ using namespace sf;
 int main(){
     bool management = true;
     bool playerControl = false;
+    stringstream mss; // Management String Stream
 
     bool upHeld;
     bool downHeld;
@@ -23,6 +25,8 @@ int main(){
     int expenses = 100;
     int moneyUsed = 350;
 
+    mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;;
+    string mu = mss.str();
     int currentCrewMember = 0;
 
     CrewMember member1(100, 100, "Barbara");
@@ -32,10 +36,34 @@ int main(){
     CrewMember members[3] = {member1, member2, member3};
     int memberCount = 3;
 
+    Font font;
+    Text manageUpdate;
+    Texture SpriteSheet;
+    Sprite Area1, Area2, Area3;
+    Sprite bigBorder;
+
+    if (!font.loadFromFile("Steve.ttf")){
+        cout<<"font broken rip"<<endl;
+    }
+    if (!SpriteSheet.loadFromFile("spritesheet.png")){
+        cout<<"sprite sheet broken rip"<<endl;
+	}
+	manageUpdate.setFont(font);
+	manageUpdate.setString(mu);
+	manageUpdate.setCharacterSize(9);
+	manageUpdate.setPosition(15,25);
+
+    bigBorder.setTexture(SpriteSheet);
+    bigBorder.setPosition(0,0);
+    bigBorder.setTextureRect(IntRect(0,200,400,200));
+
 	cout << "That's how Mafia Works" << endl;
 
     RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
     window.setFramerateLimit(30);
+
+
+
     while (window.isOpen()){
         Event event;
         while (window.pollEvent(event)){
@@ -50,6 +78,9 @@ int main(){
                         members[currentCrewMember].currentPayNext += 10;
                         moneyUsed += 10;
                         managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                        //window.clear(Color::Black);
+                        window.draw(manageUpdate);
+                        window.display();
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
@@ -63,6 +94,7 @@ int main(){
                     if (management){
                         currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
                         managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
@@ -98,6 +130,33 @@ int main(){
                     bHeld = false;
                 }
             }
+
+        }
+        if (management == true){
+            Area1.setTexture(SpriteSheet);
+            Area1.setPosition(0,0);
+            Area1.setTextureRect(IntRect(0,0,150,200));
+
+            Area2.setTexture(SpriteSheet);
+            Area2.setPosition(150,0);
+            Area2.setTextureRect(IntRect(150,0,250,116));
+
+            Area3.setTexture(SpriteSheet);
+            Area3.setPosition(150,116);
+            Area3.setTextureRect(IntRect(150,116,250,94));
+
+            window.clear(Color::Black);
+            window.draw(Area1);
+            window.draw(Area2);
+            window.draw(Area3);
+            window.draw(manageUpdate);
+
+            window.display();
+        }
+        else if (playerControl == true){
+            window.clear(Color::Black);
+            window.draw(bigBorder);
+            window.display();
         }
     }
 }
