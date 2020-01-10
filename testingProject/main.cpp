@@ -10,37 +10,36 @@ using namespace sf;
 
 
 int main(){
-    bool management = true;
-    bool playerControl = false;
-    //stringstream mss; // Management String Stream
-
+    /** General Variables **/
     bool upHeld;
     bool downHeld;
     bool leftHeld;
     bool rightHeld;
     bool aHeld;
     bool bHeld;
+    Font font;
+    Sprite bigBorder;
+    Texture SpriteSheet;
+    Sprite Area1, Area2, Area3;
 
-    int money = 400;
-    int expenses = 100;
-    int moneyUsed = 350;
-
-    //mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;
-    //string mu = mss.str();
-    int currentCrewMember = 0;
-
+    /** Crew members **/
     CrewMember member1(100, 100, "Barbara");
     CrewMember member2(100, 100, "Newt");
-    CrewMember member3(50, 100, "Larry");
-
+    CrewMember member3(100, 100, "Larry");
     CrewMember members[3] = {member1, member2, member3};
     int memberCount = 3;
 
-    Font font;
-    Text manageUpdate;
-    Texture SpriteSheet;
-    Sprite Area1, Area2, Area3;
-    Sprite bigBorder;
+    /** Management Variables **/
+    bool management = true;
+    int money = 400;
+    int expenses = 100;
+    int moneyUsed = 350;
+    //stringstream mss; // Management String Stream
+    int currentCrewMember = 0;
+    Text manageText;
+
+    /** Player Control Variables **/
+    bool playerControl = false;
 
     if (!font.loadFromFile("Consolas.ttf")){
         cout<<"font broken rip"<<endl;
@@ -48,10 +47,14 @@ int main(){
     if (!SpriteSheet.loadFromFile("spritesheet.png")){
         cout<<"sprite sheet broken rip"<<endl;
 	}
-	manageUpdate.setFont(font);
-	manageUpdate.setString(managementUpdate(0, members, money, expenses, moneyUsed, memberCount));
-	manageUpdate.setCharacterSize(9);
-	manageUpdate.setPosition(15,25);
+
+    //mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;
+    //string mu = mss.str();
+
+	manageText.setFont(font);
+	manageText.setString(managementUpdate(0, members, money, expenses, moneyUsed, memberCount));
+	manageText.setCharacterSize(9);
+	manageText.setPosition(15,25);
 
     bigBorder.setTexture(SpriteSheet);
     bigBorder.setPosition(0,0);
@@ -77,9 +80,9 @@ int main(){
                     if (management){
                         members[currentCrewMember].currentPayNext += 10;
                         moneyUsed += 10;
-                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                         //window.clear(Color::Black);
-                        window.draw(manageUpdate);
+                        window.draw(manageText);
                         window.display();
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
@@ -87,32 +90,32 @@ int main(){
                     if (management){
                         members[currentCrewMember].currentPayNext -= 10;
                         moneyUsed -= 10;
-                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
-                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
 
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + 1) % 3;
-                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
                     if (management){
                         members[currentCrewMember].manageConfirm = true;
-                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
                     if (management){
                         members[currentCrewMember].manageConfirm = false;
-                        manageUpdate.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                     }
                 }
             } else if (event.type == Event::KeyReleased){
@@ -149,7 +152,7 @@ int main(){
             window.draw(Area1);
             window.draw(Area2);
             window.draw(Area3);
-            window.draw(manageUpdate);
+            window.draw(manageText);
 
             window.display();
         }
