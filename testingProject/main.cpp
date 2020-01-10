@@ -12,7 +12,7 @@ using namespace sf;
 int main(){
     bool management = true;
     bool playerControl = false;
-    stringstream mss; // Management String Stream
+    //stringstream mss; // Management String Stream
 
     bool upHeld;
     bool downHeld;
@@ -25,8 +25,8 @@ int main(){
     int expenses = 100;
     int moneyUsed = 350;
 
-    mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;
-    string mu = mss.str();
+    //mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;
+    //string mu = mss.str();
     int currentCrewMember = 0;
 
     CrewMember member1(100, 100, "Barbara");
@@ -49,7 +49,7 @@ int main(){
         cout<<"sprite sheet broken rip"<<endl;
 	}
 	manageUpdate.setFont(font);
-	manageUpdate.setString(mu);
+	manageUpdate.setString(managementUpdate(0, members, money, expenses, moneyUsed, memberCount));
 	manageUpdate.setCharacterSize(9);
 	manageUpdate.setPosition(15,25);
 
