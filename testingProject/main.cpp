@@ -40,7 +40,6 @@ int main(){
     int money = 400;
     int expenses = 100;
     int moneyUsed = 350;
-    //stringstream mss; // Management String Stream
     int currentCrewMember = 0;
     Text manageText;
 
@@ -53,9 +52,6 @@ int main(){
     if (!SpriteSheet.loadFromFile("spritesheet.png")){
         cout<<"sprite sheet broken rip"<<endl;
 	}
-
-    //mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;
-    //string mu = mss.str();
 
 	manageText.setFont(font);
 	//manageText.setString(managementUpdate(0, members, money, expenses, moneyUsed, memberCount));
@@ -87,7 +83,7 @@ int main(){
                     if (management){
                         members[currentCrewMember].currentPayNext += 10;
                         moneyUsed += 10;
-                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount, &manageText);
                     } else if (start){
                         currentSelection = (currentSelection + charityCount - 1) % charityCount;
                         manageText.setString(charityStartUpdate(currentSelection, charities, charityCount));
@@ -97,7 +93,7 @@ int main(){
                     if (management){
                         members[currentCrewMember].currentPayNext -= 10;
                         moneyUsed -= 10;
-                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount, &manageText);
                     } else if (start){
                         currentSelection = (currentSelection + 1) % charityCount;
                         manageText.setString(charityStartUpdate(currentSelection, charities, charityCount));
@@ -106,25 +102,25 @@ int main(){
                     leftHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + memberCount - 1) % memberCount;
-                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount, &manageText);
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + 1) % memberCount;
-                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount, &manageText);
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
                     if (management){
                         members[currentCrewMember].manageConfirm = true;
-                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount, &manageText);
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
                     if (management){
                         members[currentCrewMember].manageConfirm = false;
-                        manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                        managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount, &manageText);
                     }
                 }
             } else if (event.type == Event::KeyReleased){

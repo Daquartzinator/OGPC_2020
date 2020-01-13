@@ -1,10 +1,11 @@
 #include<iostream>
 #include<sstream>
+#include<SFML/Graphics.hpp>
 #include "crewmember.h"
 using namespace std;
+using namespace sf;
 
-string managementUpdate(int c, CrewMember *cList, int money, int expenses, int moneyUsed, int memberCount){
-    //cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+void managementUpdate(int c, CrewMember *cList, int money, int expenses, int moneyUsed, int memberCount, Text *box1){
     stringstream ss;
     bool allConfirm = true;
     for (int i = 0; i < memberCount; i++){
@@ -32,7 +33,7 @@ string managementUpdate(int c, CrewMember *cList, int money, int expenses, int m
             ss << "A to confirm all.";
         }
     }
-    return ss.str();
+    box1->setString(ss.str());
 }
 
 string charityStartUpdate(int c, string *charityList, int charityCount){
