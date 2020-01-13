@@ -128,9 +128,7 @@ int main(){
                         managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (start){
                         ///switch to management
-                        currentSelection = 0;
-                        start = false;
-                        management = true;
+                        modeSwitch(&start, &management, &currentSelection);
                         managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){

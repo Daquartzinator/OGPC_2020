@@ -59,3 +59,9 @@ void charityStartUpdate(int c, string *charityList, string *charityDescrip, int 
     box1->setString(ss.str());
     box2->setString(ss2.str());
 }
+
+void modeSwitch(bool *currentMode, bool *nextMode, int *currentSelection){
+    *currentMode = false;
+    *nextMode = true;
+    *currentSelection = 0;
+}
