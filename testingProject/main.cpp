@@ -55,7 +55,8 @@ int main(){
 
 	manageText.setFont(font);
 	//manageText.setString(managementUpdate(0, members, money, expenses, moneyUsed, memberCount));
-	manageText.setString(charityStartUpdate(0, charities, charityCount));
+	//manageText.setString(charityStartUpdate(0, charities, charityCount));
+	charityStartUpdate(0, charities, charityCount, &manageText);
 	manageText.setCharacterSize(9);
 	manageText.setPosition(15,25);
 
@@ -67,7 +68,6 @@ int main(){
 
     RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
     window.setFramerateLimit(30);
-
 
 
     while (window.isOpen()){
@@ -86,7 +86,8 @@ int main(){
                         managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount, &manageText);
                     } else if (start){
                         currentSelection = (currentSelection + charityCount - 1) % charityCount;
-                        manageText.setString(charityStartUpdate(currentSelection, charities, charityCount));
+                        charityStartUpdate(currentSelection, charities, charityCount, &manageText);
+                        //manageText.setString(charityStartUpdate(currentSelection, charities, charityCount));
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
@@ -96,7 +97,8 @@ int main(){
                         managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount, &manageText);
                     } else if (start){
                         currentSelection = (currentSelection + 1) % charityCount;
-                        manageText.setString(charityStartUpdate(currentSelection, charities, charityCount));
+                        charityStartUpdate(currentSelection, charities, charityCount, &manageText);
+                        //manageText.setString(charityStartUpdate(currentSelection, charities, charityCount));
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
@@ -115,6 +117,12 @@ int main(){
                     if (management){
                         members[currentCrewMember].manageConfirm = true;
                         managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount, &manageText);
+                    } else if (start){
+                        ///switch to management
+                        currentSelection = 0;
+                        start = false;
+                        management = true;
+                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &manageText);
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;

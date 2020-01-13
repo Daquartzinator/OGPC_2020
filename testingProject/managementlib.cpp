@@ -36,7 +36,7 @@ void managementUpdate(int c, CrewMember *cList, int money, int expenses, int mon
     box1->setString(ss.str());
 }
 
-string charityStartUpdate(int c, string *charityList, int charityCount){
+void charityStartUpdate(int c, string *charityList, int charityCount, Text *box1){
     stringstream ss;
     ss << "* CHOOSE YOUR CHARITY *\n-----------------------\n\n";
     for(int i = 0; i < charityCount; i++){
@@ -47,5 +47,5 @@ string charityStartUpdate(int c, string *charityList, int charityCount){
         }
         ss << charityList[i] << "\n";
     }
-    return ss.str();
+    box1->setString(ss.str());
 }
