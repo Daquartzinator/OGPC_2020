@@ -21,6 +21,9 @@ int main(){
     Sprite bigBorder;
     Texture SpriteSheet;
     Sprite Area1, Area2, Area3;
+    string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
+    int charityCount = 3;
+    int currentSelection = 0;
 
     /** Crew members **/
     CrewMember member1(100, 100, "Barbara");
@@ -29,8 +32,11 @@ int main(){
     CrewMember members[3] = {member1, member2, member3};
     int memberCount = 3;
 
+    /** Start Variables **/
+    bool start = true;
+
     /** Management Variables **/
-    bool management = true;
+    bool management = false;
     int money = 400;
     int expenses = 100;
     int moneyUsed = 350;
@@ -52,7 +58,8 @@ int main(){
     //string mu = mss.str();
 
 	manageText.setFont(font);
-	manageText.setString(managementUpdate(0, members, money, expenses, moneyUsed, memberCount));
+	//manageText.setString(managementUpdate(0, members, money, expenses, moneyUsed, memberCount));
+	manageText.setString(charityStartUpdate(0, charities, charityCount));
 	manageText.setCharacterSize(9);
 	manageText.setPosition(15,25);
 
@@ -81,9 +88,9 @@ int main(){
                         members[currentCrewMember].currentPayNext += 10;
                         moneyUsed += 10;
                         manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
-                        //window.clear(Color::Black);
-                        window.draw(manageText);
-                        window.display();
+                    } else if (start){
+                        currentSelection = (currentSelection + charityCount - 1) % charityCount;
+                        manageText.setString(charityStartUpdate(currentSelection, charities, charityCount));
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
@@ -91,18 +98,20 @@ int main(){
                         members[currentCrewMember].currentPayNext -= 10;
                         moneyUsed -= 10;
                         manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
+                    } else if (start){
+                        currentSelection = (currentSelection + 1) % charityCount;
+                        manageText.setString(charityStartUpdate(currentSelection, charities, charityCount));
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
                     if (management){
-                        currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
+                        currentCrewMember = (currentCrewMember + memberCount - 1) % memberCount;
                         manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
-
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management){
-                        currentCrewMember = (currentCrewMember + 1) % 3;
+                        currentCrewMember = (currentCrewMember + 1) % memberCount;
                         manageText.setString(managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount));
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
@@ -135,7 +144,7 @@ int main(){
             }
 
         }
-        if (management == true){
+        if (management || start){
             Area1.setTexture(SpriteSheet);
             Area1.setPosition(0,0);
             Area1.setTextureRect(IntRect(0,0,150,200));

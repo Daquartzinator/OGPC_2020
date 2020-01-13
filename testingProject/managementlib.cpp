@@ -34,3 +34,17 @@ string managementUpdate(int c, CrewMember *cList, int money, int expenses, int m
     }
     return ss.str();
 }
+
+string charityStartUpdate(int c, string *charityList, int charityCount){
+    stringstream ss;
+    ss << "* CHOOSE YOUR CHARITY *\n-----------------------\n\n";
+    for(int i = 0; i < charityCount; i++){
+        if(i == c){
+            ss << " > ";
+        } else {
+            ss << "   ";
+        }
+        ss << charityList[i] << "\n";
+    }
+    return ss.str();
+}
