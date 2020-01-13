@@ -22,9 +22,13 @@ int main(){
     Texture SpriteSheet;
     Sprite Area1, Area2, Area3;
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
+    string charityDescrip[3] = {"Donate to help the homeless!\nYou will get more \"employees\".",
+        "Donate to improve Health Awareness!\nYour team will be healthier and stronger.",
+        "Donate to research into clean energy!\nYou will get insider prices on your upgrades."};
     int charityCount = 3;
     int currentSelection = 0;
     Text box1Text;
+    Text box2Text;
 
     /** Crew members **/
     CrewMember member1(100, 100, "Barbara");
@@ -59,6 +63,10 @@ int main(){
 	box1Text.setCharacterSize(9);
 	box1Text.setPosition(15,25);
 
+	box2Text.setFont(font);
+	box2Text.setCharacterSize(9);
+	box2Text.setPosition(165,131);
+
     bigBorder.setTexture(SpriteSheet);
     bigBorder.setPosition(0,0);
     bigBorder.setTextureRect(IntRect(0,200,400,200));
@@ -69,7 +77,7 @@ int main(){
     window.setFramerateLimit(30);
 
     /** Start **/
-    charityStartUpdate(0, charities, charityCount, &box1Text);
+    charityStartUpdate(0, charities, charityDescrip, charityCount, &box1Text, &box2Text);
 
     while (window.isOpen()){
         Event event;
@@ -84,10 +92,10 @@ int main(){
                     if (management){
                         members[currentSelection].currentPayNext += 10;
                         moneyUsed += 10;
-                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text);
+                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (start){
                         currentSelection = (currentSelection + charityCount - 1) % charityCount;
-                        charityStartUpdate(currentSelection, charities, charityCount, &box1Text);
+                        charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
                         //box1Text.setString(charityStartUpdate(currentSelection, charities, charityCount));
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
@@ -95,41 +103,41 @@ int main(){
                     if (management){
                         members[currentSelection].currentPayNext -= 10;
                         moneyUsed -= 10;
-                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text);
+                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (start){
                         currentSelection = (currentSelection + 1) % charityCount;
-                        charityStartUpdate(currentSelection, charities, charityCount, &box1Text);
+                        charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
                         //box1Text.setString(charityStartUpdate(currentSelection, charities, charityCount));
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
                     if (management){
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
-                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text);
+                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management){
                         currentSelection = (currentSelection + 1) % memberCount;
-                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text);
+                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
                     if (management){
                         members[currentSelection].manageConfirm = true;
-                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text);
+                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (start){
                         ///switch to management
                         currentSelection = 0;
                         start = false;
                         management = true;
-                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text);
+                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
                     if (management){
                         members[currentSelection].manageConfirm = false;
-                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text);
+                        managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
                 }
             } else if (event.type == Event::KeyReleased){
@@ -167,6 +175,7 @@ int main(){
             window.draw(Area2);
             window.draw(Area3);
             window.draw(box1Text);
+            window.draw(box2Text);
 
             window.display();
         }
