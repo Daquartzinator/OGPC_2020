@@ -42,11 +42,10 @@ int main(){
 
     /** Management Variables **/
     bool management = false;
-    int manageStatus = 0;
+    int manageStatus = 0;   ///0=in progress, 1=all confirmed, -1=failed, set every time by managementUpdate
     int money = 500;
     int expenses = 100;
     int moneyUsed = 400;
-    //int currentCrewMember = 0;
 
     /** Player Control Variables **/
     bool playerControl = false;
@@ -90,7 +89,7 @@ int main(){
             if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
                 if (event.key.code == Keyboard::Up && !upHeld){
                     upHeld = true;
-                    if (management){
+                    if (management){ ///these statements determine what each key press does depending on mode
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (start){
@@ -125,13 +124,13 @@ int main(){
                     if (management){
                         if (manageStatus == 0){
                             members[currentSelection].manageConfirm = true;
-                        } else if (manageStatus == 1){
+                        } else if (manageStatus == 1){ ///A on all confirm switches mode
                             for (int i = 0; i < memberCount; i++){
                                 members[i].currentPay = members[i].currentPayNext;
                                 members[i].updateMorale();
                             }
                             modeSwitch(&management, &playerControl, &currentSelection);
-                        } else {
+                        } else { ///A on failed same as B
                             currentSelection = 0;
                         }
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -143,8 +142,8 @@ int main(){
                 } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
                     if (management){
-                        if (manageStatus != 0){
-                            currentSelection = 0;
+                        if (manageStatus != 0){ ///B does nothing if nobody is selected
+                            currentSelection = 0; ///(this sets it back to confirm screen on fail/all confirm)
                         }
                         members[currentSelection].manageConfirm = false;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);

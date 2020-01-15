@@ -8,7 +8,7 @@ using namespace sf;
 int managementUpdate(int c, CrewMember *cList, int money, int expenses, int moneyUsed, int memberCount, Text *box1, Text *box2){
     stringstream ss;
     stringstream ss2;
-    int manageStatus = 0;
+    int manageStatus = 0;   ///returned val, 0=in progress, 1=all confirmed, -1=failed
     bool allConfirm = true;
     for (int i = 0; i < memberCount; i++){
         if (cList[i].manageConfirm == false){
