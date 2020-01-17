@@ -12,7 +12,7 @@
 
 1576179827 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\add.h
 
-1578597504 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\main.cpp
+1579128752 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\main.cpp
 	<iostream>
 	<string>
 	<sstream>
@@ -20,17 +20,19 @@
 	"crewmember.h"
 	"managementlib.h"
 
-1578596743 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.cpp
+1579126838 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.cpp
 	<iostream>
 	"crewmember.h"
 
-1578596743 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.h
+1579126817 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.h
 	<iostream>
 
-1578596743 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.h
+1579128682 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.h
 
-1578596743 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.cpp
+1579128673 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.cpp
 	<iostream>
+	<sstream>
+	<SFML/Graphics.hpp>
 	"crewmember.h"
 
 1576521864 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\add.cpp
@@ -43,4 +45,9 @@
 	<iostream>
 	<SFML/Graphics.hpp>
 	"add.h"
+
+1578598495 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\fontoutput.cpp
+	<iostream>
+	<string>
+	<sstream>
 
