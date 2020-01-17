@@ -77,6 +77,11 @@ void charityStartUpdate(int c, string *charityList, string *charityDescrip, int 
     box2->setString(ss2.str());
 }
 
+void shootoutUpdate(Text *box1, Text *box2){
+    box1->setString("You are on a shootout");
+    box2->setString("You are on a shootout");
+}
+
 void modeSwitch(bool *currentMode, bool *nextMode, int *currentSelection){
     *currentMode = false;
     *nextMode = true;

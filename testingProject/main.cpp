@@ -50,6 +50,9 @@ int main(){
     /** Player Control Variables **/
     bool playerControl = false;
 
+    /** Shootout Variables **/
+    bool shootout = false;
+
     /** Loading **/
     if (!font.loadFromFile("Consolas.ttf")){
         cout<<"font broken rip"<<endl;
@@ -124,16 +127,18 @@ int main(){
                     if (management){
                         if (manageStatus == 0){
                             members[currentSelection].manageConfirm = true;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         } else if (manageStatus == 1){ ///A on all confirm switches mode
                             for (int i = 0; i < memberCount; i++){
                                 members[i].currentPay = members[i].currentPayNext;
                                 members[i].updateMorale();
                             }
-                            modeSwitch(&management, &playerControl, &currentSelection);
+                            modeSwitch(&management, &shootout, &currentSelection);
+                            shootoutUpdate(&box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         }
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (start){
                         ///switch to management
                         modeSwitch(&start, &management, &currentSelection);
@@ -166,7 +171,7 @@ int main(){
             }
 
         }
-        if (management || start){
+        if (management || start || shootout){
             Area1.setTexture(SpriteSheet);
             Area1.setPosition(0,0);
             Area1.setTextureRect(IntRect(0,0,150,200));
