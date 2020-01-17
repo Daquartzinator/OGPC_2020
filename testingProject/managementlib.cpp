@@ -77,9 +77,21 @@ void charityStartUpdate(int c, string *charityList, string *charityDescrip, int 
     box2->setString(ss2.str());
 }
 
-void shootoutUpdate(Text *box1, Text *box2){
-    box1->setString("You are on a shootout");
-    box2->setString("You are on a shootout");
+void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *membersSelected, int *selected, Text *box1, Text *box2){
+    stringstream ss;
+    stringstream ss2;
+    ss << "* PREPARE FOR SHOOTOUT *\n\nChoose " << 3 - *selected << " more crew members.\n\n";
+    for(int i = 0; i < memberCount; i++){
+        if (c == i){
+            ss << "> ";
+        } else {
+            ss << "  ";
+        }
+        ss << cList[i].getName() << "\n";
+    }
+    ss2 << cList[c].getName();
+    box1->setString(ss.str());
+    box2->setString(ss2.str());
 }
 
 void modeSwitch(bool *currentMode, bool *nextMode, int *currentSelection){

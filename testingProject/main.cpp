@@ -52,6 +52,8 @@ int main(){
 
     /** Shootout Variables **/
     bool shootout = false;
+    int shootoutPeople[3] = {-1, -1, -1};
+    int shootSelected = 0;
 
     /** Loading **/
     if (!font.loadFromFile("Consolas.ttf")){
@@ -98,6 +100,9 @@ int main(){
                     } else if (start){
                         currentSelection = (currentSelection + charityCount - 1) % charityCount;
                         charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                    } else if (shootout){
+                        currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
@@ -107,6 +112,9 @@ int main(){
                     } else if (start){
                         currentSelection = (currentSelection + 1) % charityCount;
                         charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                    } else if (shootout){
+                        currentSelection = (currentSelection + 1) % memberCount;
+                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
@@ -134,7 +142,7 @@ int main(){
                                 members[i].updateMorale();
                             }
                             modeSwitch(&management, &shootout, &currentSelection);
-                            shootoutUpdate(&box1Text, &box2Text);
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
