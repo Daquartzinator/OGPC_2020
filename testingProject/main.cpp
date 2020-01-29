@@ -150,6 +150,7 @@ int main(){
                     } else if (shootout){
                         if (shootoutSelected == 3){
                             modeSwitch(&shootout, &management, &currentSelection, members, memberCount);
+                            ///Not sure what happens here right now
                         } else if (!members[currentSelection].selected){
                             members[currentSelection].selected = true;
                             shootoutSelected++;
@@ -169,7 +170,10 @@ int main(){
                         members[currentSelection].selected = false;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (shootout){
-                        if (members[currentSelection].selected){
+                        if (shootoutSelected == 3){
+                            currentSelection = 0;
+                            shootoutSelected = 0;
+                        } else if (members[currentSelection].selected){
                             members[currentSelection].selected = false;
                             shootoutSelected--;
                         }

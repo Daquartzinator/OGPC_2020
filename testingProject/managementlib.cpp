@@ -95,7 +95,7 @@ void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *member
                 break;
         }
         ss2 << "A to confirm all.";
-        *selected = 0;
+        //*selected = 0;
     } else {
         ss << "Choose " << 3 - *selected << " more.\n\n";
         for(int i = 0; i < memberCount; i++){
