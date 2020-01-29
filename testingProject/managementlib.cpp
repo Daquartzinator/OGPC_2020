@@ -94,7 +94,8 @@ void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *member
         }
         ss << cList[i].getName() << "\n";
     }
-    ss2 << cList[c].getName();
+    ss2 << cList[c].getName() << "\nHP: " << cList[c].currentHP << "/" << cList[c].getHP() << "\n";
+    ss2 << "Attack: " << cList[c].getAttack();
     box1->setString(ss.str());
     box2->setString(ss2.str());
 }

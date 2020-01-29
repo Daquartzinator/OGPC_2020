@@ -31,9 +31,9 @@ int main(){
     Text box2Text;
 
     /** Crew members **/
-    CrewMember member1(100, 100, "Barbara", "   ");
-    CrewMember member2(100, 100, "Newt", "      ");
-    CrewMember member3(100, 100, "Larry", "     ");
+    CrewMember member1(100, 100, "Barbara", "   ", 50, 5);
+    CrewMember member2(100, 100, "Newt", "      ", 60, 4);
+    CrewMember member3(100, 100, "Larry", "     ", 40, 7);
     CrewMember members[3] = {member1, member2, member3};
     int memberCount = 3;
 
@@ -163,6 +163,9 @@ int main(){
                         }
                         members[currentSelection].manageConfirm = false;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                    } else if (shootout){
+                        members[currentSelection].selected = false;
+                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
                     }
                 }
             } else if (event.type == Event::KeyReleased){

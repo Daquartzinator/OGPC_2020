@@ -5,6 +5,8 @@
 class CrewMember {
 private:
     int morale;
+    int maxHP;
+    int attack;
     std::string name;
     //int nameLenNeg;     /** Max name length (10) - name length **/
     std::string nameWhiteSp; /** Whitespace string, length = max name length (10) - name length **/
@@ -13,12 +15,15 @@ public:
     int currentPayNext;
     bool manageConfirm;
     bool selected; ///Generic variable for if the character is selected
+    int currentHP;
 
-    CrewMember(int sCurrentPay, int sMorale, std::string sName, std::string sNameWS);
+    CrewMember(int sCurrentPay, int sMorale, std::string sName, std::string sNameWS, int sHP, int sAttack);
 
     int getMorale();
     std::string getName();
     std::string getNameWhiteSp();
+    int getHP();
+    int getAttack();
 
     void updateMorale();
     /** update's CrewMember's morale according to the formula **/
