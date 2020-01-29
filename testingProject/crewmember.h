@@ -13,7 +13,6 @@ private:
 public:
     int currentPay;
     int currentPayNext;
-    bool manageConfirm;
     bool selected; ///Generic variable for if the character is selected
     int currentHP;
 

@@ -8,7 +8,7 @@ CrewMember::CrewMember(int sCurrentPay, int sMorale, string sName, string sNameW
     name = sName;
     nameWhiteSp = sNameWS;
     currentPayNext = currentPay;
-    manageConfirm = false;
+    selected = false;
     attack = sAttack;
     maxHP = sHP;
     currentHP = sHP;

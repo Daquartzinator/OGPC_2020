@@ -11,7 +11,7 @@ int managementUpdate(int c, CrewMember *cList, int money, int expenses, int mone
     int manageStatus = 0;   ///returned val, 0=in progress, 1=all confirmed, -1=failed
     bool allConfirm = true;
     for (int i = 0; i < memberCount; i++){
-        if (cList[i].manageConfirm == false){
+        if (cList[i].selected == false){
             allConfirm = false;
             break;
         }
@@ -23,7 +23,7 @@ int managementUpdate(int c, CrewMember *cList, int money, int expenses, int mone
         } else {
             ss << " ";
         }
-        if (cList[i].manageConfirm){
+        if (cList[i].selected){
             ss << "*";
         } else {
             ss << " ";
@@ -34,7 +34,7 @@ int managementUpdate(int c, CrewMember *cList, int money, int expenses, int mone
     if (!allConfirm){
         ss2 << cList[c].getName() << "\n----------\nMorale: " << cList[c].getMorale() << "\nPaid $"
             << cList[c].currentPay << " last week.";
-        if (!cList[c].manageConfirm){
+        if (!cList[c].selected){
             ss << "A to confirm.";
         } else {
             ss << "B to unconfirm.";
@@ -43,14 +43,14 @@ int managementUpdate(int c, CrewMember *cList, int money, int expenses, int mone
         if (money - moneyUsed < 0){
             ss2 << "You're using too much money!\n\nB to go back.";
             for(int i = 0; i < memberCount; i++){
-                cList[i].manageConfirm = false;
+                cList[i].selected = false;
             }
             manageStatus = -1;
         } else {
             ss2 << "You will save $" << money - moneyUsed << " for next week.";
             ss2 << "\n\nA to confirm all.";
             for(int i = 0; i < memberCount; i++){
-                cList[i].manageConfirm = false;
+                cList[i].selected = false;
             }
             manageStatus = 1;
         }

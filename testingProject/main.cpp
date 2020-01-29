@@ -118,14 +118,14 @@ int main(){
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
-                    if (management && !members[currentSelection].manageConfirm){
+                    if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext -= 10;
                         moneyUsed -= 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
-                    if (management && !members[currentSelection].manageConfirm){
+                    if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext += 10;
                         moneyUsed += 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -134,7 +134,7 @@ int main(){
                     aHeld = true;
                     if (management){
                         if (manageStatus == 0){
-                            members[currentSelection].manageConfirm = true;
+                            members[currentSelection].selected = true;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         } else if (manageStatus == 1){ ///A on all confirm switches mode
                             for (int i = 0; i < memberCount; i++){
@@ -161,7 +161,7 @@ int main(){
                         if (manageStatus != 0){ ///B does nothing if nobody is selected
                             currentSelection = 0; ///(this sets it back to confirm screen on fail/all confirm)
                         }
-                        members[currentSelection].manageConfirm = false;
+                        members[currentSelection].selected = false;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (shootout){
                         members[currentSelection].selected = false;
