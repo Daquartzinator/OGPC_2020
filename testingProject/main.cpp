@@ -53,7 +53,7 @@ int main(){
     /** Shootout Variables **/
     bool shootout = false;
     int shootoutPeople[3] = {-1, -1, -1};
-    int shootSelected = 0;
+    int shootoutSelected = 0;
 
     /** Loading **/
     if (!font.loadFromFile("Consolas.ttf")){
@@ -102,7 +102,7 @@ int main(){
                         charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
                     } else if (shootout){
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
-                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
+                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
@@ -114,7 +114,7 @@ int main(){
                         charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
                     } else if (shootout){
                         currentSelection = (currentSelection + 1) % memberCount;
-                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
+                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
@@ -142,14 +142,19 @@ int main(){
                                 members[i].updateMorale();
                             }
                             modeSwitch(&management, &shootout, &currentSelection, members, memberCount);
-                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         }
-                    } else if (shootout) {
-                        members[currentSelection].selected = true;
-                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
+                    } else if (shootout){
+                        if (shootoutSelected == 3){
+                            modeSwitch(&shootout, &management, &currentSelection, members, memberCount);
+                        } else if (!members[currentSelection].selected){
+                            members[currentSelection].selected = true;
+                            shootoutSelected++;
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                        }
                     } else if (start){
                         ///switch to management
                         modeSwitch(&start, &management, &currentSelection, members, memberCount);
@@ -164,8 +169,11 @@ int main(){
                         members[currentSelection].selected = false;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (shootout){
-                        members[currentSelection].selected = false;
-                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
+                        if (members[currentSelection].selected){
+                            members[currentSelection].selected = false;
+                            shootoutSelected--;
+                        }
+                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
                 }
             } else if (event.type == Event::KeyReleased){

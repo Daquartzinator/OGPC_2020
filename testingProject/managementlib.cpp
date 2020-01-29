@@ -80,22 +80,40 @@ void charityStartUpdate(int c, string *charityList, string *charityDescrip, int 
 void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *membersSelected, int *selected, Text *box1, Text *box2){
     stringstream ss;
     stringstream ss2;
-    ss << "* PREPARE FOR SHOOTOUT *\n\nChoose " << 3 - *selected << " more crew members.\n\n";
-    for(int i = 0; i < memberCount; i++){
-        if (c == i){
-            ss << ">";
-        } else {
-            ss << " ";
+    ss << "* PREPARE FOR SHOOTOUT *\n\n";
+    if (*selected == 3){
+        ss << "Your team:\n\n";
+        for(int i = 0; i < memberCount; i++){
+            int j = 0;
+            if (cList[i].selected){
+                membersSelected[j] = i;
+                j++;
+            }
+            cList[i].selected = false;
+            ss << cList[i].getName() << "\n";
+            if (j == 3)
+                break;
         }
-        if (cList[i].selected){
-            ss << "*";
-        } else {
-            ss << " ";
+        ss2 << "A to confirm all.";
+        *selected = 0;
+    } else {
+        ss << "Choose " << 3 - *selected << " more.\n\n";
+        for(int i = 0; i < memberCount; i++){
+            if (c == i){
+                ss << ">";
+            } else {
+                ss << " ";
+            }
+            if (cList[i].selected){
+                ss << "*";
+            } else {
+                ss << " ";
+            }
+            ss << cList[i].getName() << "\n";
         }
-        ss << cList[i].getName() << "\n";
+        ss2 << cList[c].getName() << "\nHP: " << cList[c].currentHP << "/" << cList[c].getHP() << "\n";
+        ss2 << "Attack: " << cList[c].getAttack();
     }
-    ss2 << cList[c].getName() << "\nHP: " << cList[c].currentHP << "/" << cList[c].getHP() << "\n";
-    ss2 << "Attack: " << cList[c].getAttack();
     box1->setString(ss.str());
     box2->setString(ss2.str());
 }
