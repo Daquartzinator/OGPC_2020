@@ -12,6 +12,7 @@ public:
     int currentPay;
     int currentPayNext;
     bool manageConfirm;
+    bool selected; ///Generic variable for if the character is selected
 
     CrewMember(int sCurrentPay, int sMorale, std::string sName, std::string sNameWS);
 

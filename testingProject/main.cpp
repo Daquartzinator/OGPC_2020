@@ -141,15 +141,18 @@ int main(){
                                 members[i].currentPay = members[i].currentPayNext;
                                 members[i].updateMorale();
                             }
-                            modeSwitch(&management, &shootout, &currentSelection);
+                            modeSwitch(&management, &shootout, &currentSelection, members, memberCount);
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         }
+                    } else if (shootout) {
+                        members[currentSelection].selected = true;
+                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootSelected, &box1Text, &box2Text);
                     } else if (start){
                         ///switch to management
-                        modeSwitch(&start, &management, &currentSelection);
+                        modeSwitch(&start, &management, &currentSelection, members, memberCount);
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){

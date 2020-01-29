@@ -83,9 +83,14 @@ void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *member
     ss << "* PREPARE FOR SHOOTOUT *\n\nChoose " << 3 - *selected << " more crew members.\n\n";
     for(int i = 0; i < memberCount; i++){
         if (c == i){
-            ss << "> ";
+            ss << ">";
         } else {
-            ss << "  ";
+            ss << " ";
+        }
+        if (cList[i].selected){
+            ss << "*";
+        } else {
+            ss << " ";
         }
         ss << cList[i].getName() << "\n";
     }
@@ -94,8 +99,11 @@ void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *member
     box2->setString(ss2.str());
 }
 
-void modeSwitch(bool *currentMode, bool *nextMode, int *currentSelection){
+void modeSwitch(bool *currentMode, bool *nextMode, int *currentSelection, CrewMember *cList, int memberCount){
     *currentMode = false;
     *nextMode = true;
     *currentSelection = 0;
+    for (int i = 0; i < memberCount; i++){
+        cList[i].selected = false;
+    }
 }
