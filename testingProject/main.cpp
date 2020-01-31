@@ -19,6 +19,7 @@ int main(){
     bool bHeld;
     Font font;
     Sprite bigBorder;
+    Sprite Player, Computer, Goose;
     Texture SpriteSheet;
     Sprite Area1, Area2, Area3;
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
@@ -49,6 +50,7 @@ int main(){
 
     /** Player Control Variables **/
     bool playerControl = false;
+    int xCord = 50, yCord = 50;
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
@@ -72,10 +74,6 @@ int main(){
 	box2Text.setFont(font);
 	box2Text.setCharacterSize(9);
 	box2Text.setPosition(165,131);
-
-    bigBorder.setTexture(SpriteSheet);
-    bigBorder.setPosition(0,0);
-    bigBorder.setTextureRect(IntRect(0,200,400,200));
 
 	cout << "That's how Mafia Works" << endl;
 
@@ -105,6 +103,14 @@ int main(){
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
+                if (event.key.code == Keyboard::Up){
+                    if (playerControl){
+                        yCord--;
+                    }
+                }
+                if(playerControl && !upHeld){
+                    yCord--;
+                }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
                     if (management){
@@ -117,12 +123,18 @@ int main(){
                         currentSelection = (currentSelection + 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Left  && !leftHeld){
+                    else if(playerControl){
+                        yCord++;
+                    }
+                } else if (event.key.code == Keyboard::Left && !leftHeld){
                     leftHeld = true;
+
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext -= 10;
                         moneyUsed -= 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                    } else if(playerControl){
+                        xCord--;
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
@@ -130,6 +142,9 @@ int main(){
                         members[currentSelection].currentPayNext += 10;
                         moneyUsed += 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                    }
+                    else if(playerControl){
+                        xCord++;
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
@@ -221,8 +236,27 @@ int main(){
             window.display();
         }
         else if (playerControl == true){
+            bigBorder.setTexture(SpriteSheet);
+            bigBorder.setPosition(0,0);
+            bigBorder.setTextureRect(IntRect(0,200,400,200));
+
+            Player.setTexture(SpriteSheet);
+            Player.setPosition(xCord,yCord);//  -> \/ |-| I
+            Player.setTextureRect(IntRect(400,0,32,64));
+
+            Computer.setTexture(SpriteSheet);
+            Computer.setPosition(5,5);//  -> \/ |-| I
+            Computer.setTextureRect(IntRect(432,0,32,32));
+
+            Goose.setTexture(SpriteSheet);
+            Goose.setPosition(355,160);//  -> \/ |-| I
+            Goose.setTextureRect(IntRect(464,0,32,32));
+
             window.clear(Color::Black);
             window.draw(bigBorder);
+            window.draw(Player);
+            window.draw(Computer);
+            window.draw(Goose);
             window.display();
         }
     }
