@@ -39,8 +39,24 @@
 1576521489 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\add.h
 	<stdbool.h>
 
-1576692826 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
+1580325837 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
 	<iostream>
+	<string>
+	<sstream>
 	<SFML/Graphics.hpp>
-	"add.h"
+	"crewmember.h"
+	"managementlib.h"
+
+1578597103 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.cpp
+	<iostream>
+	"crewmember.h"
+
+1580320781 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.h
+	<iostream>
+
+1580320781 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\managementlib.cpp
+	<iostream>
+	"crewmember.h"
+
+1580320781 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\managementlib.h
 

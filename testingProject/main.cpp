@@ -25,7 +25,7 @@ int main(){
     int expenses = 100;
     int moneyUsed = 350;
 
-    mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;;
+    mss << "Total Money: " << money << "\nExpenses: " << expenses << "\nRemaining Money: " << money - moneyUsed << endl;
     string mu = mss.str();
     int currentCrewMember = 0;
 
@@ -41,6 +41,8 @@ int main(){
     Texture SpriteSheet;
     Sprite Area1, Area2, Area3;
     Sprite bigBorder;
+    Sprite Player, Computer, Goose;
+    int xCord = 50, yCord = 50;
 
     if (!font.loadFromFile("Consolas.ttf")){
         cout<<"font broken rip"<<endl;
@@ -53,9 +55,7 @@ int main(){
 	manageUpdate.setCharacterSize(9);
 	manageUpdate.setPosition(15,25);
 
-    bigBorder.setTexture(SpriteSheet);
-    bigBorder.setPosition(0,0);
-    bigBorder.setTextureRect(IntRect(0,200,400,200));
+
 
 	cout << "That's how Mafia Works" << endl;
 
@@ -82,6 +82,14 @@ int main(){
                         window.draw(manageUpdate);
                         window.display();
                     }
+                if (event.key.code == Keyboard::Up){
+                    if (playerControl){
+                        yCord--;
+                    }
+                }
+                if(playerControl && !upHeld){
+                    yCord--;
+                }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
                     if (management){
@@ -89,18 +97,26 @@ int main(){
                         moneyUsed -= 10;
                         managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
                     }
-                } else if (event.key.code == Keyboard::Left  && !leftHeld){
+                    else if(playerControl){
+                        yCord++;
+                    }
+                } else if (event.key.code == Keyboard::Left && !leftHeld){
                     leftHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + memberCount - 1) % 3;
                         managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
-
+                    }
+                    else if(playerControl){
+                        xCord--;
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management){
                         currentCrewMember = (currentCrewMember + 1) % 3;
                         managementUpdate(currentCrewMember, members, money, expenses, moneyUsed, memberCount);
+                    }
+                    else if(playerControl){
+                        xCord++;
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
@@ -154,8 +170,27 @@ int main(){
             window.display();
         }
         else if (playerControl == true){
+            bigBorder.setTexture(SpriteSheet);
+            bigBorder.setPosition(0,0);
+            bigBorder.setTextureRect(IntRect(0,200,400,200));
+
+            Player.setTexture(SpriteSheet);
+            Player.setPosition(xCord,yCord);//  -> \/ |-| I
+            Player.setTextureRect(IntRect(400,0,32,64));
+
+            Computer.setTexture(SpriteSheet);
+            Computer.setPosition(5,5);//  -> \/ |-| I
+            Computer.setTextureRect(IntRect(432,0,32,32));
+
+            Goose.setTexture(SpriteSheet);
+            Goose.setPosition(355,160);//  -> \/ |-| I
+            Goose.setTextureRect(IntRect(464,0,32,32));
+
             window.clear(Color::Black);
             window.draw(bigBorder);
+            window.draw(Player);
+            window.draw(Computer);
+            window.draw(Goose);
             window.display();
         }
     }
