@@ -11,15 +11,14 @@ using namespace sf;
 
 int main(){
     /** General Variables **/
-    bool upHeld = false;
-    bool downHeld = false;
-    bool leftHeld = false;
-    bool rightHeld = false;
-    bool aHeld = false;
-    bool bHeld = false;
+    bool upHeld;
+    bool downHeld;
+    bool leftHeld;
+    bool rightHeld;
+    bool aHeld;
+    bool bHeld;
     Font font;
     Sprite bigBorder;
-    Sprite Player, Computer, Goose;
     Texture SpriteSheet;
     Sprite Area1, Area2, Area3;
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
@@ -50,7 +49,6 @@ int main(){
 
     /** Player Control Variables **/
     bool playerControl = false;
-    int xCord = 50, yCord = 50;
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
@@ -74,6 +72,10 @@ int main(){
 	box2Text.setFont(font);
 	box2Text.setCharacterSize(9);
 	box2Text.setPosition(165,131);
+
+    bigBorder.setTexture(SpriteSheet);
+    bigBorder.setPosition(0,0);
+    bigBorder.setTextureRect(IntRect(0,200,400,200));
 
 	cout << "That's how Mafia Works" << endl;
 
@@ -115,7 +117,7 @@ int main(){
                         currentSelection = (currentSelection + 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Left && !leftHeld){
+                } else if (event.key.code == Keyboard::Left  && !leftHeld){
                     leftHeld = true;
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext -= 10;
@@ -140,7 +142,7 @@ int main(){
                                 members[i].currentPay = members[i].currentPayNext;
                                 members[i].updateMorale();
                             }
-                            modeSwitch(&management, &playerControl, &currentSelection, members, memberCount);
+                            modeSwitch(&management, &shootSelectScreen, &currentSelection, members, memberCount);
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
@@ -148,7 +150,7 @@ int main(){
                         }
                     } else if (shootSelectScreen){
                         if (shootoutSelected == 3){
-                            modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
+                            modeSwitch(&shootSelectScreen, &management, &currentSelection, members, memberCount);
                             ///Not sure what happens here right now
                         } else if (!members[currentSelection].selected){
                             members[currentSelection].selected = true;
@@ -218,37 +220,9 @@ int main(){
 
             window.display();
         }
-        else if (playerControl){
-            if (upHeld){
-                yCord--;
-            } else if (downHeld){
-                yCord++;
-            } else if (leftHeld){
-                xCord--;
-            } else if (rightHeld){
-                xCord++;
-            }
-            bigBorder.setTexture(SpriteSheet);
-            bigBorder.setPosition(0,0);
-            bigBorder.setTextureRect(IntRect(0,200,400,200));
-
-            Player.setTexture(SpriteSheet);
-            Player.setPosition(xCord,yCord);//  -> \/ |-| I
-            Player.setTextureRect(IntRect(400,0,32,64));
-
-            Computer.setTexture(SpriteSheet);
-            Computer.setPosition(5,5);//  -> \/ |-| I
-            Computer.setTextureRect(IntRect(432,0,32,32));
-
-            Goose.setTexture(SpriteSheet);
-            Goose.setPosition(355,160);//  -> \/ |-| I
-            Goose.setTextureRect(IntRect(464,0,32,32));
-
+        else if (playerControl == true){
             window.clear(Color::Black);
             window.draw(bigBorder);
-            window.draw(Player);
-            window.draw(Computer);
-            window.draw(Goose);
             window.display();
         }
     }
