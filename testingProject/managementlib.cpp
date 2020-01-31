@@ -11,7 +11,7 @@ int managementUpdate(int c, CrewMember *cList, int money, int expenses, int mone
     int manageStatus = 0;   ///returned val, 0=in progress, 1=all confirmed, -1=failed
     bool allConfirm = true;
     for (int i = 0; i < memberCount; i++){
-        if (cList[i].manageConfirm == false){
+        if (cList[i].selected == false){
             allConfirm = false;
             break;
         }
@@ -23,7 +23,7 @@ int managementUpdate(int c, CrewMember *cList, int money, int expenses, int mone
         } else {
             ss << " ";
         }
-        if (cList[i].manageConfirm){
+        if (cList[i].selected){
             ss << "*";
         } else {
             ss << " ";
@@ -34,7 +34,7 @@ int managementUpdate(int c, CrewMember *cList, int money, int expenses, int mone
     if (!allConfirm){
         ss2 << cList[c].getName() << "\n----------\nMorale: " << cList[c].getMorale() << "\nPaid $"
             << cList[c].currentPay << " last week.";
-        if (!cList[c].manageConfirm){
+        if (!cList[c].selected){
             ss << "A to confirm.";
         } else {
             ss << "B to unconfirm.";
@@ -43,14 +43,14 @@ int managementUpdate(int c, CrewMember *cList, int money, int expenses, int mone
         if (money - moneyUsed < 0){
             ss2 << "You're using too much money!\n\nB to go back.";
             for(int i = 0; i < memberCount; i++){
-                cList[i].manageConfirm = false;
+                cList[i].selected = false;
             }
             manageStatus = -1;
         } else {
             ss2 << "You will save $" << money - moneyUsed << " for next week.";
             ss2 << "\n\nA to confirm all.";
             for(int i = 0; i < memberCount; i++){
-                cList[i].manageConfirm = false;
+                cList[i].selected = false;
             }
             manageStatus = 1;
         }
@@ -77,8 +77,52 @@ void charityStartUpdate(int c, string *charityList, string *charityDescrip, int 
     box2->setString(ss2.str());
 }
 
-void modeSwitch(bool *currentMode, bool *nextMode, int *currentSelection){
+void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *membersSelected, int *selected, Text *box1, Text *box2){
+    stringstream ss;
+    stringstream ss2;
+    ss << "* PREPARE FOR SHOOTOUT *\n\n";
+    if (*selected == 3){
+        ss << "Your team:\n\n";
+        for(int i = 0; i < memberCount; i++){
+            int j = 0;
+            if (cList[i].selected){
+                membersSelected[j] = i;
+                j++;
+            }
+            cList[i].selected = false;
+            ss << cList[i].getName() << "\n";
+            if (j == 3)
+                break;
+        }
+        ss2 << "A to confirm all.";
+        //*selected = 0;
+    } else {
+        ss << "Choose " << 3 - *selected << " more.\n\n";
+        for(int i = 0; i < memberCount; i++){
+            if (c == i){
+                ss << ">";
+            } else {
+                ss << " ";
+            }
+            if (cList[i].selected){
+                ss << "*";
+            } else {
+                ss << " ";
+            }
+            ss << cList[i].getName() << "\n";
+        }
+        ss2 << cList[c].getName() << "\nHP: " << cList[c].currentHP << "/" << cList[c].getHP() << "\n";
+        ss2 << "Attack: " << cList[c].getAttack();
+    }
+    box1->setString(ss.str());
+    box2->setString(ss2.str());
+}
+
+void modeSwitch(bool *currentMode, bool *nextMode, int *currentSelection, CrewMember *cList, int memberCount){
     *currentMode = false;
     *nextMode = true;
     *currentSelection = 0;
+    for (int i = 0; i < memberCount; i++){
+        cList[i].selected = false;
+    }
 }

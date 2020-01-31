@@ -2,13 +2,16 @@
 #include "crewmember.h"
 using namespace std;
 
-CrewMember::CrewMember(int sCurrentPay, int sMorale, string sName, string sNameWS){
+CrewMember::CrewMember(int sCurrentPay, int sMorale, string sName, string sNameWS, int sHP, int sAttack){
     morale = sMorale;
     currentPay = sCurrentPay;
     name = sName;
     nameWhiteSp = sNameWS;
     currentPayNext = currentPay;
-    manageConfirm = false;
+    selected = false;
+    attack = sAttack;
+    maxHP = sHP;
+    currentHP = sHP;
 }
 
 void CrewMember::updateMorale(){
@@ -25,4 +28,12 @@ string CrewMember::getName(){
 
 string CrewMember::getNameWhiteSp(){
     return nameWhiteSp;
+}
+
+int CrewMember::getHP(){
+    return maxHP;
+}
+
+int CrewMember::getAttack(){
+    return attack;
 }
