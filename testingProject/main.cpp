@@ -51,9 +51,10 @@ int main(){
     bool playerControl = false;
 
     /** Shootout Variables **/
-    bool shootout = false;
+    bool shootSelectScreen = false;
     int shootoutPeople[3] = {-1, -1, -1};
     int shootoutSelected = 0;
+    bool shootoutScreen = false;
 
     /** Loading **/
     if (!font.loadFromFile("Consolas.ttf")){
@@ -100,7 +101,7 @@ int main(){
                     } else if (start){
                         currentSelection = (currentSelection + charityCount - 1) % charityCount;
                         charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
-                    } else if (shootout){
+                    } else if (shootSelectScreen){
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
@@ -112,7 +113,7 @@ int main(){
                     } else if (start){
                         currentSelection = (currentSelection + 1) % charityCount;
                         charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
-                    } else if (shootout){
+                    } else if (shootSelectScreen){
                         currentSelection = (currentSelection + 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
@@ -141,15 +142,15 @@ int main(){
                                 members[i].currentPay = members[i].currentPayNext;
                                 members[i].updateMorale();
                             }
-                            modeSwitch(&management, &shootout, &currentSelection, members, memberCount);
+                            modeSwitch(&management, &shootSelectScreen, &currentSelection, members, memberCount);
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         }
-                    } else if (shootout){
+                    } else if (shootSelectScreen){
                         if (shootoutSelected == 3){
-                            modeSwitch(&shootout, &management, &currentSelection, members, memberCount);
+                            modeSwitch(&shootSelectScreen, &management, &currentSelection, members, memberCount);
                             ///Not sure what happens here right now
                         } else if (!members[currentSelection].selected){
                             members[currentSelection].selected = true;
@@ -169,7 +170,7 @@ int main(){
                         }
                         members[currentSelection].selected = false;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    } else if (shootout){
+                    } else if (shootSelectScreen){
                         if (shootoutSelected == 3){
                             currentSelection = 0;
                             shootoutSelected = 0;
@@ -197,7 +198,7 @@ int main(){
             }
 
         }
-        if (management || start || shootout){
+        if (management || start || shootSelectScreen){
             Area1.setTexture(SpriteSheet);
             Area1.setPosition(0,0);
             Area1.setTextureRect(IntRect(0,0,150,200));
