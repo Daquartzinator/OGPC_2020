@@ -91,60 +91,59 @@ int main(){
             }
 
             if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
-                if (event.key.code == Keyboard::Up && !upHeld){
-                    upHeld = true;
-                    if (management){ ///these statements determine what each key press does depending on mode
-                        currentSelection = (currentSelection + memberCount - 1) % memberCount;
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    } else if (start){
-                        currentSelection = (currentSelection + charityCount - 1) % charityCount;
-                        charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
-                    } else if (shootSelectScreen){
-                        currentSelection = (currentSelection + memberCount - 1) % memberCount;
-                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                    }
                 if (event.key.code == Keyboard::Up){
                     if (playerControl){
                         yCord--;
+                    } else if (!upHeld){
+                        upHeld = true;
+                        if (management){ ///these statements determine what each key press does depending on mode
+                            currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        } else if (start){
+                            currentSelection = (currentSelection + charityCount - 1) % charityCount;
+                            charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                        } else if (shootSelectScreen){
+                            currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                        }
                     }
-                }
-                if(playerControl && !upHeld){
-                    yCord--;
-                }
-                } else if (event.key.code == Keyboard::Down && !downHeld){
-                    downHeld = true;
-                    if (management){
-                        currentSelection = (currentSelection + 1) % memberCount;
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    } else if (start){
-                        currentSelection = (currentSelection + 1) % charityCount;
-                        charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
-                    } else if (shootSelectScreen){
-                        currentSelection = (currentSelection + 1) % memberCount;
-                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                    }
-                    else if(playerControl){
+                } else if (event.key.code == Keyboard::Down){
+                    if (playerControl){
                         yCord++;
+                    } else if (!downHeld){
+                        downHeld = true;
+                        if (management){
+                            currentSelection = (currentSelection + 1) % memberCount;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        } else if (start){
+                            currentSelection = (currentSelection + 1) % charityCount;
+                            charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                        } else if (shootSelectScreen){
+                            currentSelection = (currentSelection + 1) % memberCount;
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                        }
                     }
-                } else if (event.key.code == Keyboard::Left && !leftHeld){
-                    leftHeld = true;
-
-                    if (management && !members[currentSelection].selected){
-                        members[currentSelection].currentPayNext -= 10;
-                        moneyUsed -= 10;
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    } else if(playerControl){
+                } else if (event.key.code == Keyboard::Left){
+                    if (playerControl){
                         xCord--;
+                    } else if (!leftHeld){
+                        leftHeld = true;
+                        if (management && !members[currentSelection].selected){
+                            members[currentSelection].currentPayNext -= 10;
+                            moneyUsed -= 10;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        }
                     }
-                } else if (event.key.code == Keyboard::Right && !rightHeld){
-                    rightHeld = true;
-                    if (management && !members[currentSelection].selected){
-                        members[currentSelection].currentPayNext += 10;
-                        moneyUsed += 10;
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    }
-                    else if(playerControl){
+                } else if (event.key.code == Keyboard::Right){
+                    if (playerControl){
                         xCord++;
+                    } else if (!rightHeld){
+                        rightHeld = true;
+                        if (management && !members[currentSelection].selected){
+                            members[currentSelection].currentPayNext += 10;
+                            moneyUsed += 10;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        }
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
@@ -157,7 +156,7 @@ int main(){
                                 members[i].currentPay = members[i].currentPayNext;
                                 members[i].updateMorale();
                             }
-                            modeSwitch(&management, &shootSelectScreen, &currentSelection, members, memberCount);
+                            modeSwitch(&management, &playerControl, &currentSelection, members, memberCount);
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
@@ -165,7 +164,7 @@ int main(){
                         }
                     } else if (shootSelectScreen){
                         if (shootoutSelected == 3){
-                            modeSwitch(&shootSelectScreen, &management, &currentSelection, members, memberCount);
+                            modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
                             ///Not sure what happens here right now
                         } else if (!members[currentSelection].selected){
                             members[currentSelection].selected = true;
