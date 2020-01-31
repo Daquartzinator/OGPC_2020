@@ -11,12 +11,12 @@ using namespace sf;
 
 int main(){
     /** General Variables **/
-    bool upHeld;
-    bool downHeld;
-    bool leftHeld;
-    bool rightHeld;
-    bool aHeld;
-    bool bHeld;
+    bool upHeld = false;
+    bool downHeld = false;
+    bool leftHeld = false;
+    bool rightHeld = false;
+    bool aHeld = false;
+    bool bHeld = false;
     Font font;
     Sprite bigBorder;
     Sprite Player, Computer, Goose;
@@ -91,59 +91,43 @@ int main(){
             }
 
             if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
-                if (event.key.code == Keyboard::Up){
-                    if (playerControl){
-                        yCord--;
-                    } else if (!upHeld){
-                        upHeld = true;
-                        if (management){ ///these statements determine what each key press does depending on mode
-                            currentSelection = (currentSelection + memberCount - 1) % memberCount;
-                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                        } else if (start){
-                            currentSelection = (currentSelection + charityCount - 1) % charityCount;
-                            charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
-                        } else if (shootSelectScreen){
-                            currentSelection = (currentSelection + memberCount - 1) % memberCount;
-                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                        }
+                if (event.key.code == Keyboard::Up && !upHeld){
+                    upHeld = true;
+                    if (management){ ///these statements determine what each key press does depending on mode
+                        currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                    } else if (start){
+                        currentSelection = (currentSelection + charityCount - 1) % charityCount;
+                        charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                    } else if (shootSelectScreen){
+                        currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Down){
-                    if (playerControl){
-                        yCord++;
-                    } else if (!downHeld){
-                        downHeld = true;
-                        if (management){
-                            currentSelection = (currentSelection + 1) % memberCount;
-                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                        } else if (start){
-                            currentSelection = (currentSelection + 1) % charityCount;
-                            charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
-                        } else if (shootSelectScreen){
-                            currentSelection = (currentSelection + 1) % memberCount;
-                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                        }
+                } else if (event.key.code == Keyboard::Down && !downHeld){
+                    downHeld = true;
+                    if (management){
+                        currentSelection = (currentSelection + 1) % memberCount;
+                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                    } else if (start){
+                        currentSelection = (currentSelection + 1) % charityCount;
+                        charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                    } else if (shootSelectScreen){
+                        currentSelection = (currentSelection + 1) % memberCount;
+                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Left){
-                    if (playerControl){
-                        xCord--;
-                    } else if (!leftHeld){
-                        leftHeld = true;
-                        if (management && !members[currentSelection].selected){
-                            members[currentSelection].currentPayNext -= 10;
-                            moneyUsed -= 10;
-                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                        }
+                } else if (event.key.code == Keyboard::Left && !leftHeld){
+                    leftHeld = true;
+                    if (management && !members[currentSelection].selected){
+                        members[currentSelection].currentPayNext -= 10;
+                        moneyUsed -= 10;
+                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Right){
-                    if (playerControl){
-                        xCord++;
-                    } else if (!rightHeld){
-                        rightHeld = true;
-                        if (management && !members[currentSelection].selected){
-                            members[currentSelection].currentPayNext += 10;
-                            moneyUsed += 10;
-                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                        }
+                } else if (event.key.code == Keyboard::Right && !rightHeld){
+                    rightHeld = true;
+                    if (management && !members[currentSelection].selected){
+                        members[currentSelection].currentPayNext += 10;
+                        moneyUsed += 10;
+                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
@@ -234,7 +218,16 @@ int main(){
 
             window.display();
         }
-        else if (playerControl == true){
+        else if (playerControl){
+            if (upHeld){
+                yCord--;
+            } else if (downHeld){
+                yCord++;
+            } else if (leftHeld){
+                xCord--;
+            } else if (rightHeld){
+                xCord++;
+            }
             bigBorder.setTexture(SpriteSheet);
             bigBorder.setPosition(0,0);
             bigBorder.setTextureRect(IntRect(0,200,400,200));
