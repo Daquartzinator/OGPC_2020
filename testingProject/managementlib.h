@@ -9,6 +9,8 @@ int managementUpdate(int c, CrewMember *cList, int money, int expenses, int mone
 void charityStartUpdate(int c, string *charityList, string *charityDescrip, int charityCount, Text *box1, Text *box2);
     /** start-of-game charity selection update **/
 void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *membersSelected, int *selected, Text *box1, Text *box2);
-    /** shootout update **/
+    /** shootout people selection update **/
+void shootoutUpdate(CrewMember *cList, int *membersSelected ,Text *box1, Text *box2);
+    /** shootout (actual combat part) update **/
 void modeSwitch(bool *currentMode, bool *newMode, int *currentSelection, CrewMember *cList, int memberCount);
 #endif // MANAGEMENTLIB_H_INCLUDED

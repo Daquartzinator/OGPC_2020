@@ -140,7 +140,9 @@ int main(){
                                 members[i].currentPay = members[i].currentPayNext;
                                 members[i].updateMorale();
                             }
-                            modeSwitch(&management, &playerControl, &currentSelection, members, memberCount);
+                            ///This will normally switch to playerControl
+                            ///Right now it switches to shootout for testing
+                            modeSwitch(&management, &shootSelectScreen, &currentSelection, members, memberCount);
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
@@ -148,7 +150,8 @@ int main(){
                         }
                     } else if (shootSelectScreen){
                         if (shootoutSelected == 3){
-                            modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
+                            modeSwitch(&shootSelectScreen, &shootoutScreen, &currentSelection, members, memberCount);
+                            shootoutUpdate(members, shootoutPeople,&box1Text, &box2Text);
                             ///Not sure what happens here right now
                         } else if (!members[currentSelection].selected){
                             members[currentSelection].selected = true;

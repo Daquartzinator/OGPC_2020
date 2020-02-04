@@ -95,7 +95,6 @@ void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *member
                 break;
         }
         ss2 << "A to confirm all.";
-        //*selected = 0;
     } else {
         ss << "Choose " << 3 - *selected << " more.\n\n";
         for(int i = 0; i < memberCount; i++){
@@ -116,6 +115,12 @@ void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *member
     }
     box1->setString(ss.str());
     box2->setString(ss2.str());
+}
+
+void shootoutUpdate(CrewMember *cList, int *membersSelected ,Text *box1, Text *box2){
+    cout << "yeet" << endl;
+    box1->setString("hello");
+    box2->setString("hi");
 }
 
 void modeSwitch(bool *currentMode, bool *nextMode, int *currentSelection, CrewMember *cList, int memberCount){
