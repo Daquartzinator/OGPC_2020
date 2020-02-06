@@ -12,10 +12,7 @@ using namespace sf;
 
 int main(){
     /** General Variables **/
-<<<<<<< HEAD
-=======
     bool collision(Sprite, Sprite);
->>>>>>> walkingAround
     bool upHeld = false;
     bool downHeld = false;
     bool leftHeld = false;
@@ -23,14 +20,9 @@ int main(){
     bool aHeld = false;
     bool bHeld = false;
     Font font;
-<<<<<<< HEAD
-    Sprite bigBorder;
-    Sprite Player, Computer, Goose;
-=======
     Sprite bigBorder;
     Sprite Player, Computer, Goose;
     int interactG = 0, interactPC = 0;
->>>>>>> walkingAround
     Texture SpriteSheet;
     Sprite Area1, Area2, Area3;
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
@@ -60,30 +52,17 @@ int main(){
     int moneyUsed = 400;
 
     /** Player Control Variables **/
-<<<<<<< HEAD
-    bool playerControl = false;
-    int xCord = 50, yCord = 50;
-
-    /** Shootout Variables **/
-    bool shootSelectScreen = false;
-    int shootoutPeople[3] = {-1, -1, -1};
-    int shootoutSelected = 0;
-    bool shootoutScreen = false;
-
-=======
     bool playerControl = false;
     int xCoord = 50, yCoord = 50;
     int speed = 5;
     int temp = 0;
 
-
     /** Shootout Variables **/
     bool shootSelectScreen = false;
     int shootoutPeople[3] = {-1, -1, -1};
     int shootoutSelected = 0;
     bool shootoutScreen = false;
 
->>>>>>> walkingAround
     /** Loading **/
     if (!font.loadFromFile("Consolas.ttf")){
         cout<<"font broken rip"<<endl;
@@ -117,13 +96,8 @@ int main(){
             }
 
             if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
-<<<<<<< HEAD
                 if (event.key.code == Keyboard::Up && !upHeld){
                     upHeld = true;
-=======
-                if (event.key.code == Keyboard::Up && !upHeld){
-                    upHeld = true;
->>>>>>> walkingAround
                     if (management){ ///these statements determine what each key press does depending on mode
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -134,13 +108,8 @@ int main(){
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
-<<<<<<< HEAD
                 } else if (event.key.code == Keyboard::Down && !downHeld){
-                    downHeld = true;
-=======
-                } else if (event.key.code == Keyboard::Down && !downHeld){
-                    downHeld = true;
->>>>>>> walkingAround
+                    downHeld = true;\
                     if (management){
                         currentSelection = (currentSelection + 1) % memberCount;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -152,7 +121,6 @@ int main(){
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Left && !leftHeld){
-<<<<<<< HEAD
                     leftHeld = true;
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext -= 10;
@@ -161,16 +129,6 @@ int main(){
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
-=======
-                    leftHeld = true;
-                    if (management && !members[currentSelection].selected){
-                        members[currentSelection].currentPayNext -= 10;
-                        moneyUsed -= 10;
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    }
-                } else if (event.key.code == Keyboard::Right && !rightHeld){
-                    rightHeld = true;
->>>>>>> walkingAround
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext += 10;
                         moneyUsed += 10;
@@ -265,18 +223,6 @@ int main(){
 
             window.display();
         }
-<<<<<<< HEAD
-        else if (playerControl){
-            if (upHeld){
-                yCord--;
-            } else if (downHeld){
-                yCord++;
-            } else if (leftHeld){
-                xCord--;
-            } else if (rightHeld){
-                xCord++;
-            }
-=======
         else if (playerControl){
             if (upHeld){
                 yCoord = yCoord - speed;
@@ -301,8 +247,6 @@ int main(){
             }
 
 
-
->>>>>>> walkingAround
             bigBorder.setTexture(SpriteSheet);
             bigBorder.setPosition(0,0);
             bigBorder.setTextureRect(IntRect(0,200,400,200));
