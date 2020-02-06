@@ -21,6 +21,7 @@ int main(){
     Font font;
     Sprite bigBorder;
     Sprite Player, Computer, Goose;
+    int interactG = 0, interactPC = 0;
     Texture SpriteSheet;
     Sprite Area1, Area2, Area3;
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
@@ -51,7 +52,9 @@ int main(){
 
     /** Player Control Variables **/
     bool playerControl = false;
-    int xCord = 50, yCord = 50;
+    int xCoord = 50, yCoord = 50;
+    int speed = 3;
+    bool collision(Sprite, Sprite);
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
@@ -221,29 +224,42 @@ int main(){
         }
         else if (playerControl){
             if (upHeld){
-                yCord--;
+                yCoord = yCoord - speed;
             } else if (downHeld){
-                yCord++;
+                yCoord= yCoord + speed;
             } else if (leftHeld){
-                xCord--;
+                xCoord = xCoord - speed;
             } else if (rightHeld){
-                xCord++;
+                xCoord = xCoord + speed;
             }
+            if (collision(Player, Goose)){
+                interactG = 32;
+            }
+            else if (collision(Player, Computer)){
+                interactPC = 32;
+            }
+            else{
+                interactG = 0;
+                interactPC = 0;
+            }
+
+
+
             bigBorder.setTexture(SpriteSheet);
             bigBorder.setPosition(0,0);
             bigBorder.setTextureRect(IntRect(0,200,400,200));
 
             Player.setTexture(SpriteSheet);
-            Player.setPosition(xCord,yCord);//  -> \/ |-| I
+            Player.setPosition(xCoord,yCoord);//  -> \/ |-| I
             Player.setTextureRect(IntRect(400,0,32,64));
 
             Computer.setTexture(SpriteSheet);
             Computer.setPosition(5,5);//  -> \/ |-| I
-            Computer.setTextureRect(IntRect(432,0,32,32));
+            Computer.setTextureRect(IntRect(432,interactPC,32,32));
 
             Goose.setTexture(SpriteSheet);
             Goose.setPosition(355,160);//  -> \/ |-| I
-            Goose.setTextureRect(IntRect(464,0,32,32));
+            Goose.setTextureRect(IntRect(464,interactG,32,32));
 
             window.clear(Color::Black);
             window.draw(bigBorder);
@@ -254,3 +270,10 @@ int main(){
         }
     }
 }
+
+bool collision(Sprite Obj1, Sprite Obj2){
+    if (Obj1.getGlobalBounds().intersects(Obj2.getGlobalBounds())){
+        return true;
+    }
+}
+
