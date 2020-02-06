@@ -12,6 +12,7 @@ using namespace sf;
 
 int main(){
     /** General Variables **/
+    bool collision(Sprite, Sprite);
     bool upHeld = false;
     bool downHeld = false;
     bool leftHeld = false;
@@ -53,8 +54,9 @@ int main(){
     /** Player Control Variables **/
     bool playerControl = false;
     int xCoord = 50, yCoord = 50;
-    int speed = 3;
-    bool collision(Sprite, Sprite);
+    int speed = 5;
+    int temp = 0;
+
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
@@ -229,8 +231,10 @@ int main(){
                 yCoord= yCoord + speed;
             } else if (leftHeld){
                 xCoord = xCoord - speed;
+                temp = 0;
             } else if (rightHeld){
                 xCoord = xCoord + speed;
+                temp = 64;
             }
             if (collision(Player, Goose)){
                 interactG = 32;
@@ -251,21 +255,21 @@ int main(){
 
             Player.setTexture(SpriteSheet);
             Player.setPosition(xCoord,yCoord);//  -> \/ |-| I
-            Player.setTextureRect(IntRect(400,0,32,64));
+            Player.setTextureRect(IntRect(400,temp,32,64));
 
             Computer.setTexture(SpriteSheet);
             Computer.setPosition(5,5);//  -> \/ |-| I
-            Computer.setTextureRect(IntRect(432,interactPC,32,32));
+            Computer.setTextureRect(IntRect(432,interactPC,64,32));
 
             Goose.setTexture(SpriteSheet);
             Goose.setPosition(355,160);//  -> \/ |-| I
-            Goose.setTextureRect(IntRect(464,interactG,32,32));
+            Goose.setTextureRect(IntRect(496,interactG,32,32));
 
             window.clear(Color::Black);
             window.draw(bigBorder);
-            window.draw(Player);
             window.draw(Computer);
             window.draw(Goose);
+            window.draw(Player); //always draw player last so he is on top
             window.display();
         }
     }
