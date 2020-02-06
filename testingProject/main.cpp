@@ -4,6 +4,7 @@
 #include<SFML/Graphics.hpp>
 #include "crewmember.h"
 #include "managementlib.h"
+#include "interactobject.h"
 using namespace std;
 using namespace sf;
 
@@ -16,11 +17,22 @@ int main(){
     bool rightHeld = false;
     bool aHeld = false;
     bool bHeld = false;
+
     Font font;
-    Sprite bigBorder;
-    Sprite Player, Computer, Goose;
-    int interactG = 0, interactPC = 0;
     Texture SpriteSheet;
+
+    Sprite bigBorder;
+    Sprite Player;
+
+    int temporaryArray[2] = {0, 32};
+    InteractObject Goose(2, 496, temporaryArray, 32, 32);
+    Goose.sprite.setPosition(355,160);
+    Goose.sprite.setTexture(SpriteSheet);
+
+    InteractObject Computer(2, 432, temporaryArray, 64, 32);
+    Computer.sprite.setPosition(5,5);
+    Computer.sprite.setTexture(SpriteSheet);
+
     Sprite Area1, Area2, Area3;
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
     string charityDescrip[3] = {"Donate to help the homeless!\nYou will get more \"employees\".",
@@ -232,15 +244,20 @@ int main(){
                 xCoord = xCoord + speed;
                 temp = 64;
             }
-            if (collision(Player, Goose)){
-                interactG = 32;
+
+            if (collision(Player, Goose.sprite)){
+                Goose.setFrame(1);
+                Goose.near = true;
             }
-            else if (collision(Player, Computer)){
-                interactPC = 32;
+            else if (collision(Player, Computer.sprite)){
+                Computer.setFrame(1);
+                Computer.near = true;
             }
-            else{
-                interactG = 0;
-                interactPC = 0;
+            else {
+                Goose.setFrame(0);
+                Goose.near = false;
+                Computer.setFrame(0);
+                Computer.near = false;
             }
 
 
@@ -252,18 +269,19 @@ int main(){
             Player.setPosition(xCoord,yCoord);//  -> \/ |-| I
             Player.setTextureRect(IntRect(400,temp,32,64));
 
-            Computer.setTexture(SpriteSheet);
-            Computer.setPosition(5,5);//  -> \/ |-| I
-            Computer.setTextureRect(IntRect(432,interactPC,64,32));
+            //Computer.setTexture(SpriteSheet);
+            //Computer.setPosition(5,5);//  -> \/ |-| I
+            //Computer.setTextureRect(IntRect(432,interactPC,64,32));
 
-            Goose.setTexture(SpriteSheet);
-            Goose.setPosition(355,160);//  -> \/ |-| I
-            Goose.setTextureRect(IntRect(496,interactG,32,32));
+            //Goose.setTexture(SpriteSheet);
+            //Goose.setPosition(355,160);//  -> \/ |-| I
+            //Goose.setTextureRect(IntRect(496,interactG,32,32));
+
 
             window.clear(Color::Black);
             window.draw(bigBorder);
-            window.draw(Computer);
-            window.draw(Goose);
+            window.draw(Computer.sprite);
+            window.draw(Goose.sprite);
             window.draw(Player); //always draw player last so he is on top
             window.display();
         }
