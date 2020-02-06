@@ -1,14 +1,11 @@
-
 #include<iostream>
 #include<string>
 #include<sstream>
 #include<SFML/Graphics.hpp>
 #include "crewmember.h"
 #include "managementlib.h"
-
 using namespace std;
 using namespace sf;
-
 
 int main(){
     /** General Variables **/
