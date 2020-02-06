@@ -3,13 +3,18 @@
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 =======
 	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+=======
+	<File name="managementlib.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+>>>>>>> walkingAround
 		<Cursor>
-			<Cursor1 position="2462" topLine="59" />
+			<Cursor1 position="111" topLine="0" />
 		</Cursor>
 	</File>
+<<<<<<< HEAD
 	<File name="managementlib.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 >>>>>>> walkingAround
 		<Cursor>
@@ -20,6 +25,11 @@
 	<File name="managementlib.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="207" topLine="0" />
+=======
+	<File name="crewmember.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="876" topLine="0" />
+>>>>>>> walkingAround
 		</Cursor>
 	</File>
 	<File name="crewmember.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -38,17 +48,21 @@
 =======
 	<File name="crewmember.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="758" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="11345" topLine="212" />
 		</Cursor>
 	</File>
 	<File name="managementlib.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
+<<<<<<< HEAD
 			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="crewmember.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+>>>>>>> walkingAround
+=======
+			<Cursor1 position="4226" topLine="0" />
 >>>>>>> walkingAround
 		</Cursor>
 	</File>

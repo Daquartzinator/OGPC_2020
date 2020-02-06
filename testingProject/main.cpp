@@ -1,3 +1,4 @@
+
 #include<iostream>
 #include<string>
 #include<sstream>
@@ -11,6 +12,10 @@ using namespace sf;
 
 int main(){
     /** General Variables **/
+<<<<<<< HEAD
+=======
+    bool collision(Sprite, Sprite);
+>>>>>>> walkingAround
     bool upHeld = false;
     bool downHeld = false;
     bool leftHeld = false;
@@ -18,8 +23,14 @@ int main(){
     bool aHeld = false;
     bool bHeld = false;
     Font font;
+<<<<<<< HEAD
     Sprite bigBorder;
     Sprite Player, Computer, Goose;
+=======
+    Sprite bigBorder;
+    Sprite Player, Computer, Goose;
+    int interactG = 0, interactPC = 0;
+>>>>>>> walkingAround
     Texture SpriteSheet;
     Sprite Area1, Area2, Area3;
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
@@ -49,6 +60,7 @@ int main(){
     int moneyUsed = 400;
 
     /** Player Control Variables **/
+<<<<<<< HEAD
     bool playerControl = false;
     int xCord = 50, yCord = 50;
 
@@ -58,6 +70,20 @@ int main(){
     int shootoutSelected = 0;
     bool shootoutScreen = false;
 
+=======
+    bool playerControl = false;
+    int xCoord = 50, yCoord = 50;
+    int speed = 5;
+    int temp = 0;
+
+
+    /** Shootout Variables **/
+    bool shootSelectScreen = false;
+    int shootoutPeople[3] = {-1, -1, -1};
+    int shootoutSelected = 0;
+    bool shootoutScreen = false;
+
+>>>>>>> walkingAround
     /** Loading **/
     if (!font.loadFromFile("Consolas.ttf")){
         cout<<"font broken rip"<<endl;
@@ -91,8 +117,13 @@ int main(){
             }
 
             if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
+<<<<<<< HEAD
                 if (event.key.code == Keyboard::Up && !upHeld){
                     upHeld = true;
+=======
+                if (event.key.code == Keyboard::Up && !upHeld){
+                    upHeld = true;
+>>>>>>> walkingAround
                     if (management){ ///these statements determine what each key press does depending on mode
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -103,8 +134,13 @@ int main(){
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
+<<<<<<< HEAD
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
+=======
+                } else if (event.key.code == Keyboard::Down && !downHeld){
+                    downHeld = true;
+>>>>>>> walkingAround
                     if (management){
                         currentSelection = (currentSelection + 1) % memberCount;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -116,6 +152,7 @@ int main(){
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Left && !leftHeld){
+<<<<<<< HEAD
                     leftHeld = true;
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext -= 10;
@@ -124,6 +161,16 @@ int main(){
                     }
                 } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
+=======
+                    leftHeld = true;
+                    if (management && !members[currentSelection].selected){
+                        members[currentSelection].currentPayNext -= 10;
+                        moneyUsed -= 10;
+                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                    }
+                } else if (event.key.code == Keyboard::Right && !rightHeld){
+                    rightHeld = true;
+>>>>>>> walkingAround
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext += 10;
                         moneyUsed += 10;
@@ -218,6 +265,7 @@ int main(){
 
             window.display();
         }
+<<<<<<< HEAD
         else if (playerControl){
             if (upHeld){
                 yCord--;
@@ -228,28 +276,62 @@ int main(){
             } else if (rightHeld){
                 xCord++;
             }
+=======
+        else if (playerControl){
+            if (upHeld){
+                yCoord = yCoord - speed;
+            } else if (downHeld){
+                yCoord= yCoord + speed;
+            } else if (leftHeld){
+                xCoord = xCoord - speed;
+                temp = 0;
+            } else if (rightHeld){
+                xCoord = xCoord + speed;
+                temp = 64;
+            }
+            if (collision(Player, Goose)){
+                interactG = 32;
+            }
+            else if (collision(Player, Computer)){
+                interactPC = 32;
+            }
+            else{
+                interactG = 0;
+                interactPC = 0;
+            }
+
+
+
+>>>>>>> walkingAround
             bigBorder.setTexture(SpriteSheet);
             bigBorder.setPosition(0,0);
             bigBorder.setTextureRect(IntRect(0,200,400,200));
 
             Player.setTexture(SpriteSheet);
-            Player.setPosition(xCord,yCord);//  -> \/ |-| I
-            Player.setTextureRect(IntRect(400,0,32,64));
+            Player.setPosition(xCoord,yCoord);//  -> \/ |-| I
+            Player.setTextureRect(IntRect(400,temp,32,64));
 
             Computer.setTexture(SpriteSheet);
             Computer.setPosition(5,5);//  -> \/ |-| I
-            Computer.setTextureRect(IntRect(432,0,32,32));
+            Computer.setTextureRect(IntRect(432,interactPC,64,32));
 
             Goose.setTexture(SpriteSheet);
             Goose.setPosition(355,160);//  -> \/ |-| I
-            Goose.setTextureRect(IntRect(464,0,32,32));
+            Goose.setTextureRect(IntRect(496,interactG,32,32));
 
             window.clear(Color::Black);
             window.draw(bigBorder);
-            window.draw(Player);
             window.draw(Computer);
             window.draw(Goose);
+            window.draw(Player); //always draw player last so he is on top
             window.display();
         }
     }
 }
+
+bool collision(Sprite Obj1, Sprite Obj2){
+    if (Obj1.getGlobalBounds().intersects(Obj2.getGlobalBounds())){
+        return true;
+    }
+}
+
