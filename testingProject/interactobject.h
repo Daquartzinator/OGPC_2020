@@ -13,6 +13,7 @@ private:
 public:
     Sprite sprite;
     bool near;
+    bool onScreen;
 
     InteractObject(int sYArraySize, int sX, int * sYArray, int sWidth, int sHeight);
 

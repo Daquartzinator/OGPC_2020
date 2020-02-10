@@ -173,6 +173,13 @@ int main(){
                         ///switch to management
                         modeSwitch(&start, &management, &currentSelection, members, memberCount);
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                    } else if (playerControl){
+                        if (Computer.near){
+                            modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                        } else if (Goose.near){
+                            cout << "HONK" << endl;
+                        }
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
@@ -208,7 +215,6 @@ int main(){
                     bHeld = false;
                 }
             }
-
         }
         if (management || start || shootSelectScreen){
             Area1.setTexture(SpriteSheet);
@@ -268,15 +274,6 @@ int main(){
             Player.setTexture(SpriteSheet);
             Player.setPosition(xCoord,yCoord);//  -> \/ |-| I
             Player.setTextureRect(IntRect(400,temp,32,64));
-
-            //Computer.setTexture(SpriteSheet);
-            //Computer.setPosition(5,5);//  -> \/ |-| I
-            //Computer.setTextureRect(IntRect(432,interactPC,64,32));
-
-            //Goose.setTexture(SpriteSheet);
-            //Goose.setPosition(355,160);//  -> \/ |-| I
-            //Goose.setTextureRect(IntRect(496,interactG,32,32));
-
 
             window.clear(Color::Black);
             window.draw(bigBorder);
