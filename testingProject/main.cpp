@@ -22,15 +22,12 @@ int main(){
     Texture SpriteSheet;
 
     Sprite bigBorder;
-    bigBorder.setTexture(SpriteSheet);
-    bigBorder.setPosition(0,0);
-    bigBorder.setTextureRect(IntRect(0,200,400,200));
 
     int temporaryArray[2] = {0, 64};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
     Player.sprite.setTexture(SpriteSheet);
 
-    //AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
+    AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
 
     temporaryArray[1] = 32;
     InteractObject Goose(2, 496, temporaryArray, 32, 32);
@@ -72,6 +69,7 @@ int main(){
     bool playerControl = false;
     int xCoord = 50, yCoord = 50;
     int speed = 5;
+    int temp = 0;
 
     /** Driving mission Variables **/
     bool drivingMission = false;
@@ -188,8 +186,7 @@ int main(){
                             modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else if (Goose.near){
-                            //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
-                            cout << "HONK" << endl;
+                            modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
                         }
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){
@@ -276,6 +273,12 @@ int main(){
                 Computer.setFrame(0);
                 Computer.near = false;
             }
+
+
+            bigBorder.setTexture(SpriteSheet);
+            bigBorder.setPosition(0,0);
+            bigBorder.setTextureRect(IntRect(0,200,400,200));
+
             Player.sprite.setPosition(xCoord,yCoord);
 
             window.clear(Color::Black);
