@@ -1,6 +1,7 @@
 #ifndef INTERACTOBJECT_H_INCLUDED
 #define INTERACTOBJECT_H_INCLUDED
 #include<SFML/Graphics.hpp>
+#include "animatedsprite.h"
 using namespace sf;
 
 class InteractObject {
@@ -12,8 +13,8 @@ private:
     int * yArray;
 public:
     Sprite sprite;
-    bool near;
     bool onScreen;
+    bool near;
 
     InteractObject(int sYArraySize, int sX, int * sYArray, int sWidth, int sHeight);
 
