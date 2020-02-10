@@ -22,7 +22,7 @@ int main(){
     Texture SpriteSheet;
 
     Sprite bigBorder;
-    Sprite Player;
+    Sprite Player, Employee;
 
     int temporaryArray[2] = {0, 32};
     InteractObject Goose(2, 496, temporaryArray, 32, 32);
@@ -65,6 +65,7 @@ int main(){
     int xCoord = 50, yCoord = 50;
     int speed = 5;
     int temp = 0;
+    int portrait = 0;
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
@@ -105,7 +106,7 @@ int main(){
             }
 
             if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
-                if (event.key.code == Keyboard::Up && !upHeld){
+ /*UP*/             if (event.key.code == Keyboard::Up && !upHeld){
                     upHeld = true;
                     if (management){ ///these statements determine what each key press does depending on mode
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
@@ -117,7 +118,7 @@ int main(){
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Down && !downHeld){
+ /*DOWN*/           } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;\
                     if (management){
                         currentSelection = (currentSelection + 1) % memberCount;
@@ -129,21 +130,21 @@ int main(){
                         currentSelection = (currentSelection + 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Left && !leftHeld){
+ /*LEFT*/           } else if (event.key.code == Keyboard::Left && !leftHeld){
                     leftHeld = true;
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext -= 10;
                         moneyUsed -= 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Right && !rightHeld){
+ /*RIGHT*/          } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext += 10;
                         moneyUsed += 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::A && !aHeld){
+ /*A*/              } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
                     if (management){
                         if (manageStatus == 0){
@@ -181,7 +182,7 @@ int main(){
                             cout << "HONK" << endl;
                         }
                     }
-                } else if (event.key.code == Keyboard::B && !bHeld){
+ /*B*/              } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
                     if (management){
                         if (manageStatus != 0){ ///B does nothing if nobody is selected
@@ -216,6 +217,13 @@ int main(){
                 }
             }
         }
+        if (!start){
+            for(int i = 0; i<3; i++){
+                if (currentSelection == i){
+                    portrait = 48*i;
+                }
+            }
+        }
         if (management || start || shootSelectScreen){
             Area1.setTexture(SpriteSheet);
             Area1.setPosition(0,0);
@@ -229,12 +237,19 @@ int main(){
             Area3.setPosition(150,116);
             Area3.setTextureRect(IntRect(150,116,250,94));
 
+
+            if (!start){
+                Employee.setTexture(SpriteSheet);
+                Employee.setPosition(250,50);
+                Employee.setTextureRect(IntRect(528,portrait,48,48));
+            }
             window.clear(Color::Black);
             window.draw(Area1);
             window.draw(Area2);
             window.draw(Area3);
             window.draw(box1Text);
             window.draw(box2Text);
+            window.draw(Employee);
 
             window.display();
         }

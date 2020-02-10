@@ -34,6 +34,8 @@
 		</Compiler>
 		<Unit filename="crewmember.cpp" />
 		<Unit filename="crewmember.h" />
+		<Unit filename="interactobject.cpp" />
+		<Unit filename="interactobject.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="managementlib.cpp" />
 		<Unit filename="managementlib.h" />

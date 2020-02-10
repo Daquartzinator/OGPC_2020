@@ -41,13 +41,14 @@
 1576521489 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\add.h
 	<stdbool.h>
 
-1581012819 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
+1581362184 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
 	<iostream>
 	<string>
 	<sstream>
 	<SFML/Graphics.hpp>
 	"crewmember.h"
 	"managementlib.h"
+	"interactobject.h"
 
 1580841825 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.cpp
 	<iostream>
@@ -76,5 +77,14 @@
 	<SFML/Graphics.hpp>
 
 1581022407 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\interactobject.h
+	<SFML/Graphics.hpp>
+
+1581360018 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\interactobject.h
+	<SFML/Graphics.hpp>
+
+1581360018 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\interactobject.cpp
+	<iostream>
+	"interactobject.h"
+	<stdlib.h>
 	<SFML/Graphics.hpp>
 
