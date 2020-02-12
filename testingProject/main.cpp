@@ -249,7 +249,8 @@ int main(){
 
             if (!start){
                 Employee.setTexture(SpriteSheet);
-                Employee.setPosition(250,50);
+                Employee.setPosition(220,20);
+                Employee.setScale(2,2);
                 Employee.setTextureRect(IntRect(528,portrait,48,48));
             }
 
