@@ -4,21 +4,24 @@
 #include "animatedsprite.h"
 using namespace sf;
 
-class InteractObject {
-private:
+class InteractObject : public AnimatedSprite {
+/*private:
     int width;
     int height;
     int sheetX;
     int yArraySize;
-    int * yArray;
+    int * yArray;*/
 public:
-    Sprite sprite;
-    bool onScreen;
+    //Sprite sprite;
+    //bool onScreen;
     bool near;
 
-    InteractObject(int sYArraySize, int sX, int * sYArray, int sWidth, int sHeight);
+    InteractObject(int sYArraySize, int sX, int * sYArray, int sWidth, int sHeight)
+        : AnimatedSprite(sYArraySize, sX, sYArray, sWidth, sHeight){
+        near = false;
+    }
 
-    void setFrame(int frame);
+    //void setFrame(int frame);
 };
 
 #endif // INTERACTOBJECT_H_INCLUDED

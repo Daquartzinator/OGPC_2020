@@ -5,6 +5,7 @@
 #include "crewmember.h"
 #include "managementlib.h"
 #include "interactobject.h"
+#include "animatedsprite.h"
 using namespace std;
 using namespace sf;
 
@@ -54,6 +55,10 @@ int main(){
     InteractObject Computer(2, 432, temporaryArray, 64, 32);
     Computer.sprite.setPosition(5,5);
     Computer.sprite.setTexture(SpriteSheet);
+
+    int spriteCount = 3;
+    AnimatedSprite *spriteList[spriteCount] = {&Goose, &Computer, &Player};
+    ///Order in this array determines draw order
 
     /** Crew members **/
     CrewMember member1(100, 100, "Barbara", "   ", 50, 5);
@@ -133,7 +138,7 @@ int main(){
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
-                    downHeld = true;\
+                    downHeld = true;
                     if (management){
                         currentSelection = (currentSelection + 1) % memberCount;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -170,14 +175,17 @@ int main(){
                                 members[i].updateMorale();
                             }
                             modeSwitch(&management, &playerControl, &currentSelection, members, memberCount);
-                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                            Player.onScreen = true;
+                            Goose.onScreen = true;
+                            Computer.onScreen = true;
+                            //shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         }
                     } else if (shootSelectScreen){
                         if (shootoutSelected == 3){
-                            modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
+                            //modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
                             ///Not sure what happens here right now
                         } else if (!members[currentSelection].selected){
                             members[currentSelection].selected = true;
@@ -191,9 +199,15 @@ int main(){
                     } else if (playerControl){
                         if (Computer.near){
                             modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
+                            Player.onScreen = false;
+                            Goose.onScreen = false;
+                            Computer.onScreen = false;
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else if (Goose.near){
                             modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
+                            Player.onScreen = false;
+                            Goose.onScreen = false;
+                            Computer.onScreen = false;
                         }
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){
@@ -231,17 +245,7 @@ int main(){
                 }
             }
         }
-        if (management || start || shootSelectScreen){
-            window.clear(Color::Black);
-            window.draw(Area1);
-            window.draw(Area2);
-            window.draw(Area3);
-            window.draw(box1Text);
-            window.draw(box2Text);
-
-            window.display();
-        }
-        else if (playerControl){
+        if (playerControl){
             if (upHeld){
                 yCoord = yCoord - speed;
             } else if (downHeld){
@@ -268,18 +272,30 @@ int main(){
                 Computer.setFrame(0);
                 Computer.near = false;
             }
-
-
-
             Player.sprite.setPosition(xCoord,yCoord);
 
-            window.clear(Color::Black);
-            window.draw(bigBorder);
+            /*window.clear(Color::Black);
             window.draw(Computer.sprite);
             window.draw(Goose.sprite);
             window.draw(Player.sprite); //always draw player last so he is on top
-            window.display();
+            window.display();*/
         }
+        window.clear(Color::Black);
+        if (management || start || shootSelectScreen){
+            window.draw(Area1);
+            window.draw(Area2);
+            window.draw(Area3);
+            window.draw(box1Text);
+            window.draw(box2Text);
+        } else if (playerControl){
+            window.draw(bigBorder);
+        }
+        for (int i = 0; i < spriteCount; i++){
+            if (spriteList[i]->onScreen){
+                window.draw(spriteList[i]->sprite);
+            }
+        }
+        window.display();
     }
 }
 
