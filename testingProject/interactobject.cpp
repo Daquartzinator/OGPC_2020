@@ -16,6 +16,7 @@ InteractObject::InteractObject(int sYArraySize, int sX, int* sYArray, int sWidth
     sheetX = sX;
     width = sWidth;
     height = sHeight;
+    sprite.setTextureRect(IntRect(sheetX, yArray[0], width, height)); ///Construct to start on frame 0
 }
 
 void InteractObject::setFrame(int frame){
