@@ -18,16 +18,33 @@ int main(){
     bool aHeld = false;
     bool bHeld = false;
 
+    string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
+    string charityDescrip[3] = {"Donate to help the homeless!\nYou will get more \"employees\".",
+        "Donate to improve Health Awareness!\nYour team will be healthier and stronger.",
+        "Donate to research into clean energy!\nYou will get insider prices on your upgrades."};
+    int charityCount = 3;
+    int currentSelection = 0;
+    Text box1Text;
+    Text box2Text;
+
+    /** Sprites and such **/
     Font font;
     Texture SpriteSheet;
 
-    Sprite bigBorder;
+    Sprite bigBorder(SpriteSheet, IntRect(0,200,400,200));
+    bigBorder.setPosition(0,0);
+    Sprite Area1(SpriteSheet, IntRect(0,0,150,200));
+    Area1.setPosition(0,0);
+    Sprite Area2(SpriteSheet, IntRect(150,0,250,116));
+    Area2.setPosition(150,0);
+    Sprite Area3(SpriteSheet, IntRect(150,116,250,94));
+    Area3.setPosition(150,116);
 
-    int temporaryArray[2] = {0, 64};
+    int temporaryArray[3] = {0, 64, -1};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
     Player.sprite.setTexture(SpriteSheet);
 
-    AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
+    //AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
 
     temporaryArray[1] = 32;
     InteractObject Goose(2, 496, temporaryArray, 32, 32);
@@ -37,16 +54,6 @@ int main(){
     InteractObject Computer(2, 432, temporaryArray, 64, 32);
     Computer.sprite.setPosition(5,5);
     Computer.sprite.setTexture(SpriteSheet);
-
-    Sprite Area1, Area2, Area3;
-    string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
-    string charityDescrip[3] = {"Donate to help the homeless!\nYou will get more \"employees\".",
-        "Donate to improve Health Awareness!\nYour team will be healthier and stronger.",
-        "Donate to research into clean energy!\nYou will get insider prices on your upgrades."};
-    int charityCount = 3;
-    int currentSelection = 0;
-    Text box1Text;
-    Text box2Text;
 
     /** Crew members **/
     CrewMember member1(100, 100, "Barbara", "   ", 50, 5);
@@ -225,18 +232,6 @@ int main(){
             }
         }
         if (management || start || shootSelectScreen){
-            Area1.setTexture(SpriteSheet);
-            Area1.setPosition(0,0);
-            Area1.setTextureRect(IntRect(0,0,150,200));
-
-            Area2.setTexture(SpriteSheet);
-            Area2.setPosition(150,0);
-            Area2.setTextureRect(IntRect(150,0,250,116));
-
-            Area3.setTexture(SpriteSheet);
-            Area3.setPosition(150,116);
-            Area3.setTextureRect(IntRect(150,116,250,94));
-
             window.clear(Color::Black);
             window.draw(Area1);
             window.draw(Area2);
@@ -275,9 +270,6 @@ int main(){
             }
 
 
-            bigBorder.setTexture(SpriteSheet);
-            bigBorder.setPosition(0,0);
-            bigBorder.setTextureRect(IntRect(0,200,400,200));
 
             Player.sprite.setPosition(xCoord,yCoord);
 
