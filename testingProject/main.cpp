@@ -22,9 +22,14 @@ int main(){
     Texture SpriteSheet;
 
     Sprite bigBorder;
-    Sprite Player;
 
-    int temporaryArray[2] = {0, 32};
+    int temporaryArray[2] = {0, 64};
+    AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
+    Player.sprite.setTexture(SpriteSheet);
+
+    AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
+
+    temporaryArray[1] = 32;
     InteractObject Goose(2, 496, temporaryArray, 32, 32);
     Goose.sprite.setPosition(355,160);
     Goose.sprite.setTexture(SpriteSheet);
@@ -65,6 +70,9 @@ int main(){
     int xCoord = 50, yCoord = 50;
     int speed = 5;
     int temp = 0;
+
+    /** Driving mission Variables **/
+    bool drivingMission = false;
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
@@ -178,7 +186,7 @@ int main(){
                             modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else if (Goose.near){
-                            cout << "HONK" << endl;
+                            modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
                         }
                     }
                 } else if (event.key.code == Keyboard::B && !bHeld){
@@ -245,17 +253,17 @@ int main(){
                 yCoord= yCoord + speed;
             } else if (leftHeld){
                 xCoord = xCoord - speed;
-                temp = 0;
+                Player.setFrame(0);
             } else if (rightHeld){
                 xCoord = xCoord + speed;
-                temp = 64;
+                Player.setFrame(1);
             }
 
-            if (collision(Player, Goose.sprite)){
+            if (collision(Player.sprite, Goose.sprite)){
                 Goose.setFrame(1);
                 Goose.near = true;
             }
-            else if (collision(Player, Computer.sprite)){
+            else if (collision(Player.sprite, Computer.sprite)){
                 Computer.setFrame(1);
                 Computer.near = true;
             }
@@ -271,15 +279,13 @@ int main(){
             bigBorder.setPosition(0,0);
             bigBorder.setTextureRect(IntRect(0,200,400,200));
 
-            Player.setTexture(SpriteSheet);
-            Player.setPosition(xCoord,yCoord);//  -> \/ |-| I
-            Player.setTextureRect(IntRect(400,temp,32,64));
+            Player.sprite.setPosition(xCoord,yCoord);
 
             window.clear(Color::Black);
             window.draw(bigBorder);
             window.draw(Computer.sprite);
             window.draw(Goose.sprite);
-            window.draw(Player); //always draw player last so he is on top
+            window.draw(Player.sprite); //always draw player last so he is on top
             window.display();
         }
     }
