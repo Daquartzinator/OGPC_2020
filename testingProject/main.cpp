@@ -19,9 +19,10 @@ int main(){
     bool bHeld = false;
 
     Font font;
+    Text box1Text, box2Text;
     Texture SpriteSheet;
 
-    Sprite bigBorder, Employee;
+    Sprite bigBorder, Area1, Area2, Area3, Employee;
 
     int temporaryArray[2] = {0, 64};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
@@ -38,15 +39,16 @@ int main(){
     Computer.sprite.setPosition(10,30);
     Computer.sprite.setTexture(SpriteSheet);
 
-    Sprite Area1, Area2, Area3;
+    InteractObject Plant(4, 576, temporaryArray, 32, 48);
+    Plant.sprite.setPosition(140, 270);
+    Plant.sprite.setTexture(SpriteSheet);
+
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
     string charityDescrip[3] = {"Donate to help the homeless!\nYou will get more \"employees\".",
-        "Donate to improve Health Awareness!\nYour team will be healthier and stronger.",
-        "Donate to research into clean energy!\nYou will get insider prices on your upgrades."};
+                                "Donate to improve Health Awareness!\nYour team will be healthier and stronger.",
+                                "Donate to research into clean energy!\nYou will get insider prices on your upgrades."};
     int charityCount = 3;
     int currentSelection = 0;
-    Text box1Text;
-    Text box2Text;
 
     /** Crew members **/
     CrewMember member1(100, 100, "Barbara", "   ", 50, 5);
@@ -64,17 +66,16 @@ int main(){
     int money = 500;
     int expenses = 100;
     int moneyUsed = 400;
+    int portrait = 0; ///1=Barb, 2=Newt, 3=Larry.
 
     /** Player Control Variables **/
     bool playerControl = false;
     int xCoord = 50, yCoord = 50;
     int speed = 5;
     int temp = 0;
-    int portrait = 0;
 
-     /** Driving mission Variables **/
+    /** Driving mission Variables **/
     bool drivingMission = false;
-
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
@@ -246,12 +247,12 @@ int main(){
             Area3.setPosition(150,116);
             Area3.setTextureRect(IntRect(150,116,250,94));
 
-
             if (!start){
                 Employee.setTexture(SpriteSheet);
                 Employee.setPosition(250,50);
                 Employee.setTextureRect(IntRect(528,portrait,48,48));
             }
+
             window.clear(Color::Black);
             window.draw(Area1);
             window.draw(Area2);
@@ -263,6 +264,11 @@ int main(){
             window.display();
         }
         else if (playerControl){
+
+            bigBorder.setTexture(SpriteSheet);
+            bigBorder.setPosition(0,0);
+            bigBorder.setTextureRect(IntRect(0,200,400,200));
+
             if (upHeld){
                 yCoord = yCoord - speed;
             } else if (downHeld){
@@ -290,17 +296,13 @@ int main(){
                 Computer.near = false;
             }
 
-
-            bigBorder.setTexture(SpriteSheet);
-            bigBorder.setPosition(0,0);
-            bigBorder.setTextureRect(IntRect(0,200,400,200));
-
             Player.sprite.setPosition(xCoord,yCoord);
 
             window.clear(Color::Black);
             window.draw(bigBorder);
             window.draw(Computer.sprite);
             window.draw(Goose.sprite);
+            window.draw(Plant.sprite);
             window.draw(Player.sprite); //always draw player last so he is on top
             window.display();
         }
@@ -312,4 +314,3 @@ bool collision(Sprite Obj1, Sprite Obj2){
         return true;
     }
 }
-
