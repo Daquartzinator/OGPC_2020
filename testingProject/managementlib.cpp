@@ -118,6 +118,31 @@ void shootoutSelectUpdate(int c, CrewMember *cList, int memberCount, int *member
     box2->setString(ss2.str());
 }
 
+void tauntLetterUpdate(string *letterContents, int letterLength, int n, Text *box1, Text *box2){
+    stringstream ss;
+    stringstream ss2;
+    if (n == -2){
+        ss2 << "       -----------\n       ** ALERT **\n       -----------";
+    } else {
+        ss2 << "YOU HAVE RECIEVED A LETTER FROM\nLARGE CORPORATION ENTERPRISES.";
+        if (n >= 0){
+            if (n > 0){
+                ss << letterContents[n - 1];
+            }
+            ss << letterContents[n];
+            if (n == letterLength - 1){
+                ss2 << "\n\nA to close the letter.";
+            } else {
+                ss2 << "\n\nU or D to read the letter.";
+            }
+        } else {
+            ss2 << "\n\nA to open the letter.";
+        }
+    }
+    box1->setString(ss.str());
+    box2->setString(ss2.str());
+}
+
 void modeSwitch(bool *currentMode, bool *nextMode, int *currentSelection, CrewMember *cList, int memberCount){
     *currentMode = false;
     *nextMode = true;

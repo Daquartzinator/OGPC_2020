@@ -12,7 +12,7 @@
 
 1576179827 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\add.h
 
-1581358885 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\main.cpp
+1581708629 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\main.cpp
 	<iostream>
 	<string>
 	<sstream>
@@ -20,6 +20,7 @@
 	"crewmember.h"
 	"managementlib.h"
 	"interactobject.h"
+	"animatedsprite.h"
 
 1580494218 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.cpp
 	<iostream>
@@ -28,9 +29,9 @@
 1580494218 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.h
 	<iostream>
 
-1581014617 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.h
+1581706339 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.h
 
-1581014617 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.cpp
+1581708557 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\managementlib.cpp
 	<iostream>
 	<sstream>
 	<SFML/Graphics.hpp>
@@ -71,13 +72,13 @@
 	<string>
 	<sstream>
 
-1581533824 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\interactobject.cpp
+1581641712 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\interactobject.cpp
 	<iostream>
 	"interactobject.h"
 	<stdlib.h>
 	<SFML/Graphics.hpp>
 
-1581533935 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\interactobject.h
+1581641712 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\interactobject.h
 	<SFML/Graphics.hpp>
 	"animatedsprite.h"
 
