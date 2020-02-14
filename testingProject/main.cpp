@@ -19,6 +19,8 @@ int main(){
     bool aHeld = false;
     bool bHeld = false;
 
+    int day = 1;
+
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
     string charityDescrip[3] = {"Donate to help the homeless!\nYou will get more \"employees\".",
         "Donate to improve Health Awareness!\nYour team will be healthier and stronger.",
@@ -92,6 +94,18 @@ int main(){
     int shootoutSelected = 0;
     bool shootoutScreen = false;
 
+    /** Letter Variables **/
+    bool tauntLetter = false;
+    int letter = 0;
+    int letterLengths[1] = {6};
+    string letterMessages[1][10] = {
+        "To whom it may concern,\n\n",
+        "Well, well, well. I see\nthere's someone else who's\ncome to try to usurp\nmy business.\n\n",
+        "I'm getting tired of doing\nthis, but this will end\nmuch worse for you than\nfor me.\n\n",
+        "The only way you could\npossibly outmatch me\nis if you made sure to\nMANAGE YOUR MONEY WELL...\nBut that's impossible.\n\n",
+        "I look forward to our...\nstrictly professional\nrelationship.\n\n",
+        "Cordially,\nB. Mann,\nLarge Corporation\nEnterprises, CEO"};
+
     /** Loading **/
     if (!font.loadFromFile("Consolas.ttf")){
         cout<<"font broken rip"<<endl;
@@ -136,6 +150,11 @@ int main(){
                     } else if (shootSelectScreen){
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                    } else if (tauntLetter){
+                        if (currentSelection > 0){
+                            currentSelection--;
+                        }
+                        tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
@@ -148,6 +167,11 @@ int main(){
                     } else if (shootSelectScreen){
                         currentSelection = (currentSelection + 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                    } else if (tauntLetter){
+                        if (currentSelection < letterLengths[letter] - 1 && currentSelection >= 0){
+                            currentSelection++;
+                        }
+                        tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Left && !leftHeld){
                     leftHeld = true;
@@ -193,9 +217,19 @@ int main(){
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         }
                     } else if (start){
-                        ///switch to management
-                        modeSwitch(&start, &management, &currentSelection, members, memberCount);
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        ///switch to letter reading
+                        modeSwitch(&start, &tauntLetter, &currentSelection, members, memberCount);
+                        currentSelection = -2;
+                        tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
+                    } else if (tauntLetter){
+                        if (currentSelection < 0){
+                            currentSelection++;
+                            tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
+                        }
+                        if (currentSelection >= letterLengths[letter] - 1){
+                            modeSwitch(&tauntLetter, &management, &currentSelection, members, memberCount);
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        }
                     } else if (playerControl){
                         if (Computer.near){
                             modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
@@ -281,7 +315,7 @@ int main(){
             window.display();*/
         }
         window.clear(Color::Black);
-        if (management || start || shootSelectScreen){
+        if (management || start || tauntLetter || shootSelectScreen){
             window.draw(Area1);
             window.draw(Area2);
             window.draw(Area3);
