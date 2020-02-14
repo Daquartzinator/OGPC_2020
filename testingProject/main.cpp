@@ -22,7 +22,7 @@ int main(){
     Text box1Text, box2Text;
     Texture SpriteSheet;
 
-    Sprite bigBorder, Area1, Area2, Area3, Employee;
+    Sprite bigBorder, Area1, Area2, Area3, Room1, Room2, Employee;
 
     int temporaryArray[2] = {0, 64};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
@@ -40,7 +40,7 @@ int main(){
     Computer.sprite.setTexture(SpriteSheet);
 
     InteractObject Plant(4, 576, temporaryArray, 32, 48);
-    Plant.sprite.setPosition(140, 270);
+    Plant.sprite.setPosition(130, 30);
     Plant.sprite.setTexture(SpriteSheet);
 
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
@@ -73,6 +73,7 @@ int main(){
     int xCoord = 50, yCoord = 50;
     int speed = 5;
     int temp = 0;
+    int plant = 0;
 
     /** Driving mission Variables **/
     bool drivingMission = false;
@@ -266,9 +267,15 @@ int main(){
         }
         else if (playerControl){
 
-            bigBorder.setTexture(SpriteSheet);
-            bigBorder.setPosition(0,0);
-            bigBorder.setTextureRect(IntRect(0,200,400,200));
+            Room1.setTexture(SpriteSheet);
+            Room1.setPosition(0,0);
+            Room1.setTextureRect(IntRect(0,400,400,200));
+
+            Room2.setTexture(SpriteSheet);
+            Room2.setPosition(0,0);
+            Room2.setTextureRect(IntRect(0,600,400,200));
+            bool room = true;
+            window.draw(Room1);
 
             if (upHeld){
                 yCoord = yCoord - speed;
@@ -282,6 +289,8 @@ int main(){
                 temp = 64;
             }
 
+
+
             if (collision(Player.sprite, Goose.sprite)){
                 Goose.setFrame(1);
                 Goose.near = true;
@@ -290,21 +299,40 @@ int main(){
                 Computer.setFrame(1);
                 Computer.near = true;
             }
+            else if (collision(Player.sprite, Computer.sprite)){
+                Plant.setFrame(plant);
+                Plant.near = true;
+                plant++;
+            }
             else {
                 Goose.setFrame(0);
                 Goose.near = false;
                 Computer.setFrame(0);
                 Computer.near = false;
+                Plant.near = false;
             }
 
             Player.sprite.setPosition(xCoord,yCoord);
 
-            window.clear(Color::Black);
-            window.draw(bigBorder);
-            window.draw(Computer.sprite);
-            window.draw(Goose.sprite);
-            window.draw(Plant.sprite);
-            window.draw(Player.sprite); //always draw player last so he is on top
+             if (Player.sprite.getGlobalBounds().contains(399, yCoord)){
+                window.draw(Room2);
+                Player.sprite.setPosition(5, yCoord);
+                room = false;
+            }
+
+
+            if (room){
+                window.clear(Color::Black);
+                window.draw(Room1);
+                window.draw(Computer.sprite);
+                window.draw(Goose.sprite);
+                window.draw(Plant.sprite);
+            }
+            else {
+                window.clear(Color::Black);
+                window.draw(Room2);
+            }
+            window.draw(Player.sprite);
             window.display();
         }
     }
