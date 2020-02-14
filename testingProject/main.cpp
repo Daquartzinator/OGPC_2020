@@ -43,15 +43,32 @@ int main(){
     Sprite Area3(SpriteSheet, IntRect(150,116,250,94));
     Area3.setPosition(150,116);
 
-    int temporaryArray[3] = {0, 64, -1};
+    int temporaryArray[3] = {400, 600, -1};
+    AnimatedSprite RoomSprite(2, 0, temporaryArray, 400, 200);
+    RoomSprite.sprite.setTexture(SpriteSheet);
+    RoomSprite.sprite.setPosition(0,0);
+    //Sprite Room1(SpriteSheet, IntRect(0,400,400,200));
+    //Room1.setPosition(0,0);
+    //Sprite Room2(SpriteSheet, IntRect(0,600,400,200));
+    //Room2.setPosition(0,0);
+
+    temporaryArray[0] = 0;
+    temporaryArray[1] = 64;
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
     Player.sprite.setTexture(SpriteSheet);
 
     //AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
 
-    Sprite Room1, Room2, Employee;
+    temporaryArray[1] = 48;
+    temporaryArray[2] = 96;
+    AnimatedSprite Employee(3, 528, temporaryArray, 48, 48);
+    Employee.sprite.setTexture(SpriteSheet);
+    Employee.sprite.setPosition(220,20);
+    Employee.sprite.setScale(2,2);
+    Employee.setFrame(0);
 
     temporaryArray[1] = 32;
+    temporaryArray[2] = -1;
     InteractObject Goose(2, 496, temporaryArray, 32, 32);
     Goose.sprite.setPosition(355,160);
     Goose.sprite.setTexture(SpriteSheet);
@@ -60,8 +77,8 @@ int main(){
     Computer.sprite.setPosition(5,5);
     Computer.sprite.setTexture(SpriteSheet);
 
-    int spriteCount = 3;
-    AnimatedSprite *spriteList[spriteCount] = {&Goose, &Computer, &Player};
+    int spriteCount = 5;
+    AnimatedSprite *spriteList[spriteCount] = {&Employee, &RoomSprite, &Goose, &Computer, &Player};
     ///Order in this array determines draw order
 
     Computer.sprite.setPosition(10,30);
@@ -87,13 +104,14 @@ int main(){
     int money = 500;
     int expenses = 100;
     int moneyUsed = 400;
-    int portrait = 0; ///1=Barb, 2=Newt, 3=Larry.
+    //int portrait = 0; ///1=Barb, 2=Newt, 3=Larry.
 
     /** Player Control Variables **/
     bool playerControl = false;
     int xCoord = 50, yCoord = 50;
     int speed = 5;
-    int temp = 0;
+    //int temp = 0;
+    int room = 0;
 
     /** Driving mission Variables **/
     bool drivingMission = false;
@@ -153,12 +171,14 @@ int main(){
                     upHeld = true;
                     if (management){ ///these statements determine what each key press does depending on mode
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                        Employee.setFrame(currentSelection);
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (start){
                         currentSelection = (currentSelection + charityCount - 1) % charityCount;
                         charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
                     } else if (shootSelectScreen){
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                        Employee.setFrame(currentSelection);
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     } else if (tauntLetter){
                         if (currentSelection > 0){
@@ -173,12 +193,14 @@ int main(){
 
                     if (management){
                         currentSelection = (currentSelection + 1) % memberCount;
+                        Employee.setFrame(currentSelection);
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     } else if (start){
                         currentSelection = (currentSelection + 1) % charityCount;
                         charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
                     } else if (shootSelectScreen){
                         currentSelection = (currentSelection + 1) % memberCount;
+                        Employee.setFrame(currentSelection);
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     } else if (tauntLetter){
                         if (currentSelection < letterLengths[letter] - 1 && currentSelection >= 0){
@@ -215,6 +237,8 @@ int main(){
                             Player.onScreen = true;
                             Goose.onScreen = true;
                             Computer.onScreen = true;
+                            Employee.onScreen = false;
+                            RoomSprite.onScreen = true;
                             //shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
@@ -232,6 +256,7 @@ int main(){
                     } else if (start){
                         ///switch to letter reading
                         modeSwitch(&start, &tauntLetter, &currentSelection, members, memberCount);
+                        Employee.onScreen = true;
                         currentSelection = -2;
                         tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
                     } else if (tauntLetter){
@@ -249,6 +274,8 @@ int main(){
                             Player.onScreen = false;
                             Goose.onScreen = false;
                             Computer.onScreen = false;
+                            Employee.onScreen = true;
+                            RoomSprite.onScreen = false;
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else if (Goose.near){
                             //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
@@ -293,55 +320,7 @@ int main(){
                 }
             }
         }
-        if (!start){                         ///Switch between portraits based on which employee you're looking at
-            for(int i = 0; i<3; i++){
-                if (currentSelection == i){
-                    portrait = 48*i;
-                }
-            }
-        }
-        if (management || start || shootSelectScreen || tauntLetter){
-            Area1.setTexture(SpriteSheet);
-            Area1.setPosition(0,0);
-            Area1.setTextureRect(IntRect(0,0,150,200));
-
-            Area2.setTexture(SpriteSheet);
-            Area2.setPosition(150,0);
-            Area2.setTextureRect(IntRect(150,0,250,116));
-
-            Area3.setTexture(SpriteSheet);
-            Area3.setPosition(150,116);
-            Area3.setTextureRect(IntRect(150,116,250,94));
-
-            if (!start && !tauntLetter){
-                Employee.setTexture(SpriteSheet);
-                Employee.setPosition(220,20);
-                Employee.setScale(2,2);
-                Employee.setTextureRect(IntRect(528,portrait,48,48));
-            }
-
-            window.clear(Color::Black);
-            window.draw(Area1);
-            window.draw(Area2);
-            window.draw(Area3);
-            window.draw(box1Text);
-            window.draw(box2Text);
-            window.draw(Employee);
-
-            window.display();
-        }
-        else if (playerControl){
-
-            Room1.setTexture(SpriteSheet);
-            Room1.setPosition(0,0);
-            Room1.setTextureRect(IntRect(0,400,400,200));
-
-            Room2.setTexture(SpriteSheet);
-            Room2.setPosition(0,0);
-            Room2.setTextureRect(IntRect(0,600,400,200));
-            bool room = true;
-            window.draw(Room1);
-
+        if (playerControl){
             if (upHeld){
                 yCoord = yCoord - speed;
             } else if (downHeld){
@@ -353,7 +332,6 @@ int main(){
                 xCoord = xCoord + speed;
                 Player.setFrame(1);
             }
-
 
             if (collision(Player.sprite, Goose.sprite)){
                 Goose.setFrame(1);
@@ -377,25 +355,11 @@ int main(){
             Player.sprite.setPosition(xCoord,yCoord);
 
 
-             if (Player.sprite.getGlobalBounds().contains(399, yCoord)){
-                window.draw(Room2);
+            if (Player.sprite.getGlobalBounds().contains(399, yCoord) && room == 0){
+                room = 1;
+                RoomSprite.setFrame(1);
                 Player.sprite.setPosition(5, yCoord);
-                room = false;
             }
-
-            if (room){
-                window.clear(Color::Black);
-                window.draw(Room1);
-                window.draw(Computer.sprite);
-                window.draw(Goose.sprite);
-                //window.draw(Plant.sprite);
-            }
-            else {
-                window.clear(Color::Black);
-                window.draw(Room2);
-            }
-            window.draw(Player.sprite);
-            window.display();
         }
         window.clear(Color::Black);
         if (management || start || tauntLetter || shootSelectScreen){
@@ -412,6 +376,7 @@ int main(){
                 window.draw(spriteList[i]->sprite);
             }
         }
+        window.display();
     }
 }
 
