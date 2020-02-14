@@ -149,7 +149,7 @@ int main(){
             }
 
             if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
- /*UP*/             if (event.key.code == Keyboard::Up && !upHeld){
+ /*UP*/         if (event.key.code == Keyboard::Up && !upHeld){
                     upHeld = true;
                     if (management){ ///these statements determine what each key press does depending on mode
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
@@ -186,21 +186,21 @@ int main(){
                         }
                         tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
                     }
- /*LEFT*/           } else if (event.key.code == Keyboard::Left && !leftHeld){
+ /*LEFT*/       } else if (event.key.code == Keyboard::Left && !leftHeld){
                     leftHeld = true;
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext -= 10;
                         moneyUsed -= 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
- /*RIGHT*/          } else if (event.key.code == Keyboard::Right && !rightHeld){
+ /*RIGHT*/      } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext += 10;
                         moneyUsed += 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
- /*A*/              } else if (event.key.code == Keyboard::A && !aHeld){
+ /*A*/          } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
                     if (management){
                         if (manageStatus == 0){
@@ -251,13 +251,14 @@ int main(){
                             Computer.onScreen = false;
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else if (Goose.near){
-                            modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
-                            Player.onScreen = false;
-                            Goose.onScreen = false;
-                            Computer.onScreen = false;
+                            //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
+                            //Player.onScreen = false;
+                            //Goose.onScreen = false;
+                            //Computer.onScreen = false;
+                            cout << "HONK" << endl;
                         }
                     }
- /*B*/              } else if (event.key.code == Keyboard::B && !bHeld){
+ /*B*/          } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
                     if (management){
                         if (manageStatus != 0){ ///B does nothing if nobody is selected
@@ -299,7 +300,7 @@ int main(){
                 }
             }
         }
-        if (management || start || shootSelectScreen){
+        if (management || start || shootSelectScreen || tauntLetter){
             Area1.setTexture(SpriteSheet);
             Area1.setPosition(0,0);
             Area1.setTextureRect(IntRect(0,0,150,200));
@@ -312,7 +313,7 @@ int main(){
             Area3.setPosition(150,116);
             Area3.setTextureRect(IntRect(150,116,250,94));
 
-            if (!start){
+            if (!start && !tauntLetter){
                 Employee.setTexture(SpriteSheet);
                 Employee.setPosition(220,20);
                 Employee.setScale(2,2);
