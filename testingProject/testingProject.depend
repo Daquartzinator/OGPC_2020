@@ -42,13 +42,14 @@
 1576521489 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\add.h
 	<stdbool.h>
 
-1581012819 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
+1581708586 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
 	<iostream>
 	<string>
 	<sstream>
 	<SFML/Graphics.hpp>
 	"crewmember.h"
 	"managementlib.h"
+	"interactobject.h"
 
 1580841825 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.cpp
 	<iostream>
@@ -86,5 +87,23 @@
 	<stdlib.h>
 
 1581530517 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\animatedsprite.h
+	<SFML/Graphics.hpp>
+
+1581532372 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\interactobject.h
+	<SFML/Graphics.hpp>
+	"animatedsprite.h"
+
+1581532348 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\interactobject.cpp
+	<iostream>
+	"interactobject.h"
+	<stdlib.h>
+	<SFML/Graphics.hpp>
+
+1581532255 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\animatedsprite.cpp
+	"animatedsprite.h"
+	<SFML/Graphics.hpp>
+	<stdlib.h>
+
+1581532316 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\animatedsprite.h
 	<SFML/Graphics.hpp>
 

@@ -25,11 +25,11 @@ int main(){
         "Donate to research into clean energy!\nYou will get insider prices on your upgrades."};
     int charityCount = 3;
     int currentSelection = 0;
-    Text box1Text;
-    Text box2Text;
+
 
     /** Sprites and such **/
     Font font;
+    Text box1Text, box2Text;
     Texture SpriteSheet;
 
     Sprite bigBorder(SpriteSheet, IntRect(0,200,400,200));
@@ -47,6 +47,8 @@ int main(){
 
     //AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
 
+    Sprite Room1, Room2, Employee;
+
     temporaryArray[1] = 32;
     InteractObject Goose(2, 496, temporaryArray, 32, 32);
     Goose.sprite.setPosition(355,160);
@@ -59,6 +61,13 @@ int main(){
     int spriteCount = 3;
     AnimatedSprite *spriteList[spriteCount] = {&Goose, &Computer, &Player};
     ///Order in this array determines draw order
+
+    Computer.sprite.setPosition(10,30);
+    Computer.sprite.setTexture(SpriteSheet);
+
+   /* InteractObject Plant(4, 576, temporaryArray, 32, 48);
+    Plant.sprite.setPosition(130, 30);
+    Plant.sprite.setTexture(SpriteSheet); */
 
     /** Crew members **/
     CrewMember member1(100, 100, "Barbara", "   ", 50, 5);
@@ -76,6 +85,7 @@ int main(){
     int money = 500;
     int expenses = 100;
     int moneyUsed = 400;
+    int portrait = 0; ///1=Barb, 2=Newt, 3=Larry.
 
     /** Player Control Variables **/
     bool playerControl = false;
@@ -100,19 +110,19 @@ int main(){
         cout<<"sprite sheet broken rip"<<endl;
 	}
 
-	/** Setup **/
-	box1Text.setFont(font);
-	box1Text.setCharacterSize(9);
-	box1Text.setPosition(15,25);
+        /** Setup **/
+        box1Text.setFont(font);
+        box1Text.setCharacterSize(9);
+        box1Text.setPosition(15,25);
 
-	box2Text.setFont(font);
-	box2Text.setCharacterSize(9);
-	box2Text.setPosition(165,131);
+        box2Text.setFont(font);
+        box2Text.setCharacterSize(9);
+        box2Text.setPosition(165,131);
 
-	cout << "That's how Mafia Works" << endl;
+        cout << "That's how Mafia Works" << endl;
 
-    RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
-    window.setFramerateLimit(30);
+        RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
+        window.setFramerateLimit(30);
 
     /** Start **/
     charityStartUpdate(0, charities, charityDescrip, charityCount, &box1Text, &box2Text);
@@ -125,7 +135,7 @@ int main(){
             }
 
             if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
-                if (event.key.code == Keyboard::Up && !upHeld){
+ /*UP*/             if (event.key.code == Keyboard::Up && !upHeld){
                     upHeld = true;
                     if (management){ ///these statements determine what each key press does depending on mode
                         currentSelection = (currentSelection + memberCount - 1) % memberCount;
@@ -139,6 +149,9 @@ int main(){
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
+
+ /*DOWN*/
+
                     if (management){
                         currentSelection = (currentSelection + 1) % memberCount;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -149,21 +162,21 @@ int main(){
                         currentSelection = (currentSelection + 1) % memberCount;
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Left && !leftHeld){
+ /*LEFT*/           } else if (event.key.code == Keyboard::Left && !leftHeld){
                     leftHeld = true;
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext -= 10;
                         moneyUsed -= 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::Right && !rightHeld){
+ /*RIGHT*/          } else if (event.key.code == Keyboard::Right && !rightHeld){
                     rightHeld = true;
                     if (management && !members[currentSelection].selected){
                         members[currentSelection].currentPayNext += 10;
                         moneyUsed += 10;
                         manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                     }
-                } else if (event.key.code == Keyboard::A && !aHeld){
+ /*A*/              } else if (event.key.code == Keyboard::A && !aHeld){
                     aHeld = true;
                     if (management){
                         if (manageStatus == 0){
@@ -210,7 +223,7 @@ int main(){
                             Computer.onScreen = false;
                         }
                     }
-                } else if (event.key.code == Keyboard::B && !bHeld){
+ /*B*/              } else if (event.key.code == Keyboard::B && !bHeld){
                     bHeld = true;
                     if (management){
                         if (manageStatus != 0){ ///B does nothing if nobody is selected
@@ -245,7 +258,55 @@ int main(){
                 }
             }
         }
-        if (playerControl){
+        if (!start){                         ///Switch between portraits based on which employee you're looking at
+            for(int i = 0; i<3; i++){
+                if (currentSelection == i){
+                    portrait = 48*i;
+                }
+            }
+        }
+        if (management || start || shootSelectScreen){
+            Area1.setTexture(SpriteSheet);
+            Area1.setPosition(0,0);
+            Area1.setTextureRect(IntRect(0,0,150,200));
+
+            Area2.setTexture(SpriteSheet);
+            Area2.setPosition(150,0);
+            Area2.setTextureRect(IntRect(150,0,250,116));
+
+            Area3.setTexture(SpriteSheet);
+            Area3.setPosition(150,116);
+            Area3.setTextureRect(IntRect(150,116,250,94));
+
+            if (!start){
+                Employee.setTexture(SpriteSheet);
+                Employee.setPosition(220,20);
+                Employee.setScale(2,2);
+                Employee.setTextureRect(IntRect(528,portrait,48,48));
+            }
+
+            window.clear(Color::Black);
+            window.draw(Area1);
+            window.draw(Area2);
+            window.draw(Area3);
+            window.draw(box1Text);
+            window.draw(box2Text);
+            window.draw(Employee);
+
+            window.display();
+        }
+        else if (playerControl){
+
+            Room1.setTexture(SpriteSheet);
+            Room1.setPosition(0,0);
+            Room1.setTextureRect(IntRect(0,400,400,200));
+
+            Room2.setTexture(SpriteSheet);
+            Room2.setPosition(0,0);
+            Room2.setTextureRect(IntRect(0,600,400,200));
+            bool room = true;
+            window.draw(Room1);
+
             if (upHeld){
                 yCoord = yCoord - speed;
             } else if (downHeld){
@@ -258,6 +319,7 @@ int main(){
                 Player.setFrame(1);
             }
 
+
             if (collision(Player.sprite, Goose.sprite)){
                 Goose.setFrame(1);
                 Goose.near = true;
@@ -266,6 +328,11 @@ int main(){
                 Computer.setFrame(1);
                 Computer.near = true;
             }
+            /*else if (collision(Player.sprite, Computer.sprite)){
+                Plant.setFrame(plant);
+                Plant.near = true;
+                plant++;
+            }*/
             else {
                 Goose.setFrame(0);
                 Goose.near = false;
@@ -274,11 +341,26 @@ int main(){
             }
             Player.sprite.setPosition(xCoord,yCoord);
 
-            /*window.clear(Color::Black);
-            window.draw(Computer.sprite);
-            window.draw(Goose.sprite);
-            window.draw(Player.sprite); //always draw player last so he is on top
-            window.display();*/
+
+             if (Player.sprite.getGlobalBounds().contains(399, yCoord)){
+                window.draw(Room2);
+                Player.sprite.setPosition(5, yCoord);
+                room = false;
+            }
+
+            if (room){
+                window.clear(Color::Black);
+                window.draw(Room1);
+                window.draw(Computer.sprite);
+                window.draw(Goose.sprite);
+                //window.draw(Plant.sprite);
+            }
+            else {
+                window.clear(Color::Black);
+                window.draw(Room2);
+            }
+            window.draw(Player.sprite);
+            window.display();
         }
         window.clear(Color::Black);
         if (management || start || shootSelectScreen){
@@ -295,7 +377,6 @@ int main(){
                 window.draw(spriteList[i]->sprite);
             }
         }
-        window.display();
     }
 }
 
@@ -304,4 +385,3 @@ bool collision(Sprite Obj1, Sprite Obj2){
         return true;
     }
 }
-
