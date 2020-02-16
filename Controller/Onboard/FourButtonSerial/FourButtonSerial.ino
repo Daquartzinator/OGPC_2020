@@ -5,6 +5,8 @@ const int button2 = 4;
 const int button3 = 7;
 const int button4 = 8;
 
+unsigned long timingCounter = 0;
+
 // variables will change:
 int button1State = 0;         // variable for reading the pushbutton status
 int button2State = 0;         // variable for reading the pushbutton status
@@ -19,16 +21,21 @@ void setup() {
   pinMode(button2, INPUT);
   pinMode(button3, INPUT);
   pinMode(button4, INPUT);
+  timingCounter = millis();
   
 }
 
 void loop() {
+
   // read the state of the pushbutton value:
   button1State = digitalRead(button1);
   button2State = digitalRead(button2);
   button3State = digitalRead(button3);
   button4State = digitalRead(button4);
 
+  //check time elapsed between each reading
+  if(millis() - timingCounter >= 10)
+  {
   // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
   if (button1State == HIGH) 
     {
@@ -46,4 +53,9 @@ void loop() {
     {
       Serial.print("4\n");
     }
+
+    //reset counter to current time
+    timingCounter = millis();
+  }
+ 
 }
