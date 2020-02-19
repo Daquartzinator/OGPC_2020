@@ -49,18 +49,7 @@ int main(){
     Sprite world(WorldSheet, IntRect(0,0,800,200));
     world.setPosition(0,0);
 
-    /*int temporaryArray[3] = {400, 600, -1};
-    AnimatedSprite RoomSprite(2, 0, temporaryArray, 400, 200);
-    RoomSprite.sprite.setTexture(SpriteSheet);
-    RoomSprite.sprite.setPosition(0,0);*/
-    //Sprite Room1(SpriteSheet, IntRect(0,400,400,200));
-    //Room1.setPosition(0,0);
-    //Sprite Room2(SpriteSheet, IntRect(0,600,400,200));
-    //Room2.setPosition(0,0);
-
     int temporaryArray[3] = {0, 64, -1};
-    //temporaryArray[0] = 0;
-    //temporaryArray[1] = 64;
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
     Player.sprite.setTexture(SpriteSheet);
 
@@ -117,7 +106,9 @@ int main(){
     bool playerControl = false;
     int xCoord = 184, yCoord = 68;
     int speed = 5;
-    int playerBoundL = 200;
+    int playerXoffset = 16; ///these make up for the fact that Player's coords are top left corner
+    int playerYoffset = 32;
+    int playerBoundL = 200; ///these are the bounds where the view will no longer scroll
     int playerBoundR = 600;
     int playerBoundU = 100;
     int playerBoundD = 100;
@@ -252,8 +243,6 @@ int main(){
                             Goose.onScreen = true;
                             Computer.onScreen = true;
                             Employee.onScreen = false;
-                            //RoomSprite.onScreen = true;
-                            //shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -289,7 +278,6 @@ int main(){
                             Goose.onScreen = false;
                             Computer.onScreen = false;
                             Employee.onScreen = true;
-                            //RoomSprite.onScreen = false;
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else if (Goose.near){
                             //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
@@ -337,30 +325,26 @@ int main(){
         if (playerControl){
             if (upHeld){
                 yCoord = yCoord - speed;
-                //playerControlView.move(0, -speed);
             } else if (downHeld){
                 yCoord= yCoord + speed;
-                //playerControlView.move(0, speed);
             } else if (leftHeld){
                 xCoord = xCoord - speed;
-                //playerControlView.move(-speed, 0);
                 Player.setFrame(0);
             } else if (rightHeld){
                 xCoord = xCoord + speed;
-                //playerControlView.move(speed, 0);
                 Player.setFrame(1);
             }
-            playerControlView.setCenter(xCoord + 16, yCoord + 32);
-            if (yCoord + 32 < playerBoundU){
+            playerControlView.setCenter(xCoord + playerXoffset, yCoord + playerYoffset);
+            if (yCoord + playerYoffset < playerBoundU){
                 playerControlView.setCenter(playerControlView.getCenter().x, playerBoundU);
             }
-            if (xCoord + 16 < playerBoundL){
+            if (xCoord + playerXoffset < playerBoundL){
                 playerControlView.setCenter(playerBoundL, playerControlView.getCenter().y);
             }
-            if (xCoord + 16 > playerBoundR){
+            if (xCoord + playerXoffset > playerBoundR){
                 playerControlView.setCenter(playerBoundR, playerControlView.getCenter().y);
             }
-            if (yCoord + 32 > playerBoundD){
+            if (yCoord + playerYoffset > playerBoundD){
                 playerControlView.setCenter(playerControlView.getCenter().x, playerBoundD);
             }
 
@@ -385,12 +369,6 @@ int main(){
             }
             Player.sprite.setPosition(xCoord,yCoord);
 
-
-            /*if (Player.sprite.getGlobalBounds().contains(399, yCoord) && room == 0){
-                room = 1;
-                RoomSprite.setFrame(1);
-                Player.sprite.setPosition(5, yCoord);
-            }*/
         }
         window.clear(Color::Black);
         if (management || start || tauntLetter || shootSelectScreen){
