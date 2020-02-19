@@ -394,5 +394,7 @@ int main(){
 bool collision(Sprite Obj1, Sprite Obj2){
     if (Obj1.getGlobalBounds().intersects(Obj2.getGlobalBounds())){
         return true;
+    } else {
+        return false;
     }
 }
