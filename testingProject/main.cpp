@@ -33,6 +33,9 @@ int main(){
     Font font;
     Text box1Text, box2Text;
     Texture SpriteSheet;
+    Texture WorldSheet;
+
+    View playerControlView(FloatRect(0,0,400,200)); ///View used in playerControl
 
     Sprite bigBorder(SpriteSheet, IntRect(0,200,400,200));
     bigBorder.setPosition(0,0);
@@ -43,17 +46,21 @@ int main(){
     Sprite Area3(SpriteSheet, IntRect(150,116,250,94));
     Area3.setPosition(150,116);
 
-    int temporaryArray[3] = {400, 600, -1};
+    Sprite world(WorldSheet, IntRect(0,0,800,200));
+    world.setPosition(0,0);
+
+    /*int temporaryArray[3] = {400, 600, -1};
     AnimatedSprite RoomSprite(2, 0, temporaryArray, 400, 200);
     RoomSprite.sprite.setTexture(SpriteSheet);
-    RoomSprite.sprite.setPosition(0,0);
+    RoomSprite.sprite.setPosition(0,0);*/
     //Sprite Room1(SpriteSheet, IntRect(0,400,400,200));
     //Room1.setPosition(0,0);
     //Sprite Room2(SpriteSheet, IntRect(0,600,400,200));
     //Room2.setPosition(0,0);
 
-    temporaryArray[0] = 0;
-    temporaryArray[1] = 64;
+    int temporaryArray[3] = {0, 64, -1};
+    //temporaryArray[0] = 0;
+    //temporaryArray[1] = 64;
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
     Player.sprite.setTexture(SpriteSheet);
 
@@ -77,8 +84,8 @@ int main(){
     Computer.sprite.setPosition(5,5);
     Computer.sprite.setTexture(SpriteSheet);
 
-    int spriteCount = 5;
-    AnimatedSprite *spriteList[spriteCount] = {&Employee, &RoomSprite, &Goose, &Computer, &Player};
+    int spriteCount = 4;
+    AnimatedSprite *spriteList[spriteCount] = {&Employee, &Goose, &Computer, &Player};
     ///Order in this array determines draw order
 
     Computer.sprite.setPosition(10,30);
@@ -108,10 +115,14 @@ int main(){
 
     /** Player Control Variables **/
     bool playerControl = false;
-    int xCoord = 50, yCoord = 50;
+    int xCoord = 184, yCoord = 68;
     int speed = 5;
+    int playerBoundL = 200;
+    int playerBoundR = 600;
+    int playerBoundU = 100;
+    int playerBoundD = 100;
     //int temp = 0;
-    int room = 0;
+    //int room = 0;
 
     /** Driving mission Variables **/
     bool drivingMission = false;
@@ -140,6 +151,9 @@ int main(){
     }
     if (!SpriteSheet.loadFromFile("spritesheet.png")){
         cout<<"sprite sheet broken rip"<<endl;
+	}
+	if (!WorldSheet.loadFromFile("room.png")){
+        cout << "room sheet broken. F" << endl;
 	}
 
         /** Setup **/
@@ -238,7 +252,7 @@ int main(){
                             Goose.onScreen = true;
                             Computer.onScreen = true;
                             Employee.onScreen = false;
-                            RoomSprite.onScreen = true;
+                            //RoomSprite.onScreen = true;
                             //shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else { ///A on failed same as B
                             currentSelection = 0;
@@ -275,7 +289,7 @@ int main(){
                             Goose.onScreen = false;
                             Computer.onScreen = false;
                             Employee.onScreen = true;
-                            RoomSprite.onScreen = false;
+                            //RoomSprite.onScreen = false;
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else if (Goose.near){
                             //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
@@ -323,14 +337,31 @@ int main(){
         if (playerControl){
             if (upHeld){
                 yCoord = yCoord - speed;
+                //playerControlView.move(0, -speed);
             } else if (downHeld){
                 yCoord= yCoord + speed;
+                //playerControlView.move(0, speed);
             } else if (leftHeld){
                 xCoord = xCoord - speed;
+                //playerControlView.move(-speed, 0);
                 Player.setFrame(0);
             } else if (rightHeld){
                 xCoord = xCoord + speed;
+                //playerControlView.move(speed, 0);
                 Player.setFrame(1);
+            }
+            playerControlView.setCenter(xCoord + 16, yCoord + 32);
+            if (yCoord + 32 < playerBoundU){
+                playerControlView.setCenter(playerControlView.getCenter().x, playerBoundU);
+            }
+            if (xCoord + 16 < playerBoundL){
+                playerControlView.setCenter(playerBoundL, playerControlView.getCenter().y);
+            }
+            if (xCoord + 16 > playerBoundR){
+                playerControlView.setCenter(playerBoundR, playerControlView.getCenter().y);
+            }
+            if (yCoord + 32 > playerBoundD){
+                playerControlView.setCenter(playerControlView.getCenter().x, playerBoundD);
             }
 
             if (collision(Player.sprite, Goose.sprite)){
@@ -355,11 +386,11 @@ int main(){
             Player.sprite.setPosition(xCoord,yCoord);
 
 
-            if (Player.sprite.getGlobalBounds().contains(399, yCoord) && room == 0){
+            /*if (Player.sprite.getGlobalBounds().contains(399, yCoord) && room == 0){
                 room = 1;
                 RoomSprite.setFrame(1);
                 Player.sprite.setPosition(5, yCoord);
-            }
+            }*/
         }
         window.clear(Color::Black);
         if (management || start || tauntLetter || shootSelectScreen){
@@ -369,7 +400,9 @@ int main(){
             window.draw(box1Text);
             window.draw(box2Text);
         } else if (playerControl){
+            window.setView(playerControlView);
             window.draw(bigBorder);
+            window.draw(world);
         }
         for (int i = 0; i < spriteCount; i++){
             if (spriteList[i]->onScreen){
