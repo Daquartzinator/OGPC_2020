@@ -2,14 +2,38 @@
 #include<string>
 #include<sstream>
 #include<SFML/Graphics.hpp>
+#include <stdlib.h>
 #include "crewmember.h"
 #include "managementlib.h"
 #include "interactobject.h"
 #include "animatedsprite.h"
+#include "SerialPort.h"
 using namespace std;
 using namespace sf;
 
+char output[MAX_DATA_LENGTH];
+
+char incomingData[MAX_DATA_LENGTH];
+
+
+// change the name of the port with the port name of your computer
+
+// must remember that the backslashes are essential so do not remove them
+
+char *port = "\\\\.\\COM3";
+
 int main(){
+    /**Port Initialization**/
+    SerialPort arduino(port);
+    //if connected
+    if(arduino.isConnected()){
+	cout<<"Connection made"<<endl<<endl;
+    }
+    //if cannot connect
+    else{
+    cout<<"Error in port name"<<endl<<endl;
+    }
+
     /** General Variables **/
     bool collision(Sprite, Sprite);
     bool upHeld = false;

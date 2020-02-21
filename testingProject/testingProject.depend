@@ -108,3 +108,34 @@
 1581532316 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\animatedsprite.h
 	<SFML/Graphics.hpp>
 
+1582325598 source:c:\users\littl\onedrive\desktop\comp sci 9-10\ogpc_2020\testingproject\animatedsprite.cpp
+	"animatedsprite.h"
+	<SFML/Graphics.hpp>
+	<stdlib.h>
+
+1582325598 c:\users\littl\onedrive\desktop\comp sci 9-10\ogpc_2020\testingproject\animatedsprite.h
+	<SFML/Graphics.hpp>
+
+1580494754 source:c:\users\littl\onedrive\desktop\comp sci 9-10\ogpc_2020\testingproject\crewmember.cpp
+	<iostream>
+	"crewmember.h"
+
+1580494753 c:\users\littl\onedrive\desktop\comp sci 9-10\ogpc_2020\testingproject\crewmember.h
+	<iostream>
+
+1582325598 source:c:\users\littl\onedrive\desktop\comp sci 9-10\ogpc_2020\testingproject\interactobject.cpp
+	<iostream>
+	"interactobject.h"
+	<stdlib.h>
+	<SFML/Graphics.hpp>
+
+1582325598 c:\users\littl\onedrive\desktop\comp sci 9-10\ogpc_2020\testingproject\interactobject.h
+	<SFML/Graphics.hpp>
+	"animatedsprite.h"
+
+1582325598 source:c:\users\littl\onedrive\desktop\comp sci 9-10\ogpc_2020\testingproject\managementlib.cpp
+	<iostream>
+	<sstream>
+	<SFML/Graphics.hpp>
+	"crewmember.h"
+
