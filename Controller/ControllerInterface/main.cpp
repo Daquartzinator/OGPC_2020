@@ -99,8 +99,18 @@ int main(){
 	while (arduino.isConnected()) {
 
     arduino.readSerialPort(output, MAX_DATA_LENGTH);
+    if(output[0] == '1' || output[0] == '2' || output[0] == '3' || output[0] == '4')
+    {
+        cout << output;
+        output[0] = NULL;
+        output[1] = NULL;
+        //for(int i = 0; i < 10; i++)
+        //{
+          //  output[i] = NULL;
 
-    cout << output;
+        //}
+    }
+
 
     //delete[] charArray;
 

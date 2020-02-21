@@ -13,6 +13,8 @@ int button2State = 0;         // variable for reading the pushbutton status
 int button3State = 0;         // variable for reading the pushbutton status
 int button4State = 0;         // variable for reading the pushbutton status
 
+bool canSend = true;
+
 void setup() {
 
   Serial.begin(9600);
@@ -37,25 +39,31 @@ void loop() {
   if(millis() - timingCounter >= 10)
   {
   // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
-  if (button1State == HIGH) 
+  if (button1State == HIGH && canSend == true) 
     {
       Serial.print("1\n");
+      canSend = false;
     }
-  if (button2State == HIGH) 
+  if (button2State == HIGH && canSend == true) 
     {
       Serial.print("2\n");
+      canSend = false;
     }
-  if (button3State == HIGH) 
+  if (button3State == HIGH && canSend == true) 
     {
       Serial.print("3\n");
+      canSend = false;
     }
-  if (button4State == HIGH) 
+  if (button4State == HIGH && canSend == true) 
     {
       Serial.print("4\n");
+      canSend = false;
     }
 
     //reset counter to current time
     timingCounter = millis();
+    
   }
+  canSend = true;
  
 }
