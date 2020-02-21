@@ -19,7 +19,8 @@ int main(){
     bool aHeld = false;
     bool bHeld = false;
 
-    int day = 1;
+    int day = 0;
+    string dayWords[3] = {"ONE", "TWO", "THREE"};
 
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
     string charityDescrip[3] = {"Donate to help the homeless!\nYou will get more \"employees\".",
@@ -93,6 +94,9 @@ int main(){
 
     /** Start Variables **/
     bool start = true;
+
+    /** Day start Variables **/
+    bool dayIntro = false;
 
     /** Management Variables **/
     bool management = false;
@@ -247,6 +251,12 @@ int main(){
                             currentSelection = 0;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         }
+                    } else if (dayIntro){
+                        ///switch to letter reading
+                        modeSwitch(&dayIntro, &tauntLetter, &currentSelection, members, memberCount);
+                        Employee.onScreen = true;
+                        currentSelection = -2;
+                        tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
                     } else if (shootSelectScreen){
                         if (shootoutSelected == 3){
                             //modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
@@ -257,11 +267,10 @@ int main(){
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         }
                     } else if (start){
-                        ///switch to letter reading
-                        modeSwitch(&start, &tauntLetter, &currentSelection, members, memberCount);
-                        Employee.onScreen = true;
-                        currentSelection = -2;
-                        tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
+                        ///Switch to day intro
+                        modeSwitch(&start, &dayIntro, &currentSelection, members, memberCount);
+                        box1Text.setString("  DAY " + dayWords[day]);
+                        box2Text.setString("");
                     } else if (tauntLetter){
                         if (currentSelection < 0){
                             currentSelection++;
@@ -278,13 +287,21 @@ int main(){
                             Goose.onScreen = false;
                             Computer.onScreen = false;
                             Employee.onScreen = true;
+                            Employee.setFrame(0);
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         } else if (Goose.near){
                             //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
                             //Player.onScreen = false;
                             //Goose.onScreen = false;
                             //Computer.onScreen = false;
-                            cout << "HONK" << endl;
+                            //cout << "HONK" << endl;
+                            modeSwitch(&playerControl, &dayIntro, &currentSelection, members, memberCount);
+                            day++;
+                            box1Text.setString("  DAY " + dayWords[day]);
+                            box2Text.setString("");
+                            Player.onScreen = false;
+                            Goose.onScreen = false;
+                            Computer.onScreen = false;
                         }
                     }
  /*B*/          } else if (event.key.code == Keyboard::B && !bHeld){
@@ -371,7 +388,8 @@ int main(){
 
         }
         window.clear(Color::Black);
-        if (management || start || tauntLetter || shootSelectScreen){
+        if (management || start || tauntLetter || shootSelectScreen || dayIntro){
+            window.setView(window.getDefaultView());
             window.draw(Area1);
             window.draw(Area2);
             window.draw(Area3);
