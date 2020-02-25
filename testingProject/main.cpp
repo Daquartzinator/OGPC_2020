@@ -6,6 +6,7 @@
 #include "managementlib.h"
 #include "interactobject.h"
 #include "animatedsprite.h"
+#include "day.h"
 using namespace std;
 using namespace sf;
 
@@ -19,9 +20,15 @@ int main(){
     bool aHeld = false;
     bool bHeld = false;
 
-    int day = 0;
-    string dayWords[3] = {"ONE", "TWO", "THREE"};
 
+    /** Day Setup **/
+    int currentDay = 0;
+    Day day1("ONE", 0, false);
+    Day day2("TWO", -1, false);
+    Day day3("THREE", -1, false);
+    Day dayList[3] = {day1, day2, day3};
+
+    /** Charities **/
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
     string charityDescrip[3] = {"Donate to help the homeless!\nYou will get more \"employees\".",
         "Donate to improve Health Awareness!\nYour team will be healthier and stronger.",
@@ -132,7 +139,7 @@ int main(){
     bool tauntLetter = false;
     int letter = 0;
     int letterLengths[1] = {6};
-    string letterMessages[1][10] = {
+    string letterMessages[1][6] = {
         "To whom it may concern,\n\n",
         "Well, well, well. I see\nthere's someone else who's\ncome to try to usurp\nmy business.\n\n",
         "I'm getting tired of doing\nthis, but this will end\nmuch worse for you than\nfor me.\n\n",
@@ -253,10 +260,17 @@ int main(){
                         }
                     } else if (dayIntro){
                         ///switch to letter reading
-                        modeSwitch(&dayIntro, &tauntLetter, &currentSelection, members, memberCount);
-                        Employee.onScreen = true;
-                        currentSelection = -2;
-                        tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
+                        if (dayList[currentDay].startWeek == -1){
+                            modeSwitch(&dayIntro, &playerControl, &currentSelection, members, memberCount);
+                            Player.onScreen = true;
+                            Goose.onScreen = true;
+                            Computer.onScreen = true;
+                        } else {
+                            modeSwitch(&dayIntro, &tauntLetter, &currentSelection, members, memberCount);
+                            Employee.onScreen = true;
+                            currentSelection = -2;
+                            tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
+                        }
                     } else if (shootSelectScreen){
                         if (shootoutSelected == 3){
                             //modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
@@ -269,7 +283,7 @@ int main(){
                     } else if (start){
                         ///Switch to day intro
                         modeSwitch(&start, &dayIntro, &currentSelection, members, memberCount);
-                        box1Text.setString("  DAY " + dayWords[day]);
+                        box1Text.setString("  DAY " + dayList[currentDay].numWord);
                         box2Text.setString("");
                     } else if (tauntLetter){
                         if (currentSelection < 0){
@@ -296,8 +310,8 @@ int main(){
                             //Computer.onScreen = false;
                             //cout << "HONK" << endl;
                             modeSwitch(&playerControl, &dayIntro, &currentSelection, members, memberCount);
-                            day++;
-                            box1Text.setString("  DAY " + dayWords[day]);
+                            currentDay++;
+                            box1Text.setString("  DAY " + dayList[currentDay].numWord);
                             box2Text.setString("");
                             Player.onScreen = false;
                             Goose.onScreen = false;
