@@ -137,7 +137,6 @@ int main(){
 
     /** Letter Variables **/
     bool tauntLetter = false;
-    int letter = 0;
     int letterLengths[1] = {6};
     string letterMessages[1][6] = {
         "To whom it may concern,\n\n",
@@ -200,7 +199,7 @@ int main(){
                         if (currentSelection > 0){
                             currentSelection--;
                         }
-                        tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
+                        tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
                     }
                 } else if (event.key.code == Keyboard::Down && !downHeld){
                     downHeld = true;
@@ -219,10 +218,10 @@ int main(){
                         Employee.setFrame(currentSelection);
                         shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     } else if (tauntLetter){
-                        if (currentSelection < letterLengths[letter] - 1 && currentSelection >= 0){
+                        if (currentSelection < letterLengths[dayList[currentDay].startWeek] - 1 && currentSelection >= 0){
                             currentSelection++;
                         }
-                        tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
+                        tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
                     }
  /*LEFT*/       } else if (event.key.code == Keyboard::Left && !leftHeld){
                     leftHeld = true;
@@ -269,7 +268,7 @@ int main(){
                             modeSwitch(&dayIntro, &tauntLetter, &currentSelection, members, memberCount);
                             Employee.onScreen = true;
                             currentSelection = -2;
-                            tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
+                            tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
                         }
                     } else if (shootSelectScreen){
                         if (shootoutSelected == 3){
@@ -288,9 +287,9 @@ int main(){
                     } else if (tauntLetter){
                         if (currentSelection < 0){
                             currentSelection++;
-                            tauntLetterUpdate(letterMessages[letter], letterLengths[letter], currentSelection, &box1Text, &box2Text);
+                            tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
                         }
-                        if (currentSelection >= letterLengths[letter] - 1){
+                        if (currentSelection >= letterLengths[dayList[currentDay].startWeek] - 1){
                             modeSwitch(&tauntLetter, &management, &currentSelection, members, memberCount);
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         }
