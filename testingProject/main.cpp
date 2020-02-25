@@ -26,7 +26,10 @@ int main(){
     Day day1("ONE", 0, false);
     Day day2("TWO", -1, false);
     Day day3("THREE", -1, false);
-    Day dayList[3] = {day1, day2, day3};
+    Day day4("FOUR", -1, false);
+    Day day5("FIVE", -1, true);
+    Day day6("SIX", -1, false);
+    Day dayList[6] = {day1, day2, day3, day4, day5, day6};
 
     /** Charities **/
     string charities[3] = {"Homeless Shelter", "Health Awareness", "Clean Energy"};
@@ -111,7 +114,6 @@ int main(){
     int money = 500;
     int expenses = 100;
     int moneyUsed = 400;
-    //int portrait = 0; ///1=Barb, 2=Newt, 3=Larry.
 
     /** Player Control Variables **/
     bool playerControl = false;
@@ -123,8 +125,6 @@ int main(){
     int playerBoundR = 600;
     int playerBoundU = 100;
     int playerBoundD = 100;
-    //int temp = 0;
-    //int room = 0;
 
     /** Driving mission Variables **/
     bool drivingMission = false;
@@ -157,19 +157,19 @@ int main(){
         cout << "room sheet broken. F" << endl;
 	}
 
-        /** Setup **/
-        box1Text.setFont(font);
-        box1Text.setCharacterSize(9);
-        box1Text.setPosition(15,25);
+    /** Setup **/
+    box1Text.setFont(font);
+    box1Text.setCharacterSize(9);
+    box1Text.setPosition(15,25);
 
-        box2Text.setFont(font);
-        box2Text.setCharacterSize(9);
-        box2Text.setPosition(165,131);
+    box2Text.setFont(font);
+    box2Text.setCharacterSize(9);
+    box2Text.setPosition(165,131);
 
-        cout << "That's how Mafia Works" << endl;
+    cout << "That's how Mafia Works" << endl;
 
-        RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
-        window.setFramerateLimit(30);
+    RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
+    window.setFramerateLimit(30);
 
     /** Start **/
     charityStartUpdate(0, charities, charityDescrip, charityCount, &box1Text, &box2Text);
@@ -248,11 +248,11 @@ int main(){
                                 members[i].currentPay = members[i].currentPayNext;
                                 members[i].updateMorale();
                             }
-                            modeSwitch(&management, &playerControl, &currentSelection, members, memberCount);
-                            Player.onScreen = true;
-                            Goose.onScreen = true;
-                            Computer.onScreen = true;
+                            currentDay++;
+                            modeSwitch(&management, &dayIntro, &currentSelection, members, memberCount);
                             Employee.onScreen = false;
+                            box1Text.setString("  DAY " + dayList[currentDay].numWord);
+                            box2Text.setString("");
                         } else { ///A on failed same as B
                             currentSelection = 0;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
@@ -290,8 +290,11 @@ int main(){
                             tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
                         }
                         if (currentSelection >= letterLengths[dayList[currentDay].startWeek] - 1){
-                            modeSwitch(&tauntLetter, &management, &currentSelection, members, memberCount);
-                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                            modeSwitch(&tauntLetter, &playerControl, &currentSelection, members, memberCount);
+                            Player.onScreen = true;
+                            Goose.onScreen = true;
+                            Computer.onScreen = true;
+                            Employee.onScreen = false;
                         }
                     } else if (playerControl){
                         if (Computer.near){
@@ -308,13 +311,19 @@ int main(){
                             //Goose.onScreen = false;
                             //Computer.onScreen = false;
                             //cout << "HONK" << endl;
-                            modeSwitch(&playerControl, &dayIntro, &currentSelection, members, memberCount);
-                            currentDay++;
-                            box1Text.setString("  DAY " + dayList[currentDay].numWord);
-                            box2Text.setString("");
                             Player.onScreen = false;
                             Goose.onScreen = false;
                             Computer.onScreen = false;
+                            if (dayList[currentDay].endWeek){
+                                modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
+                                Employee.onScreen = true;
+                                manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                            } else {
+                                modeSwitch(&playerControl, &dayIntro, &currentSelection, members, memberCount);
+                                currentDay++;
+                                box1Text.setString("  DAY " + dayList[currentDay].numWord);
+                                box2Text.setString("");
+                            }
                         }
                     }
  /*B*/          } else if (event.key.code == Keyboard::B && !bHeld){
