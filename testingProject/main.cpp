@@ -50,6 +50,13 @@ int main(){
     Sprite world(WorldSheet, IntRect(0,0,800,200));
     world.setPosition(0,0);
 
+    /** Walls **/
+    Sprite Top(SpriteSheet, IntRect(0,600,800,20));
+    Top.setPosition(0,0);
+
+    //Sprite Right(SpriteSheet, IntRect(640,600,32,200))
+    //Right.setPosition(640,0);
+
     int temporaryArray[3] = {0, 64, -1};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
     Player.sprite.setTexture(SpriteSheet);
@@ -342,6 +349,9 @@ int main(){
         if (playerControl){
             if (upHeld){
                 yCoord = yCoord - speed;
+                if (collision(Player.sprite, Top)){
+                    yCoord = yCoord + speed;
+                }
             } else if (downHeld){
                 yCoord= yCoord + speed;
             } else if (leftHeld){
@@ -373,11 +383,8 @@ int main(){
                 Computer.setFrame(1);
                 Computer.near = true;
             }
-            /*else if (collision(Player.sprite, Computer.sprite)){
-                Plant.setFrame(plant);
-                Plant.near = true;
-                plant++;
-            }*/
+
+
             else {
                 Goose.setFrame(0);
                 Goose.near = false;
@@ -385,6 +392,7 @@ int main(){
                 Computer.near = false;
             }
             Player.sprite.setPosition(xCoord,yCoord);
+
 
         }
         window.clear(Color::Black);
@@ -399,6 +407,7 @@ int main(){
             window.setView(playerControlView);
             window.draw(bigBorder);
             window.draw(world);
+            window.draw(Top);
         }
         for (int i = 0; i < spriteCount; i++){
             if (spriteList[i]->onScreen){
