@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1582832693 source:d:\ogpc_2020\controllerinterface\main.cpp
+	<iostream>
+	<string>
+	<stdlib.h>
+	"SerialPort.h"
+
+1582310888 d:\ogpc_2020\controllerinterface\serialport.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+
+1582310888 source:d:\ogpc_2020\controllerinterface\serialport.cpp
+	"SerialPort.h"
+
