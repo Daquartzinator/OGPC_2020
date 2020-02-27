@@ -85,7 +85,7 @@ int main(){
     Computer.sprite.setPosition(5,5);
     Computer.sprite.setTexture(SpriteSheet);
 
-    int spriteCount = 4;
+    int spriteCount = 5;
     AnimatedSprite *spriteList[spriteCount] = {&Employee, &Goose, &Computer, &Player, &PlayerTruck};
     ///Order in this array determines draw order
 
@@ -305,13 +305,18 @@ int main(){
                         }
                     } else if (playerControl){
                         if (Computer.near){
-                            modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
+                            /*modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
                             Player.onScreen = false;
                             Goose.onScreen = false;
                             Computer.onScreen = false;
                             Employee.onScreen = true;
                             Employee.setFrame(0);
-                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);*/
+                            modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
+                            Player.onScreen = false;
+                            Goose.onScreen = false;
+                            Computer.onScreen = false;
+                            PlayerTruck.onScreen = true;
                         } else if (Goose.near){
                             //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
                             //Player.onScreen = false;
@@ -419,7 +424,7 @@ int main(){
             if (upHeld){
                 yCoord = yCoord - speed;
             } else if (downHeld){
-                yCoord= yCoord + speed;
+                yCoord = yCoord + speed;
             } else if (leftHeld){
                 xCoord = xCoord - speed;
                 PlayerTruck.setFrame(0);
@@ -440,6 +445,7 @@ int main(){
             if (yCoord + truckYoffset > missionBoundD){
                 playerControlView.setCenter(playerControlView.getCenter().x, missionBoundD);
             }
+            PlayerTruck.sprite.setPosition(xCoord, yCoord);
         }
         window.clear(Color::Black);
         if (management || start || tauntLetter || shootSelectScreen || dayIntro){
@@ -455,7 +461,6 @@ int main(){
             window.draw(world);
         } else if (drivingMission){
             window.setView(playerControlView);
-            window.draw(bigBorder);
             window.draw(Area1);
         }
         for (int i = 0; i < spriteCount; i++){

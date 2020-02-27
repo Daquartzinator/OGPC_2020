@@ -12,7 +12,7 @@
 
 1576179827 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\add.h
 
-1582139597 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\main.cpp
+1582832418 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\main.cpp
 	<iostream>
 	<string>
 	<sstream>
@@ -21,6 +21,7 @@
 	"managementlib.h"
 	"interactobject.h"
 	"animatedsprite.h"
+	"day.h"
 
 1580494218 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\crewmember.cpp
 	<iostream>
@@ -108,10 +109,10 @@
 1581532316 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\animatedsprite.h
 	<SFML/Graphics.hpp>
 
-1582654898 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\day.cpp
+1582832350 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\day.cpp
 	<iostream>
 	"day.h"
 
-1582654948 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\day.h
+1582832350 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\day.h
 	<iostream>
 
