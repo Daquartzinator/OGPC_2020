@@ -54,8 +54,8 @@ int main(){
     Sprite Top(SpriteSheet, IntRect(0,600,800,20));
     Top.setPosition(0,0);
 
-    //Sprite Right(SpriteSheet, IntRect(640,600,32,200))
-    //Right.setPosition(640,0);
+    Sprite Right(SpriteSheet, IntRect(640,600,32,200));
+    Right.setPosition(640,0);
 
     int temporaryArray[3] = {0, 64, -1};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
@@ -352,6 +352,7 @@ int main(){
                 if (collision(Player.sprite, Top)){
                     yCoord = yCoord + speed;
                 }
+
             } else if (downHeld){
                 yCoord= yCoord + speed;
             } else if (leftHeld){
@@ -360,6 +361,9 @@ int main(){
             } else if (rightHeld){
                 xCoord = xCoord + speed;
                 Player.setFrame(1);
+                if (collision(Player.sprite, Right)){
+                    xCoord = xCoord - speed;
+                }
             }
             playerControlView.setCenter(xCoord + playerXoffset, yCoord + playerYoffset);
             if (yCoord + playerYoffset < playerBoundU){
@@ -408,6 +412,7 @@ int main(){
             window.draw(bigBorder);
             window.draw(world);
             window.draw(Top);
+            window.draw(Right);
         }
         for (int i = 0; i < spriteCount; i++){
             if (spriteList[i]->onScreen){
