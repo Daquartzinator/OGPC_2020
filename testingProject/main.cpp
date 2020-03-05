@@ -7,10 +7,28 @@
 #include "interactobject.h"
 #include "animatedsprite.h"
 #include "day.h"
+#include "SerialPort.h"
 using namespace std;
 using namespace sf;
 
+char output[MAX_DATA_LENGTH];
+char incomingData[MAX_DATA_LENGTH];
+
+// change the name of the port with the port name of your computer
+// must remember that the backslashes are essential so do not remove them
+char *port = "\\\\.\\COM3";
+
 int main(){
+
+    /** Serial Port Handler **/
+    SerialPort arduino(port);
+	if(arduino.isConnected()){
+		cout<<"Connection made"<<endl<<endl;
+	}
+	else{
+		cout<<"Error in port name"<<endl<<endl;
+	}
+
     /** General Variables **/
     bool collision(Sprite, Sprite);
     bool upHeld = false;
@@ -176,191 +194,396 @@ int main(){
 
     while (window.isOpen()){
         Event event;
-        while (window.pollEvent(event)){
-            if (event.type == Event::Closed){
-                window.close();
-            }
-
-            if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
- /*UP*/         if (event.key.code == Keyboard::Up && !upHeld){
-                    upHeld = true;
-                    if (management){ ///these statements determine what each key press does depending on mode
-                        currentSelection = (currentSelection + memberCount - 1) % memberCount;
-                        Employee.setFrame(currentSelection);
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    } else if (start){
-                        currentSelection = (currentSelection + charityCount - 1) % charityCount;
-                        charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
-                    } else if (shootSelectScreen){
-                        currentSelection = (currentSelection + memberCount - 1) % memberCount;
-                        Employee.setFrame(currentSelection);
-                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                    } else if (tauntLetter){
-                        if (currentSelection > 0){
-                            currentSelection--;
-                        }
-                        tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
-                    }
-                } else if (event.key.code == Keyboard::Down && !downHeld){
-                    downHeld = true;
-
- /*DOWN*/
-
-                    if (management){
-                        currentSelection = (currentSelection + 1) % memberCount;
-                        Employee.setFrame(currentSelection);
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    } else if (start){
-                        currentSelection = (currentSelection + 1) % charityCount;
-                        charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
-                    } else if (shootSelectScreen){
-                        currentSelection = (currentSelection + 1) % memberCount;
-                        Employee.setFrame(currentSelection);
-                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                    } else if (tauntLetter){
-                        if (currentSelection < letterLengths[dayList[currentDay].startWeek] - 1 && currentSelection >= 0){
-                            currentSelection++;
-                        }
-                        tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
-                    }
- /*LEFT*/       } else if (event.key.code == Keyboard::Left && !leftHeld){
-                    leftHeld = true;
-                    if (management && !members[currentSelection].selected){
-                        members[currentSelection].currentPayNext -= 10;
-                        moneyUsed -= 10;
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    }
- /*RIGHT*/      } else if (event.key.code == Keyboard::Right && !rightHeld){
-                    rightHeld = true;
-                    if (management && !members[currentSelection].selected){
-                        members[currentSelection].currentPayNext += 10;
-                        moneyUsed += 10;
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    }
- /*A*/          } else if (event.key.code == Keyboard::A && !aHeld){
-                    aHeld = true;
-                    if (management){
-                        if (manageStatus == 0){
-                            members[currentSelection].selected = true;
+        if(arduino.isConnected())
+        {
+            arduino.readSerialPort(output, MAX_DATA_LENGTH);
+            if(output[0] == '1' || output[0] == '2' || output[0] == '3' || output[0] == '4')
+            {
+                /*UP*/
+                    if (output[0] == '1')
+                    {
+                        if (management){ ///these statements determine what each key press does depending on mode
+                            currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                            Employee.setFrame(currentSelection);
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                        } else if (manageStatus == 1){ ///A on all confirm switches mode
-                            for (int i = 0; i < memberCount; i++){
-                                members[i].currentPay = members[i].currentPayNext;
-                                members[i].updateMorale();
+                        } else if (start){
+                            currentSelection = (currentSelection + charityCount - 1) % charityCount;
+                            charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                        } else if (shootSelectScreen){
+                            currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                            Employee.setFrame(currentSelection);
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                        } else if (tauntLetter){
+                            if (currentSelection > 0){
+                                currentSelection--;
                             }
-                            currentDay++;
-                            modeSwitch(&management, &dayIntro, &currentSelection, members, memberCount);
-                            Employee.onScreen = false;
-                            box1Text.setString("  DAY " + dayList[currentDay].numWord);
-                            box2Text.setString("");
-                        } else { ///A on failed same as B
-                            currentSelection = 0;
+                            tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
+                        }
+                    }
+     /*DOWN*/       else if (output[0] == '2')
+                    {
+                        if (management){
+                            currentSelection = (currentSelection + 1) % memberCount;
+                            Employee.setFrame(currentSelection);
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        } else if (start){
+                            currentSelection = (currentSelection + 1) % charityCount;
+                            charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                        } else if (shootSelectScreen){
+                            currentSelection = (currentSelection + 1) % memberCount;
+                            Employee.setFrame(currentSelection);
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                        } else if (tauntLetter){
+                            if (currentSelection < letterLengths[dayList[currentDay].startWeek] - 1 && currentSelection >= 0){
+                                currentSelection++;
+                            }
+                            tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
+                        }
+     /*LEFT*/       }
+                    else if (output[0] == '3')
+                    {
+                        if (management && !members[currentSelection].selected){
+                            members[currentSelection].currentPayNext -= 10;
+                            moneyUsed -= 10;
                             manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         }
-                    } else if (dayIntro){
-                        ///switch to letter reading
-                        if (dayList[currentDay].startWeek == -1){
-                            modeSwitch(&dayIntro, &playerControl, &currentSelection, members, memberCount);
-                            Player.onScreen = true;
-                            Goose.onScreen = true;
-                            Computer.onScreen = true;
-                        } else {
-                            modeSwitch(&dayIntro, &tauntLetter, &currentSelection, members, memberCount);
-                            Employee.onScreen = true;
-                            currentSelection = -2;
-                            tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
+     /*RIGHT*/      }
+                    else if (output[0] == '4')
+                    {
+                        if (management && !members[currentSelection].selected){
+                            members[currentSelection].currentPayNext += 10;
+                            moneyUsed += 10;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
                         }
-                    } else if (shootSelectScreen){
-                        if (shootoutSelected == 3){
-                            //modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
-                            ///Not sure what happens here right now
-                        } else if (!members[currentSelection].selected){
-                            members[currentSelection].selected = true;
-                            shootoutSelected++;
-                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                        }
-                    } else if (start){
-                        ///Switch to day intro
-                        modeSwitch(&start, &dayIntro, &currentSelection, members, memberCount);
-                        box1Text.setString("  DAY " + dayList[currentDay].numWord);
-                        box2Text.setString("");
-                    } else if (tauntLetter){
-                        if (currentSelection < 0){
-                            currentSelection++;
-                            tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
-                        }
-                        if (currentSelection >= letterLengths[dayList[currentDay].startWeek] - 1){
-                            modeSwitch(&tauntLetter, &playerControl, &currentSelection, members, memberCount);
-                            Player.onScreen = true;
-                            Goose.onScreen = true;
-                            Computer.onScreen = true;
-                            Employee.onScreen = false;
-                        }
-                    } else if (playerControl){
-                        if (Computer.near){
-                            modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
-                            Player.onScreen = false;
-                            Goose.onScreen = false;
-                            Computer.onScreen = false;
-                            Employee.onScreen = true;
-                            Employee.setFrame(0);
-                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                        } else if (Goose.near){
-                            //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
-                            //Player.onScreen = false;
-                            //Goose.onScreen = false;
-                            //Computer.onScreen = false;
-                            //cout << "HONK" << endl;
-                            Player.onScreen = false;
-                            Goose.onScreen = false;
-                            Computer.onScreen = false;
-                            if (dayList[currentDay].endWeek){
-                                modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
-                                Employee.onScreen = true;
+                    }
+                output[0] = NULL;
+                output[1] = NULL;
+            }
+            while (window.pollEvent(event))
+            {
+                if (event.type == Event::Closed){
+                    window.close();
+                }
+
+                if (event.type == Event::KeyPressed)
+                    { ///These ifs trigger once per key press
+
+        /*A*/   else if (event.key.code == Keyboard::A && !aHeld){
+                        aHeld = true;
+                        if (management){
+                            if (manageStatus == 0){
+                                members[currentSelection].selected = true;
                                 manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                            } else {
-                                modeSwitch(&playerControl, &dayIntro, &currentSelection, members, memberCount);
+                            } else if (manageStatus == 1){ ///A on all confirm switches mode
+                                for (int i = 0; i < memberCount; i++){
+                                    members[i].currentPay = members[i].currentPayNext;
+                                    members[i].updateMorale();
+                                }
                                 currentDay++;
+                                modeSwitch(&management, &dayIntro, &currentSelection, members, memberCount);
+                                Employee.onScreen = false;
                                 box1Text.setString("  DAY " + dayList[currentDay].numWord);
                                 box2Text.setString("");
+                            } else { ///A on failed same as B
+                                currentSelection = 0;
+                                manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                            }
+                        } else if (dayIntro){
+                            ///switch to letter reading
+                            if (dayList[currentDay].startWeek == -1){
+                                modeSwitch(&dayIntro, &playerControl, &currentSelection, members, memberCount);
+                                Player.onScreen = true;
+                                Goose.onScreen = true;
+                                Computer.onScreen = true;
+                            } else {
+                                modeSwitch(&dayIntro, &tauntLetter, &currentSelection, members, memberCount);
+                                Employee.onScreen = true;
+                                currentSelection = -2;
+                                tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
+                            }
+                        } else if (shootSelectScreen){
+                            if (shootoutSelected == 3){
+                                //modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
+                                ///Not sure what happens here right now
+                            } else if (!members[currentSelection].selected){
+                                members[currentSelection].selected = true;
+                                shootoutSelected++;
+                                shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                            }
+                        } else if (start){
+                            ///Switch to day intro
+                            modeSwitch(&start, &dayIntro, &currentSelection, members, memberCount);
+                            box1Text.setString("  DAY " + dayList[currentDay].numWord);
+                            box2Text.setString("");
+                        } else if (tauntLetter){
+                            if (currentSelection < 0){
+                                currentSelection++;
+                                tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
+                            }
+                            if (currentSelection >= letterLengths[dayList[currentDay].startWeek] - 1){
+                                modeSwitch(&tauntLetter, &playerControl, &currentSelection, members, memberCount);
+                                Player.onScreen = true;
+                                Goose.onScreen = true;
+                                Computer.onScreen = true;
+                                Employee.onScreen = false;
+                            }
+                        } else if (playerControl){
+                            if (Computer.near){
+                                modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
+                                Player.onScreen = false;
+                                Goose.onScreen = false;
+                                Computer.onScreen = false;
+                                Employee.onScreen = true;
+                                Employee.setFrame(0);
+                                shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                            } else if (Goose.near){
+                                //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
+                                //Player.onScreen = false;
+                                //Goose.onScreen = false;
+                                //Computer.onScreen = false;
+                                //cout << "HONK" << endl;
+                                Player.onScreen = false;
+                                Goose.onScreen = false;
+                                Computer.onScreen = false;
+                                if (dayList[currentDay].endWeek){
+                                    modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
+                                    Employee.onScreen = true;
+                                    manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                                } else {
+                                    modeSwitch(&playerControl, &dayIntro, &currentSelection, members, memberCount);
+                                    currentDay++;
+                                    box1Text.setString("  DAY " + dayList[currentDay].numWord);
+                                    box2Text.setString("");
+                                }
                             }
                         }
-                    }
- /*B*/          } else if (event.key.code == Keyboard::B && !bHeld){
-                    bHeld = true;
-                    if (management){
-                        if (manageStatus != 0){ ///B does nothing if nobody is selected
-                            currentSelection = 0; ///(this sets it back to confirm screen on fail/all confirm)
-                        }
-                        members[currentSelection].selected = false;
-                        manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
-                    } else if (shootSelectScreen){
-                        if (shootoutSelected == 3){
-                            currentSelection = 0;
-                            shootoutSelected = 0;
-                        } else if (members[currentSelection].selected){
+     /*B*/          } else if (event.key.code == Keyboard::B && !bHeld){
+                        bHeld = true;
+                        if (management){
+                            if (manageStatus != 0){ ///B does nothing if nobody is selected
+                                currentSelection = 0; ///(this sets it back to confirm screen on fail/all confirm)
+                            }
                             members[currentSelection].selected = false;
-                            shootoutSelected--;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        } else if (shootSelectScreen){
+                            if (shootoutSelected == 3){
+                                currentSelection = 0;
+                                shootoutSelected = 0;
+                            } else if (members[currentSelection].selected){
+                                members[currentSelection].selected = false;
+                                shootoutSelected--;
+                            }
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                         }
-                        shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
                     }
-                }
-            } else if (event.type == Event::KeyReleased){
-                if (event.key.code == Keyboard::Up){
-                    upHeld = false;
-                } else if (event.key.code == Keyboard::Down){
-                    downHeld = false;
-                } else if (event.key.code == Keyboard::Right){
-                    rightHeld = false;
-                } else if (event.key.code == Keyboard::Left){
-                    leftHeld = false;
-                } else if (event.key.code == Keyboard::A){
-                    aHeld = false;
-                } else if (event.key.code == Keyboard::B){
-                    bHeld = false;
+                } else if (event.type == Event::KeyReleased){
+                    if (event.key.code == Keyboard::Up){
+                        upHeld = false;
+                    } else if (event.key.code == Keyboard::Down){
+                        downHeld = false;
+                    } else if (event.key.code == Keyboard::Right){
+                        rightHeld = false;
+                    } else if (event.key.code == Keyboard::Left){
+                        leftHeld = false;
+                    } else if (event.key.code == Keyboard::A){
+                        aHeld = false;
+                    } else if (event.key.code == Keyboard::B){
+                        bHeld = false;
+                    }
                 }
             }
         }
+        else
+        {
+            while (window.pollEvent(event))
+            {
+                if (event.type == Event::Closed){
+                    window.close();
+                }
+
+                if (event.type == Event::KeyPressed){ ///These ifs trigger once per key press
+     /*UP*/         if (event.key.code == Keyboard::Up && !upHeld){
+                        upHeld = true;
+                        if (management){ ///these statements determine what each key press does depending on mode
+                            currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                            Employee.setFrame(currentSelection);
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        } else if (start){
+                            currentSelection = (currentSelection + charityCount - 1) % charityCount;
+                            charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                        } else if (shootSelectScreen){
+                            currentSelection = (currentSelection + memberCount - 1) % memberCount;
+                            Employee.setFrame(currentSelection);
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                        } else if (tauntLetter){
+                            if (currentSelection > 0){
+                                currentSelection--;
+                            }
+                            tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
+                        }
+                    } else if (event.key.code == Keyboard::Down && !downHeld){
+                        downHeld = true;
+
+     /*DOWN*/
+
+                        if (management){
+                            currentSelection = (currentSelection + 1) % memberCount;
+                            Employee.setFrame(currentSelection);
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        } else if (start){
+                            currentSelection = (currentSelection + 1) % charityCount;
+                            charityStartUpdate(currentSelection, charities, charityDescrip, charityCount, &box1Text, &box2Text);
+                        } else if (shootSelectScreen){
+                            currentSelection = (currentSelection + 1) % memberCount;
+                            Employee.setFrame(currentSelection);
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                        } else if (tauntLetter){
+                            if (currentSelection < letterLengths[dayList[currentDay].startWeek] - 1 && currentSelection >= 0){
+                                currentSelection++;
+                            }
+                            tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
+                        }
+     /*LEFT*/       } else if (event.key.code == Keyboard::Left && !leftHeld){
+                        leftHeld = true;
+                        if (management && !members[currentSelection].selected){
+                            members[currentSelection].currentPayNext -= 10;
+                            moneyUsed -= 10;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        }
+     /*RIGHT*/      } else if (event.key.code == Keyboard::Right && !rightHeld){
+                        rightHeld = true;
+                        if (management && !members[currentSelection].selected){
+                            members[currentSelection].currentPayNext += 10;
+                            moneyUsed += 10;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        }
+     /*A*/          } else if (event.key.code == Keyboard::A && !aHeld){
+                        aHeld = true;
+                        if (management){
+                            if (manageStatus == 0){
+                                members[currentSelection].selected = true;
+                                manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                            } else if (manageStatus == 1){ ///A on all confirm switches mode
+                                for (int i = 0; i < memberCount; i++){
+                                    members[i].currentPay = members[i].currentPayNext;
+                                    members[i].updateMorale();
+                                }
+                                currentDay++;
+                                modeSwitch(&management, &dayIntro, &currentSelection, members, memberCount);
+                                Employee.onScreen = false;
+                                box1Text.setString("  DAY " + dayList[currentDay].numWord);
+                                box2Text.setString("");
+                            } else { ///A on failed same as B
+                                currentSelection = 0;
+                                manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                            }
+                        } else if (dayIntro){
+                            ///switch to letter reading
+                            if (dayList[currentDay].startWeek == -1){
+                                modeSwitch(&dayIntro, &playerControl, &currentSelection, members, memberCount);
+                                Player.onScreen = true;
+                                Goose.onScreen = true;
+                                Computer.onScreen = true;
+                            } else {
+                                modeSwitch(&dayIntro, &tauntLetter, &currentSelection, members, memberCount);
+                                Employee.onScreen = true;
+                                currentSelection = -2;
+                                tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
+                            }
+                        } else if (shootSelectScreen){
+                            if (shootoutSelected == 3){
+                                //modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
+                                ///Not sure what happens here right now
+                            } else if (!members[currentSelection].selected){
+                                members[currentSelection].selected = true;
+                                shootoutSelected++;
+                                shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                            }
+                        } else if (start){
+                            ///Switch to day intro
+                            modeSwitch(&start, &dayIntro, &currentSelection, members, memberCount);
+                            box1Text.setString("  DAY " + dayList[currentDay].numWord);
+                            box2Text.setString("");
+                        } else if (tauntLetter){
+                            if (currentSelection < 0){
+                                currentSelection++;
+                                tauntLetterUpdate(letterMessages[dayList[currentDay].startWeek], letterLengths[dayList[currentDay].startWeek], currentSelection, &box1Text, &box2Text);
+                            }
+                            if (currentSelection >= letterLengths[dayList[currentDay].startWeek] - 1){
+                                modeSwitch(&tauntLetter, &playerControl, &currentSelection, members, memberCount);
+                                Player.onScreen = true;
+                                Goose.onScreen = true;
+                                Computer.onScreen = true;
+                                Employee.onScreen = false;
+                            }
+                        } else if (playerControl){
+                            if (Computer.near){
+                                modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
+                                Player.onScreen = false;
+                                Goose.onScreen = false;
+                                Computer.onScreen = false;
+                                Employee.onScreen = true;
+                                Employee.setFrame(0);
+                                shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                            } else if (Goose.near){
+                                //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
+                                //Player.onScreen = false;
+                                //Goose.onScreen = false;
+                                //Computer.onScreen = false;
+                                //cout << "HONK" << endl;
+                                Player.onScreen = false;
+                                Goose.onScreen = false;
+                                Computer.onScreen = false;
+                                if (dayList[currentDay].endWeek){
+                                    modeSwitch(&playerControl, &management, &currentSelection, members, memberCount);
+                                    Employee.onScreen = true;
+                                    manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                                } else {
+                                    modeSwitch(&playerControl, &dayIntro, &currentSelection, members, memberCount);
+                                    currentDay++;
+                                    box1Text.setString("  DAY " + dayList[currentDay].numWord);
+                                    box2Text.setString("");
+                                }
+                            }
+                        }
+     /*B*/          } else if (event.key.code == Keyboard::B && !bHeld){
+                        bHeld = true;
+                        if (management){
+                            if (manageStatus != 0){ ///B does nothing if nobody is selected
+                                currentSelection = 0; ///(this sets it back to confirm screen on fail/all confirm)
+                            }
+                            members[currentSelection].selected = false;
+                            manageStatus = managementUpdate(currentSelection, members, money, expenses, moneyUsed, memberCount, &box1Text, &box2Text);
+                        } else if (shootSelectScreen){
+                            if (shootoutSelected == 3){
+                                currentSelection = 0;
+                                shootoutSelected = 0;
+                            } else if (members[currentSelection].selected){
+                                members[currentSelection].selected = false;
+                                shootoutSelected--;
+                            }
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                        }
+                    }
+                } else if (event.type == Event::KeyReleased){
+                    if (event.key.code == Keyboard::Up){
+                        upHeld = false;
+                    } else if (event.key.code == Keyboard::Down){
+                        downHeld = false;
+                    } else if (event.key.code == Keyboard::Right){
+                        rightHeld = false;
+                    } else if (event.key.code == Keyboard::Left){
+                        leftHeld = false;
+                    } else if (event.key.code == Keyboard::A){
+                        aHeld = false;
+                    } else if (event.key.code == Keyboard::B){
+                        bHeld = false;
+                    }
+                }
+            }
+        }
+
+
         if (playerControl){
             if (upHeld){
                 yCoord = yCoord - speed;

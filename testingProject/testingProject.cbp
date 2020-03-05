@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="SerialPort.cpp" />
+		<Unit filename="SerialPort.h" />
 		<Unit filename="animatedsprite.cpp" />
 		<Unit filename="animatedsprite.h" />
 		<Unit filename="crewmember.cpp" />

@@ -115,3 +115,42 @@
 1582654948 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\day.h
 	<iostream>
 
+1582829533 source:d:\ogpc_2020\testingproject\animatedsprite.cpp
+	"animatedsprite.h"
+	<SFML/Graphics.hpp>
+	<stdlib.h>
+
+1582829533 d:\ogpc_2020\testingproject\animatedsprite.h
+	<SFML/Graphics.hpp>
+
+1580496615 source:d:\ogpc_2020\testingproject\crewmember.cpp
+	<iostream>
+	"crewmember.h"
+
+1580496615 d:\ogpc_2020\testingproject\crewmember.h
+	<iostream>
+
+1582829533 source:d:\ogpc_2020\testingproject\interactobject.cpp
+	<iostream>
+	"interactobject.h"
+	<stdlib.h>
+	<SFML/Graphics.hpp>
+
+1582829533 d:\ogpc_2020\testingproject\interactobject.h
+	<SFML/Graphics.hpp>
+	"animatedsprite.h"
+
+1582829533 source:d:\ogpc_2020\testingproject\managementlib.cpp
+	<iostream>
+	<sstream>
+	<SFML/Graphics.hpp>
+	"crewmember.h"
+
+1582310888 source:d:\ogpc_2020\testingproject\serialport.cpp
+	"SerialPort.h"
+
+1582310888 d:\ogpc_2020\testingproject\serialport.h
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
+
