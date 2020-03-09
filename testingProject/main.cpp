@@ -19,6 +19,7 @@ int main(){
     bool rightHeld = false;
     bool aHeld = false;
     bool bHeld = false;
+    stringstream ss;
 
 
     /** Day Setup **/
@@ -42,7 +43,7 @@ int main(){
 
     /** Sprites and such **/
     Font font;
-    Text box1Text, box2Text;
+    Text box1Text, box2Text, box4Text;
     Texture SpriteSheet;
     Texture WorldSheet;
     Texture RoadSheet;
@@ -177,11 +178,15 @@ int main(){
     /** Setup **/
     box1Text.setFont(font);
     box1Text.setCharacterSize(9);
-    box1Text.setPosition(15,25);
+    box1Text.setPosition(15,10);
 
     box2Text.setFont(font);
     box2Text.setCharacterSize(9);
     box2Text.setPosition(165,131);
+
+    box4Text.setFont(font);
+    box4Text.setCharacterSize(9);
+    box4Text.setPosition(-85, 10);
 
     cout << "That's how Mafia Works" << endl;
 
@@ -456,6 +461,27 @@ int main(){
                 drivingMissionView.setCenter(drivingMissionView.getCenter().x, missionBoundD);
             }
             PlayerTruck.sprite.setPosition(xCoord, yCoord);
+
+            ss.str(string());
+            ss << xCoord;
+            ss << "\n\n\nPROGRESS\n ";
+            for(int i = missionBoundR/10; i <= xCoord; i += (missionBoundR / 10)){
+                ss << "_";
+            }
+            ss << "\n|";
+            bool sl = false;
+            for(int i = missionBoundR/10; i <= missionBoundR; i += (missionBoundR / 10)){
+                if (i <= xCoord){
+                    ss << "X";
+                } else if (!sl){
+                    sl = true;
+                    ss << "\\";
+                } else {
+                    ss << "_";
+                }
+            }
+            ss << "|";
+            box4Text.setString(ss.str());
         }
         window.clear(Color::Black);
         if (management || start || tauntLetter || shootSelectScreen || dayIntro){
@@ -473,6 +499,7 @@ int main(){
             window.setView(area4View);
             area4View.setViewport(FloatRect(0, 0, 0.25, 1));
             window.draw(Area4);
+            window.draw(box4Text);
             window.setView(drivingMissionView);
             drivingMissionView.setViewport(FloatRect(0.25, 0, 0.75, 1));
             window.draw(road);
