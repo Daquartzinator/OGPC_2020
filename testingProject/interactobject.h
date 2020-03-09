@@ -5,17 +5,23 @@
 using namespace sf;
 
 class InteractObject : public AnimatedSprite {
-/*private:
+private:
+    bool near;
+    /*
     int width;
     int height;
     int sheetX;
     int yArraySize;
     int * yArray;*/
+
+
 public:
     //Sprite sprite;
     //bool onScreen;
-    bool near;
 
+
+    void setNear(bool);
+    bool getNear();
     InteractObject(int sYArraySize, int sX, int * sYArray, int sWidth, int sHeight)
         : AnimatedSprite(sYArraySize, sX, sYArray, sWidth, sHeight){
         near = false;

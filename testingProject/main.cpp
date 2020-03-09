@@ -268,7 +268,7 @@ int main(){
                 if (event.type == Event::KeyPressed)
                     { ///These ifs trigger once per key press
 
-        /*A*/   else if (event.key.code == Keyboard::A && !aHeld){
+        /*A*/        if (event.key.code == Keyboard::A && !aHeld){
                         aHeld = true;
                         if (management){
                             if (manageStatus == 0){
@@ -328,7 +328,7 @@ int main(){
                                 Employee.onScreen = false;
                             }
                         } else if (playerControl){
-                            if (Computer.near){
+                            if (Computer.getNear()){
                                 modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
                                 Player.onScreen = false;
                                 Goose.onScreen = false;
@@ -336,7 +336,7 @@ int main(){
                                 Employee.onScreen = true;
                                 Employee.setFrame(0);
                                 shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                            } else if (Goose.near){
+                            } else if (Goose.getNear()){
                                 //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
                                 //Player.onScreen = false;
                                 //Goose.onScreen = false;
@@ -517,7 +517,7 @@ int main(){
                                 Employee.onScreen = false;
                             }
                         } else if (playerControl){
-                            if (Computer.near){
+                            if (Computer.getNear()){
                                 modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
                                 Player.onScreen = false;
                                 Goose.onScreen = false;
@@ -525,7 +525,7 @@ int main(){
                                 Employee.onScreen = true;
                                 Employee.setFrame(0);
                                 shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
-                            } else if (Goose.near){
+                            } else if (Goose.getNear()){
                                 //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
                                 //Player.onScreen = false;
                                 //Goose.onScreen = false;
@@ -612,22 +612,22 @@ int main(){
 
             if (collision(Player.sprite, Goose.sprite)){
                 Goose.setFrame(1);
-                Goose.near = true;
+                Goose.setNear(true);
             }
             else if (collision(Player.sprite, Computer.sprite)){
                 Computer.setFrame(1);
-                Computer.near = true;
+                Computer.setNear(true);
             }
             /*else if (collision(Player.sprite, Computer.sprite)){
                 Plant.setFrame(plant);
-                Plant.near = true;
+                Plant.setNear(true;
                 plant++;
             }*/
             else {
                 Goose.setFrame(0);
-                Goose.near = false;
+                Goose.setNear(false);
                 Computer.setFrame(0);
-                Computer.near = false;
+                Computer.setNear(false);
             }
             Player.sprite.setPosition(xCoord,yCoord);
 

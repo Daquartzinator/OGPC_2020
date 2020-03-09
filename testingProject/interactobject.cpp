@@ -22,3 +22,11 @@ using namespace sf;
 void InteractObject::setFrame(int frame){
     sprite.setTextureRect(IntRect(sheetX, yArray[frame], width, height));
 }*/
+bool InteractObject::getNear()
+{
+    return near;
+}
+void InteractObject::setNear(bool input)
+{
+    near = input;
+}
