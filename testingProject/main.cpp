@@ -50,7 +50,7 @@ int main(){
     Sprite world(WorldSheet, IntRect(0,0,800,200));
     world.setPosition(0,0);
 
-    /** Walls **/
+    /** Wall Collision Sprites**/
     Sprite Top(SpriteSheet, IntRect(0,600,800,20));
     Top.setPosition(0,0);
 
@@ -62,6 +62,15 @@ int main(){
 
     Sprite Left(SpriteSheet, IntRect(0,600,4,200));
     Left.setPosition(0,0);
+
+    Sprite MiddleL(SpriteSheet,IntRect(160,621,16,110));
+    MiddleL.setPosition(160,0);
+
+    Sprite MiddleR(SpriteSheet,IntRect(176,621,16,110));
+    MiddleR.setPosition(176,0);
+
+    Sprite MiddleB(SpriteSheet, IntRect(161,770,14,1));
+    MiddleB.setPosition(161,140);
 
     int temporaryArray[3] = {0, 64, -1};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
@@ -358,6 +367,9 @@ int main(){
                 if (collision(Player.sprite, Top)){
                     yCoord = yCoord + speed;
                 }
+                if (collision(Player.sprite, MiddleB)){
+                    yCoord = yCoord + speed;
+                }
 
             } else if (downHeld){
                 yCoord= yCoord + speed;
@@ -370,10 +382,16 @@ int main(){
                 if (collision(Player.sprite, Left)){
                     xCoord = xCoord + speed;
                 }
+                if (collision(Player.sprite, MiddleR)){
+                    xCoord = xCoord + speed;
+                }
             } else if (rightHeld){
                 xCoord = xCoord + speed;
                 Player.setFrame(1);
                 if (collision(Player.sprite, Right)){
+                    xCoord = xCoord - speed;
+                }
+                 if (collision(Player.sprite, MiddleL)){
                     xCoord = xCoord - speed;
                 }
             }
@@ -423,10 +441,6 @@ int main(){
             window.setView(playerControlView);
             window.draw(bigBorder);
             window.draw(world);
-            window.draw(Top);
-            window.draw(Bottom);
-            window.draw(Left);
-            window.draw(Right);
         }
         for (int i = 0; i < spriteCount; i++){
             if (spriteList[i]->onScreen){
