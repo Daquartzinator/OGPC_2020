@@ -43,7 +43,7 @@
 1576521489 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\add.h
 	<stdbool.h>
 
-1582832411 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
+1583777077 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
 	<iostream>
 	<string>
 	<sstream>
@@ -53,20 +53,20 @@
 	"interactobject.h"
 	"animatedsprite.h"
 
-1582653906 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.cpp
+1582657506 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.cpp
 	<iostream>
 	"crewmember.h"
 
-1580841905 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.h
+1580845505 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.h
 	<iostream>
 
-1582653907 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\managementlib.cpp
+1582657507 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\managementlib.cpp
 	<iostream>
 	<sstream>
 	<SFML/Graphics.hpp>
 	"crewmember.h"
 
-1582653907 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\managementlib.h
+1582657507 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\managementlib.h
 
 1578598495 source:c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\fontoutput.cpp
 	<iostream>
@@ -91,21 +91,21 @@
 1581530517 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\animatedsprite.h
 	<SFML/Graphics.hpp>
 
-1582653906 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\interactobject.h
+1582657506 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\interactobject.h
 	<SFML/Graphics.hpp>
 	"animatedsprite.h"
 
-1582653906 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\interactobject.cpp
+1582657506 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\interactobject.cpp
 	<iostream>
 	"interactobject.h"
 	<stdlib.h>
 	<SFML/Graphics.hpp>
 
-1582653906 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\animatedsprite.cpp
+1582657506 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\animatedsprite.cpp
 	"animatedsprite.h"
 	<SFML/Graphics.hpp>
 	<stdlib.h>
 
-1582653906 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\animatedsprite.h
+1582657506 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\animatedsprite.h
 	<SFML/Graphics.hpp>
 

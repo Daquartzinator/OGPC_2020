@@ -55,7 +55,13 @@ int main(){
     Top.setPosition(0,0);
 
     Sprite Right(SpriteSheet, IntRect(640,600,32,200));
-    Right.setPosition(640,0);
+    Right.setPosition(630,0);
+
+    Sprite Bottom(SpriteSheet, IntRect(0,795,800,4));
+    Bottom.setPosition(0,195);
+
+    Sprite Left(SpriteSheet, IntRect(0,600,4,200));
+    Left.setPosition(0,0);
 
     int temporaryArray[3] = {0, 64, -1};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
@@ -355,9 +361,15 @@ int main(){
 
             } else if (downHeld){
                 yCoord= yCoord + speed;
+                if (collision(Player.sprite, Bottom)){
+                    yCoord = yCoord - speed;
+                }
             } else if (leftHeld){
                 xCoord = xCoord - speed;
                 Player.setFrame(0);
+                if (collision(Player.sprite, Left)){
+                    xCoord = xCoord + speed;
+                }
             } else if (rightHeld){
                 xCoord = xCoord + speed;
                 Player.setFrame(1);
@@ -412,6 +424,8 @@ int main(){
             window.draw(bigBorder);
             window.draw(world);
             window.draw(Top);
+            window.draw(Bottom);
+            window.draw(Left);
             window.draw(Right);
         }
         for (int i = 0; i < spriteCount; i++){
