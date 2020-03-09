@@ -463,7 +463,6 @@ int main(){
             PlayerTruck.sprite.setPosition(xCoord, yCoord);
 
             ss.str(string());
-            ss << xCoord;
             ss << "\n\n\nPROGRESS\n ";
             for(int i = missionBoundR/10; i <= xCoord; i += (missionBoundR / 10)){
                 ss << "_";
@@ -481,6 +480,17 @@ int main(){
                 }
             }
             ss << "|";
+            if (xCoord >= 3000){
+                modeSwitch(&drivingMission, &playerControl, &currentSelection, members, memberCount);
+                xCoord = 50;
+                yCoord = 50;
+                PlayerTruck.onScreen = false;
+                Player.onScreen = true;
+                Goose.onScreen = true;
+                Computer.onScreen = true;
+            } else if (xCoord >= missionBoundR){
+                ss << "\n\nMISSION SUCCESS.\n\nCONTINUE RIGHT";
+            }
             box4Text.setString(ss.str());
         }
         window.clear(Color::Black);
