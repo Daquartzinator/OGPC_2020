@@ -45,8 +45,11 @@ int main(){
     Text box1Text, box2Text;
     Texture SpriteSheet;
     Texture WorldSheet;
+    Texture RoadSheet;
 
     View playerControlView(FloatRect(0,0,400,200)); ///View used in playerControl
+    View drivingMissionView(FloatRect(0,0,300,200)); ///View used in mission
+    View area4View(FloatRect(-100,0,100,200)); ///View for "HUD" in mission
 
     Sprite bigBorder(SpriteSheet, IntRect(0,200,400,200));
     bigBorder.setPosition(0,0);
@@ -56,9 +59,13 @@ int main(){
     Area2.setPosition(150,0);
     Sprite Area3(SpriteSheet, IntRect(150,116,250,94));
     Area3.setPosition(150,116);
+    Sprite Area4(SpriteSheet, IntRect(400,200,100,200));
+    Area4.setPosition(-100,0);
 
     Sprite world(WorldSheet, IntRect(0,0,800,200));
     world.setPosition(0,0);
+
+    Sprite road(RoadSheet, IntRect(0,0,3000,200));
 
     int temporaryArray[3] = {0, 64, -1};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
@@ -131,8 +138,8 @@ int main(){
     bool drivingMission = false;
     int truckXoffset = 16;
     int truckYoffset = 32;
-    int missionBoundL = 200;
-    int missionBoundR = 2800;
+    int missionBoundL = 150;
+    int missionBoundR = 2750;
     int missionBoundU = 100;
     int missionBoundD = 100;
 
@@ -162,6 +169,9 @@ int main(){
 	}
 	if (!WorldSheet.loadFromFile("room.png")){
         cout << "room sheet broken. F" << endl;
+	}
+	if (!RoadSheet.loadFromFile("road.png")){
+        cout << "road sheet is sad" << endl;
 	}
 
     /** Setup **/
@@ -432,18 +442,18 @@ int main(){
                 xCoord = xCoord + speed;
                 PlayerTruck.setFrame(1);
             }
-            playerControlView.setCenter(xCoord + truckXoffset, yCoord + truckYoffset);
+            drivingMissionView.setCenter(xCoord + truckXoffset, yCoord + truckYoffset);
             if (yCoord + truckYoffset < missionBoundU){
-                playerControlView.setCenter(playerControlView.getCenter().x, missionBoundU);
+                drivingMissionView.setCenter(drivingMissionView.getCenter().x, missionBoundU);
             }
             if (xCoord + truckXoffset < missionBoundL){
-                playerControlView.setCenter(missionBoundL, playerControlView.getCenter().y);
+                drivingMissionView.setCenter(missionBoundL, drivingMissionView.getCenter().y);
             }
             if (xCoord + truckXoffset > missionBoundR){
-                playerControlView.setCenter(missionBoundR, playerControlView.getCenter().y);
+                drivingMissionView.setCenter(missionBoundR, drivingMissionView.getCenter().y);
             }
             if (yCoord + truckYoffset > missionBoundD){
-                playerControlView.setCenter(playerControlView.getCenter().x, missionBoundD);
+                drivingMissionView.setCenter(drivingMissionView.getCenter().x, missionBoundD);
             }
             PlayerTruck.sprite.setPosition(xCoord, yCoord);
         }
@@ -460,8 +470,12 @@ int main(){
             window.draw(bigBorder);
             window.draw(world);
         } else if (drivingMission){
-            window.setView(playerControlView);
-            window.draw(Area1);
+            window.setView(area4View);
+            area4View.setViewport(FloatRect(0, 0, 0.25, 1));
+            window.draw(Area4);
+            window.setView(drivingMissionView);
+            drivingMissionView.setViewport(FloatRect(0.25, 0, 0.75, 1));
+            window.draw(road);
         }
         for (int i = 0; i < spriteCount; i++){
             if (spriteList[i]->onScreen){
