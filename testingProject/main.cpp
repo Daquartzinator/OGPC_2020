@@ -19,6 +19,7 @@ int main(){
     bool rightHeld = false;
     bool aHeld = false;
     bool bHeld = false;
+    stringstream ss;
 
 
     /** Day Setup **/
@@ -42,11 +43,14 @@ int main(){
 
     /** Sprites and such **/
     Font font;
-    Text box1Text, box2Text;
+    Text box1Text, box2Text, box4Text;
     Texture SpriteSheet;
     Texture WorldSheet;
+    Texture RoadSheet;
 
     View playerControlView(FloatRect(0,0,400,200)); ///View used in playerControl
+    View drivingMissionView(FloatRect(0,0,300,200)); ///View used in mission
+    View area4View(FloatRect(-100,0,100,200)); ///View for "HUD" in mission
 
     Sprite bigBorder(SpriteSheet, IntRect(0,200,400,200));
     bigBorder.setPosition(0,0);
@@ -56,15 +60,20 @@ int main(){
     Area2.setPosition(150,0);
     Sprite Area3(SpriteSheet, IntRect(150,116,250,94));
     Area3.setPosition(150,116);
+    Sprite Area4(SpriteSheet, IntRect(400,200,100,200));
+    Area4.setPosition(-100,0);
 
     Sprite world(WorldSheet, IntRect(0,0,800,200));
     world.setPosition(0,0);
+
+    Sprite road(RoadSheet, IntRect(0,0,3000,200));
 
     int temporaryArray[3] = {0, 64, -1};
     AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
     Player.sprite.setTexture(SpriteSheet);
 
-    //AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
+    AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
+    PlayerTruck.sprite.setTexture(SpriteSheet);
 
     temporaryArray[1] = 48;
     temporaryArray[2] = 96;
@@ -84,8 +93,8 @@ int main(){
     Computer.sprite.setPosition(5,5);
     Computer.sprite.setTexture(SpriteSheet);
 
-    int spriteCount = 4;
-    AnimatedSprite *spriteList[spriteCount] = {&Employee, &Goose, &Computer, &Player};
+    int spriteCount = 5;
+    AnimatedSprite *spriteList[spriteCount] = {&Employee, &Goose, &Computer, &Player, &PlayerTruck};
     ///Order in this array determines draw order
 
     Computer.sprite.setPosition(10,30);
@@ -128,6 +137,12 @@ int main(){
 
     /** Driving mission Variables **/
     bool drivingMission = false;
+    int truckXoffset = 16;
+    int truckYoffset = 32;
+    int missionBoundL = 150;
+    int missionBoundR = 2750;
+    int missionBoundU = 100;
+    int missionBoundD = 100;
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
@@ -156,15 +171,22 @@ int main(){
 	if (!WorldSheet.loadFromFile("room.png")){
         cout << "room sheet broken. F" << endl;
 	}
+	if (!RoadSheet.loadFromFile("road.png")){
+        cout << "road sheet is sad" << endl;
+	}
 
     /** Setup **/
     box1Text.setFont(font);
     box1Text.setCharacterSize(9);
-    box1Text.setPosition(15,25);
+    box1Text.setPosition(15,10);
 
     box2Text.setFont(font);
     box2Text.setCharacterSize(9);
     box2Text.setPosition(165,131);
+
+    box4Text.setFont(font);
+    box4Text.setCharacterSize(9);
+    box4Text.setPosition(-85, 10);
 
     cout << "That's how Mafia Works" << endl;
 
@@ -298,13 +320,18 @@ int main(){
                         }
                     } else if (playerControl){
                         if (Computer.near){
-                            modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
+                            /*modeSwitch(&playerControl, &shootSelectScreen, &currentSelection, members, memberCount);
                             Player.onScreen = false;
                             Goose.onScreen = false;
                             Computer.onScreen = false;
                             Employee.onScreen = true;
                             Employee.setFrame(0);
-                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);
+                            shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);*/
+                            modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
+                            Player.onScreen = false;
+                            Goose.onScreen = false;
+                            Computer.onScreen = false;
+                            PlayerTruck.onScreen = true;
                         } else if (Goose.near){
                             //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
                             //Player.onScreen = false;
@@ -408,6 +435,63 @@ int main(){
             }
             Player.sprite.setPosition(xCoord,yCoord);
 
+        } else if (drivingMission){
+            if (upHeld){
+                yCoord = yCoord - speed;
+            } else if (downHeld){
+                yCoord = yCoord + speed;
+            } else if (leftHeld){
+                xCoord = xCoord - speed;
+                PlayerTruck.setFrame(0);
+            } else if (rightHeld){
+                xCoord = xCoord + speed;
+                PlayerTruck.setFrame(1);
+            }
+            drivingMissionView.setCenter(xCoord + truckXoffset, yCoord + truckYoffset);
+            if (yCoord + truckYoffset < missionBoundU){
+                drivingMissionView.setCenter(drivingMissionView.getCenter().x, missionBoundU);
+            }
+            if (xCoord + truckXoffset < missionBoundL){
+                drivingMissionView.setCenter(missionBoundL, drivingMissionView.getCenter().y);
+            }
+            if (xCoord + truckXoffset > missionBoundR){
+                drivingMissionView.setCenter(missionBoundR, drivingMissionView.getCenter().y);
+            }
+            if (yCoord + truckYoffset > missionBoundD){
+                drivingMissionView.setCenter(drivingMissionView.getCenter().x, missionBoundD);
+            }
+            PlayerTruck.sprite.setPosition(xCoord, yCoord);
+
+            ss.str(string());
+            ss << "\n\n\nPROGRESS\n ";
+            for(int i = missionBoundR/10; i <= xCoord; i += (missionBoundR / 10)){
+                ss << "_";
+            }
+            ss << "\n|";
+            bool sl = false;
+            for(int i = missionBoundR/10; i <= missionBoundR; i += (missionBoundR / 10)){
+                if (i <= xCoord){
+                    ss << "X";
+                } else if (!sl){
+                    sl = true;
+                    ss << "\\";
+                } else {
+                    ss << "_";
+                }
+            }
+            ss << "|";
+            if (xCoord >= 3000){
+                modeSwitch(&drivingMission, &playerControl, &currentSelection, members, memberCount);
+                xCoord = 50;
+                yCoord = 50;
+                PlayerTruck.onScreen = false;
+                Player.onScreen = true;
+                Goose.onScreen = true;
+                Computer.onScreen = true;
+            } else if (xCoord >= missionBoundR){
+                ss << "\n\nMISSION SUCCESS.\n\nCONTINUE RIGHT";
+            }
+            box4Text.setString(ss.str());
         }
         window.clear(Color::Black);
         if (management || start || tauntLetter || shootSelectScreen || dayIntro){
@@ -421,6 +505,14 @@ int main(){
             window.setView(playerControlView);
             window.draw(bigBorder);
             window.draw(world);
+        } else if (drivingMission){
+            window.setView(area4View);
+            area4View.setViewport(FloatRect(0, 0, 0.25, 1));
+            window.draw(Area4);
+            window.draw(box4Text);
+            window.setView(drivingMissionView);
+            drivingMissionView.setViewport(FloatRect(0.25, 0, 0.75, 1));
+            window.draw(road);
         }
         for (int i = 0; i < spriteCount; i++){
             if (spriteList[i]->onScreen){

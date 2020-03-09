@@ -36,6 +36,8 @@
 		<Unit filename="animatedsprite.h" />
 		<Unit filename="crewmember.cpp" />
 		<Unit filename="crewmember.h" />
+		<Unit filename="day.cpp" />
+		<Unit filename="day.h" />
 		<Unit filename="interactobject.cpp" />
 		<Unit filename="interactobject.h" />
 		<Unit filename="main.cpp" />
