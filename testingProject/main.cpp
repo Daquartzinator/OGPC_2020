@@ -139,10 +139,10 @@ int main(){
     bool drivingMission = false;
     int truckXoffset = 16;
     int truckYoffset = 32;
-    int missionBoundL = 150;
-    int missionBoundR = 2750;
-    int missionBoundU = 100;
-    int missionBoundD = 100;
+//    int missionBoundL = 150;
+//    int missionBoundR = 2750;
+//    int missionBoundU = 100;
+//    int missionBoundD = 100;
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
