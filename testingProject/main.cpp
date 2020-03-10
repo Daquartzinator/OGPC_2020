@@ -24,12 +24,12 @@ int main(){
 
     /** Day Setup **/
     int currentDay = 0;
-    Day day1("ONE", 0, false);
-    Day day2("TWO", -1, false);
-    Day day3("THREE", -1, false);
-    Day day4("FOUR", -1, false);
-    Day day5("FIVE", -1, true);
-    Day day6("SIX", -1, false);
+    Day day1("ONE", 0, false, 150, 2750, 100, 100);
+    Day day2("TWO", -1, false, 150, 2750, 100, 100);
+    Day day3("THREE", -1, false, 150, 2750, 100, 100);
+    Day day4("FOUR", -1, false, 150, 2750, 100, 100);
+    Day day5("FIVE", -1, true, 150, 2750, 100, 100);
+    Day day6("SIX", -1, false, 150, 2750, 100, 100);
     Day dayList[6] = {day1, day2, day3, day4, day5, day6};
 
     /** Charities **/
@@ -327,11 +327,15 @@ int main(){
                             Employee.onScreen = true;
                             Employee.setFrame(0);
                             shootoutSelectUpdate(currentSelection, members, memberCount, shootoutPeople, &shootoutSelected, &box1Text, &box2Text);*/
-                            modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
-                            Player.onScreen = false;
-                            Goose.onScreen = false;
-                            Computer.onScreen = false;
-                            PlayerTruck.onScreen = true;
+                            if (!dayList[currentDay].missionComplete){
+                                modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
+                                Player.onScreen = false;
+                                Goose.onScreen = false;
+                                Computer.onScreen = false;
+                                PlayerTruck.onScreen = true;
+                            } else {
+                                cout << "no" << endl;
+                            }
                         } else if (Goose.near){
                             //modeSwitch(&playerControl, &drivingMission, &currentSelection, members, memberCount);
                             //Player.onScreen = false;
@@ -448,28 +452,28 @@ int main(){
                 PlayerTruck.setFrame(1);
             }
             drivingMissionView.setCenter(xCoord + truckXoffset, yCoord + truckYoffset);
-            if (yCoord + truckYoffset < missionBoundU){
-                drivingMissionView.setCenter(drivingMissionView.getCenter().x, missionBoundU);
+            if (yCoord + truckYoffset < dayList[currentDay].missionBoundU){
+                drivingMissionView.setCenter(drivingMissionView.getCenter().x, dayList[currentDay].missionBoundU);
             }
-            if (xCoord + truckXoffset < missionBoundL){
-                drivingMissionView.setCenter(missionBoundL, drivingMissionView.getCenter().y);
+            if (xCoord + truckXoffset < dayList[currentDay].missionBoundL){
+                drivingMissionView.setCenter(dayList[currentDay].missionBoundL, drivingMissionView.getCenter().y);
             }
-            if (xCoord + truckXoffset > missionBoundR){
-                drivingMissionView.setCenter(missionBoundR, drivingMissionView.getCenter().y);
+            if (xCoord + truckXoffset > dayList[currentDay].missionBoundR){
+                drivingMissionView.setCenter(dayList[currentDay].missionBoundR, drivingMissionView.getCenter().y);
             }
-            if (yCoord + truckYoffset > missionBoundD){
-                drivingMissionView.setCenter(drivingMissionView.getCenter().x, missionBoundD);
+            if (yCoord + truckYoffset > dayList[currentDay].missionBoundD){
+                drivingMissionView.setCenter(drivingMissionView.getCenter().x, dayList[currentDay].missionBoundD);
             }
             PlayerTruck.sprite.setPosition(xCoord, yCoord);
 
             ss.str(string());
             ss << "\n\n\nPROGRESS\n ";
-            for(int i = missionBoundR/10; i <= xCoord; i += (missionBoundR / 10)){
+            for(int i = dayList[currentDay].missionBoundR/10; i <= xCoord; i += (dayList[currentDay].missionBoundR / 10)){
                 ss << "_";
             }
             ss << "\n|";
             bool sl = false;
-            for(int i = missionBoundR/10; i <= missionBoundR; i += (missionBoundR / 10)){
+            for(int i = dayList[currentDay].missionBoundR/10; i <= dayList[currentDay].missionBoundR; i += (dayList[currentDay].missionBoundR / 10)){
                 if (i <= xCoord){
                     ss << "X";
                 } else if (!sl){
@@ -482,13 +486,14 @@ int main(){
             ss << "|";
             if (xCoord >= 3000){
                 modeSwitch(&drivingMission, &playerControl, &currentSelection, members, memberCount);
+                dayList[currentDay].missionComplete = true;
                 xCoord = 50;
                 yCoord = 50;
                 PlayerTruck.onScreen = false;
                 Player.onScreen = true;
                 Goose.onScreen = true;
                 Computer.onScreen = true;
-            } else if (xCoord >= missionBoundR){
+            } else if (xCoord >= dayList[currentDay].missionBoundR){
                 ss << "\n\nMISSION SUCCESS.\n\nCONTINUE RIGHT";
             }
             box4Text.setString(ss.str());

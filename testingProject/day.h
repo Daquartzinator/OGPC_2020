@@ -9,7 +9,13 @@ public:
     int startWeek; ///If it's the start of a week, index of that week's letter. If not, it's -1
     bool endWeek;
 
-    Day(std::string sNumWord, int sStartWeek, bool sEndWeek);
+    bool missionComplete;
+    int missionBoundL;
+    int missionBoundR;
+    int missionBoundU;
+    int missionBoundD;
+
+    Day(std::string sNumWord, int sStartWeek, bool sEndWeek, int sBL, int sBR, int sBU, int sBD);
 };
 
 #endif // DAY_H_INCLUDED
