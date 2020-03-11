@@ -152,14 +152,15 @@ int main(){
 
     /** Letter Variables **/
     bool tauntLetter = false;
-    int letterLengths[1] = {6};
-    string letterMessages[1][6] = {
+    int letterLengths[1] = {7};
+    string letterMessages[1][7] = {
         "To whom it may concern,\n\n",
-        "Well, well, well. I see\nthere's someone else who's\ncome to try to usurp\nmy business.\n\n",
-        "I'm getting tired of doing\nthis, but this will end\nmuch worse for you than\nfor me.\n\n",
-        "The only way you could\npossibly outmatch me\nis if you made sure to\nMANAGE YOUR MONEY WELL...\nBut that's impossible.\n\n",
-        "I look forward to our...\nstrictly professional\nrelationship.\n\n",
-        "Cordially,\nB. Mann,\nLarge Corporation\nEnterprises, CEO"};
+        "Well, well, well. I see there's someone\nelse who's come to try to usurp my business.\n\n",
+        "I'm getting tired of doing this, but this\nwill end much worse for you than for me.\n\n",
+        "The only way you could possibly outmatch me\nis if you MANAGED YOUR MONEY WELL...\n\n",
+        "But that's impossible.\n\n",
+        "I look forward to our... strictly\nprofessional relationship.\n\n",
+        "Cordially,\nB. Mann, Large Corporation Enterprises, CEO"};
 
     /** Loading **/
     if (!font.loadFromFile("Consolas.ttf")){

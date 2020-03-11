@@ -122,21 +122,21 @@ void tauntLetterUpdate(string *letterContents, int letterLength, int n, Text *bo
     stringstream ss;
     stringstream ss2;
     if (n == -2){
-        ss2 << "       -----------\n       ** ALERT **\n       -----------";
+        ss2 << "               -----------\n               ** ALERT **\n               -----------";
     } else {
-        ss2 << "YOU HAVE RECIEVED A LETTER FROM\nLARGE CORPORATION ENTERPRISES.";
         if (n >= 0){
             if (n > 0){
-                ss << letterContents[n - 1];
+                ss2 << letterContents[n - 1];
             }
-            ss << letterContents[n];
+            ss2 << letterContents[n];
             if (n == letterLength - 1){
-                ss2 << "\n\nA to close the letter.";
+                ss << "\n\nA to close the letter.";
             } else {
-                ss2 << "\n\nU or D to read the letter.";
+                ss << "\n\nU or D to read the letter.";
             }
         } else {
-            ss2 << "\n\nA to open the letter.";
+            ss << "\n\nA to open the letter.";
+            ss2 << "YOU HAVE RECIEVED A LETTER FROM\nLARGE CORPORATION ENTERPRISES.";
         }
     }
     box1->setString(ss.str());
