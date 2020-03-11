@@ -154,7 +154,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1583780824 source:d:\ogpc_2020\testingproject\main.cpp
+1583949919 source:d:\ogpc_2020\testingproject\main.cpp
 	<iostream>
 	<string>
 	<sstream>
@@ -170,4 +170,8 @@
 
 1582835968 d:\ogpc_2020\testingproject\day.h
 	<iostream>
+
+1582835968 source:d:\ogpc_2020\testingproject\day.cpp
+	<iostream>
+	"day.h"
 
