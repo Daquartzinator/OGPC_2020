@@ -90,19 +90,39 @@ int main(){
     Goose.sprite.setTexture(SpriteSheet);
 
     InteractObject Computer(2, 432, temporaryArray, 64, 32);
-    Computer.sprite.setPosition(5,5);
+    Computer.sprite.setPosition(10,30);
     Computer.sprite.setTexture(SpriteSheet);
 
     int spriteCount = 5;
     AnimatedSprite *spriteList[spriteCount] = {&Employee, &Goose, &Computer, &Player, &PlayerTruck};
     ///Order in this array determines draw order
 
-    Computer.sprite.setPosition(10,30);
-    Computer.sprite.setTexture(SpriteSheet);
 
-   /* InteractObject Plant(4, 576, temporaryArray, 32, 48);
-    Plant.sprite.setPosition(130, 30);
-    Plant.sprite.setTexture(SpriteSheet); */
+    /*InteractObject Calander(4, 576, temporaryArray, 32, 48);
+    Calander.sprite.setPosition(161, 142);
+    Calander.sprite.setTexture(SpriteSheet);*/
+
+    /** Wall Collision Sprites**/
+    Sprite Top(SpriteSheet, IntRect(0,600,800,20));
+    Top.setPosition(0,0);
+
+    Sprite Right(SpriteSheet, IntRect(640,600,32,200));
+    Right.setPosition(630,0);
+
+    Sprite Bottom(SpriteSheet, IntRect(0,795,800,4));
+    Bottom.setPosition(0,195);
+
+    Sprite Left(SpriteSheet, IntRect(0,600,4,200));
+    Left.setPosition(0,0);
+
+    Sprite MiddleL(SpriteSheet,IntRect(160,621,16,110));
+    MiddleL.setPosition(160,0);
+
+    Sprite MiddleR(SpriteSheet,IntRect(176,621,16,110));
+    MiddleR.setPosition(176,0);
+
+    Sprite MiddleB(SpriteSheet, IntRect(161,770,14,1));
+    MiddleB.setPosition(161,140);
 
     /** Crew members **/
     CrewMember member1(100, 100, "Barbara", "   ", 50, 5);
@@ -395,14 +415,36 @@ int main(){
         if (playerControl){
             if (upHeld){
                 yCoord = yCoord - speed;
+                if (collision(Player.sprite, Top)){
+                    yCoord = yCoord + speed;
+                }
+                if (collision(Player.sprite, MiddleB)){
+                    yCoord = yCoord + speed;
+                }
+
             } else if (downHeld){
                 yCoord= yCoord + speed;
+                if (collision(Player.sprite, Bottom)){
+                    yCoord = yCoord - speed;
+                }
             } else if (leftHeld){
                 xCoord = xCoord - speed;
                 Player.setFrame(0);
+                if (collision(Player.sprite, Left)){
+                    xCoord = xCoord + speed;
+                }
+                if (collision(Player.sprite, MiddleR)){
+                    xCoord = xCoord + speed;
+                }
             } else if (rightHeld){
                 xCoord = xCoord + speed;
                 Player.setFrame(1);
+                if (collision(Player.sprite, Right)){
+                    xCoord = xCoord - speed;
+                }
+                 if (collision(Player.sprite, MiddleL)){
+                    xCoord = xCoord - speed;
+                }
             }
             playerControlView.setCenter(xCoord + playerXoffset, yCoord + playerYoffset);
             if (yCoord + playerYoffset < playerBoundU){
@@ -426,11 +468,8 @@ int main(){
                 Computer.setFrame(1);
                 Computer.near = true;
             }
-            /*else if (collision(Player.sprite, Computer.sprite)){
-                Plant.setFrame(plant);
-                Plant.near = true;
-                plant++;
-            }*/
+
+
             else {
                 Goose.setFrame(0);
                 Goose.near = false;
@@ -438,6 +477,7 @@ int main(){
                 Computer.near = false;
             }
             Player.sprite.setPosition(xCoord,yCoord);
+
 
         } else if (drivingMission){
             if (upHeld){
