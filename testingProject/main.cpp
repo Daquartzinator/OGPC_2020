@@ -50,6 +50,39 @@ int main(){
     Sprite world(WorldSheet, IntRect(0,0,800,200));
     world.setPosition(0,0);
 
+    int temporaryArray[3] = {0, 64, -1};
+    AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
+    Player.sprite.setTexture(SpriteSheet);
+
+    //AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
+
+    temporaryArray[1] = 48;
+    temporaryArray[2] = 96;
+    AnimatedSprite Employee(3, 528, temporaryArray, 48, 48);
+    Employee.sprite.setTexture(SpriteSheet);
+    Employee.sprite.setPosition(220,20);
+    Employee.sprite.setScale(2,2);
+    Employee.setFrame(0);
+
+    temporaryArray[1] = 32;
+    temporaryArray[2] = -1;
+    InteractObject Goose(2, 496, temporaryArray, 32, 32);
+    Goose.sprite.setPosition(355,160);
+    Goose.sprite.setTexture(SpriteSheet);
+
+    InteractObject Computer(2, 432, temporaryArray, 64, 32);
+    Computer.sprite.setPosition(10,30);
+    Computer.sprite.setTexture(SpriteSheet);
+
+    int spriteCount = 4;
+    AnimatedSprite *spriteList[spriteCount] = {&Employee, &Goose, &Computer, &Player};
+    ///Order in this array determines draw order
+
+
+    InteractObject Calander(4, 576, temporaryArray, 32, 48);
+    Calander.sprite.setPosition(161, 142);
+    Calander.sprite.setTexture(SpriteSheet);
+
     /** Wall Collision Sprites**/
     Sprite Top(SpriteSheet, IntRect(0,600,800,20));
     Top.setPosition(0,0);
@@ -72,40 +105,8 @@ int main(){
     Sprite MiddleB(SpriteSheet, IntRect(161,770,14,1));
     MiddleB.setPosition(161,140);
 
-    int temporaryArray[3] = {0, 64, -1};
-    AnimatedSprite Player(2, 400, temporaryArray, 32, 64);
-    Player.sprite.setTexture(SpriteSheet);
 
-    //AnimatedSprite PlayerTruck(2, 400, temporaryArray, 32, 64);
 
-    temporaryArray[1] = 48;
-    temporaryArray[2] = 96;
-    AnimatedSprite Employee(3, 528, temporaryArray, 48, 48);
-    Employee.sprite.setTexture(SpriteSheet);
-    Employee.sprite.setPosition(220,20);
-    Employee.sprite.setScale(2,2);
-    Employee.setFrame(0);
-
-    temporaryArray[1] = 32;
-    temporaryArray[2] = -1;
-    InteractObject Goose(2, 496, temporaryArray, 32, 32);
-    Goose.sprite.setPosition(355,160);
-    Goose.sprite.setTexture(SpriteSheet);
-
-    InteractObject Computer(2, 432, temporaryArray, 64, 32);
-    Computer.sprite.setPosition(5,5);
-    Computer.sprite.setTexture(SpriteSheet);
-
-    int spriteCount = 4;
-    AnimatedSprite *spriteList[spriteCount] = {&Employee, &Goose, &Computer, &Player};
-    ///Order in this array determines draw order
-
-    Computer.sprite.setPosition(10,30);
-    Computer.sprite.setTexture(SpriteSheet);
-
-   /* InteractObject Plant(4, 576, temporaryArray, 32, 48);
-    Plant.sprite.setPosition(130, 30);
-    Plant.sprite.setTexture(SpriteSheet); */
 
     /** Crew members **/
     CrewMember member1(100, 100, "Barbara", "   ", 50, 5);
