@@ -177,6 +177,7 @@ int main(){
 
     /** Driving mission Variables **/
     bool drivingMission = false;
+    int drivingSpeed = 7;
     int truckXoffset = 16;
     int truckYoffset = 32;
 
@@ -427,12 +428,14 @@ int main(){
                     yCoord = yCoord + speed;
                 }
 
-            } else if (downHeld){
+            }
+            if (downHeld){
                 yCoord= yCoord + speed;
                 if (collision(Player.sprite, Bottom)){
                     yCoord = yCoord - speed;
                 }
-            } else if (leftHeld){
+            }
+            if (leftHeld){
                 xCoord = xCoord - speed;
                 Player.setFrame(0);
                 if (collision(Player.sprite, Left)){
@@ -441,7 +444,8 @@ int main(){
                 if (collision(Player.sprite, MiddleR)){
                     xCoord = xCoord + speed;
                 }
-            } else if (rightHeld){
+            }
+            if (rightHeld){
                 xCoord = xCoord + speed;
                 Player.setFrame(1);
                 if (collision(Player.sprite, Right)){
@@ -485,23 +489,26 @@ int main(){
 
         } else if (drivingMission){
             if (upHeld){
-                yCoord = yCoord - speed;
+                yCoord = yCoord - drivingSpeed;
                 if (collision(PlayerTruck.sprite, MissionTop)){
-                    yCoord = yCoord + speed;
+                    yCoord = yCoord + drivingSpeed;
                 }
-            } else if (downHeld){
-                yCoord = yCoord + speed;
+            }
+            if (downHeld){
+                yCoord = yCoord + drivingSpeed;
                 if (collision(PlayerTruck.sprite, MissionBottom)){
-                    yCoord = yCoord - speed;
+                    yCoord = yCoord - drivingSpeed;
                 }
-            } else if (leftHeld){
-                xCoord = xCoord - speed;
+            }
+            if (leftHeld){
+                xCoord = xCoord - drivingSpeed;
                 if (collision(PlayerTruck.sprite, MissionLeft)){
-                    xCoord = xCoord + speed;
+                    xCoord = xCoord + drivingSpeed;
                 }
                 PlayerTruck.setFrame(0);
-            } else if (rightHeld){
-                xCoord = xCoord + speed;
+            }
+            if (rightHeld){
+                xCoord = xCoord + drivingSpeed;
                 PlayerTruck.setFrame(1);
             }
             drivingMissionView.setCenter(xCoord + truckXoffset, yCoord + truckYoffset);
