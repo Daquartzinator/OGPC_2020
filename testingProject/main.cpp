@@ -549,7 +549,13 @@ int main(){
             window.draw(box2Text);
         } else if (playerControl){
             window.setView(playerControlView);
-            window.draw(bigBorder);
+            window.draw(Right);
+            window.draw(Left);
+            window.draw(Top);
+            window.draw(Bottom);
+            window.draw(MiddleB);
+            window.draw(MiddleR);
+            window.draw(MiddleL);
             window.draw(world);
         } else if (drivingMission){
             window.setView(area4View);

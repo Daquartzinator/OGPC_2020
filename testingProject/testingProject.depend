@@ -44,7 +44,7 @@
 1576521489 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\add.h
 	<stdbool.h>
 
-1583781009 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
+1583950819 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\main.cpp
 	<iostream>
 	<string>
 	<sstream>
@@ -53,6 +53,7 @@
 	"managementlib.h"
 	"interactobject.h"
 	"animatedsprite.h"
+	"day.h"
 
 1582657506 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.cpp
 	<iostream>
@@ -61,7 +62,7 @@
 1580845505 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\crewmember.h
 	<iostream>
 
-1582657507 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\managementlib.cpp
+1583950819 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\managementlib.cpp
 	<iostream>
 	<sstream>
 	<SFML/Graphics.hpp>
@@ -115,5 +116,12 @@
 	"day.h"
 
 1583807053 c:\users\daqua\documents\code\sourcetree\ogpc_2020\testingproject\day.h
+	<iostream>
+
+1583949519 source:c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\day.cpp
+	<iostream>
+	"day.h"
+
+1583949519 c:\users\fiona_tfcyxzh\documents\github\ogpc_2020\testingproject\day.h
 	<iostream>
 
