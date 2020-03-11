@@ -135,6 +135,15 @@ int main(){
     Sprite MiddleB(SpriteSheet, IntRect(161,770,14,1));
     MiddleB.setPosition(161,140);
 
+    Sprite MissionTop(RoadSheet, IntRect(0,15,3000,4));
+    MissionTop.setPosition(0,0);
+
+    Sprite MissionBottom(RoadSheet, IntRect(0,15,3000,4));
+    MissionBottom.setPosition(0,188);
+
+    Sprite MissionLeft(RoadSheet, IntRect(0,0,4,200));
+    MissionLeft.setPosition(-4,0);
+
     /** Crew members **/
     CrewMember member1(100, 100, "Barbara", "   ", 50, 5);
     CrewMember member2(100, 100, "Newt", "      ", 60, 4);
@@ -438,7 +447,7 @@ int main(){
                 if (collision(Player.sprite, Right)){
                     xCoord = xCoord - speed;
                 }
-                 if (collision(Player.sprite, MiddleL)){
+                if (collision(Player.sprite, MiddleL)){
                     xCoord = xCoord - speed;
                 }
             }
@@ -465,7 +474,6 @@ int main(){
                 Computer.near = true;
             }
 
-
             else {
                 Goose.setFrame(0);
                 Goose.near = false;
@@ -478,10 +486,19 @@ int main(){
         } else if (drivingMission){
             if (upHeld){
                 yCoord = yCoord - speed;
+                if (collision(PlayerTruck.sprite, MissionTop)){
+                    yCoord = yCoord + speed;
+                }
             } else if (downHeld){
                 yCoord = yCoord + speed;
+                if (collision(PlayerTruck.sprite, MissionBottom)){
+                    yCoord = yCoord - speed;
+                }
             } else if (leftHeld){
                 xCoord = xCoord - speed;
+                if (collision(PlayerTruck.sprite, MissionLeft)){
+                    xCoord = xCoord + speed;
+                }
                 PlayerTruck.setFrame(0);
             } else if (rightHeld){
                 xCoord = xCoord + speed;
