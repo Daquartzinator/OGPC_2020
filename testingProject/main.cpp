@@ -40,17 +40,30 @@ int main(){
     int charityCount = 3;
     int currentSelection = 0;
 
-
-    /** Sprites and such **/
-    Font font;
-    Text box1Text, box2Text, box4Text;
-    Texture SpriteSheet;
-    Texture WorldSheet;
-    Texture RoadSheet;
-
+    /** Views **/
     View playerControlView(FloatRect(0,0,400,200)); ///View used in playerControl
     View drivingMissionView(FloatRect(0,0,300,200)); ///View used in mission
     View area4View(FloatRect(-100,0,100,200)); ///View for "HUD" in mission
+
+    /** Fonts and text **/
+    Font font;
+    Text box1Text, box2Text, box4Text;
+    box1Text.setFont(font);
+    box1Text.setCharacterSize(9);
+    box1Text.setPosition(15,10);
+
+    box2Text.setFont(font);
+    box2Text.setCharacterSize(9);
+    box2Text.setPosition(165,131);
+
+    box4Text.setFont(font);
+    box4Text.setCharacterSize(9);
+    box4Text.setPosition(-85, 10);
+
+    /** Sprites and such **/
+    Texture SpriteSheet;
+    Texture WorldSheet;
+    Texture RoadSheet;
 
     Sprite bigBorder(SpriteSheet, IntRect(0,200,400,200));
     bigBorder.setPosition(0,0);
@@ -65,7 +78,6 @@ int main(){
 
     Sprite world(WorldSheet, IntRect(0,0,800,200));
     world.setPosition(0,0);
-
     Sprite road(RoadSheet, IntRect(0,0,3000,200));
 
     int temporaryArray[3] = {0, 64, -1};
@@ -93,14 +105,13 @@ int main(){
     Computer.sprite.setPosition(10,30);
     Computer.sprite.setTexture(SpriteSheet);
 
-    int spriteCount = 5;
-    AnimatedSprite *spriteList[spriteCount] = {&Employee, &Goose, &Computer, &Player, &PlayerTruck};
-    ///Order in this array determines draw order
-
-
     /*InteractObject Calander(4, 576, temporaryArray, 32, 48);
     Calander.sprite.setPosition(161, 142);
     Calander.sprite.setTexture(SpriteSheet);*/
+
+    int spriteCount = 5;
+    AnimatedSprite *spriteList[spriteCount] = {&Employee, &Goose, &Computer, &Player, &PlayerTruck};
+    ///Order in this array determines draw order
 
     /** Wall Collision Sprites**/
     Sprite Top(SpriteSheet, IntRect(0,600,800,20));
@@ -159,10 +170,6 @@ int main(){
     bool drivingMission = false;
     int truckXoffset = 16;
     int truckYoffset = 32;
-//    int missionBoundL = 150;
-//    int missionBoundR = 2750;
-//    int missionBoundU = 100;
-//    int missionBoundD = 100;
 
     /** Shootout Variables **/
     bool shootSelectScreen = false;
@@ -197,18 +204,6 @@ int main(){
 	}
 
     /** Setup **/
-    box1Text.setFont(font);
-    box1Text.setCharacterSize(9);
-    box1Text.setPosition(15,10);
-
-    box2Text.setFont(font);
-    box2Text.setCharacterSize(9);
-    box2Text.setPosition(165,131);
-
-    box4Text.setFont(font);
-    box4Text.setCharacterSize(9);
-    box4Text.setPosition(-85, 10);
-
     cout << "That's how Mafia Works" << endl;
 
     RenderWindow window(VideoMode(400,200), "That's How Mafia Works");
