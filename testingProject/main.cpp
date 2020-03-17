@@ -177,7 +177,9 @@ int main(){
 
     /** Driving mission Variables **/
     bool drivingMission = false;
-    int drivingSpeed = 7;
+    float drivingSpeed = 4;
+    float drivingAccel = 0.05;
+    int drivingVSpeed = 4;
     int truckXoffset = 16;
     int truckYoffset = 32;
 
@@ -489,28 +491,29 @@ int main(){
 
         } else if (drivingMission){
             if (upHeld){
-                yCoord = yCoord - drivingSpeed;
+                yCoord = yCoord - drivingVSpeed;
                 if (collision(PlayerTruck.sprite, MissionTop)){
-                    yCoord = yCoord + drivingSpeed;
+                    yCoord = yCoord + drivingVSpeed;
                 }
             }
             if (downHeld){
-                yCoord = yCoord + drivingSpeed;
+                yCoord = yCoord + drivingVSpeed;
                 if (collision(PlayerTruck.sprite, MissionBottom)){
-                    yCoord = yCoord - drivingSpeed;
+                    yCoord = yCoord - drivingVSpeed;
                 }
             }
             if (leftHeld){
-                xCoord = xCoord - drivingSpeed;
-                if (collision(PlayerTruck.sprite, MissionLeft)){
-                    xCoord = xCoord + drivingSpeed;
-                }
-                PlayerTruck.setFrame(0);
+                drivingSpeed -= drivingAccel;
             }
             if (rightHeld){
-                xCoord = xCoord + drivingSpeed;
-                PlayerTruck.setFrame(1);
+                drivingSpeed += drivingAccel;
             }
+            if (drivingSpeed > 8){
+                drivingSpeed = 8;
+            } else if (drivingSpeed < 0){
+                drivingSpeed = 0;
+            }
+            xCoord = xCoord + drivingSpeed;
             drivingMissionView.setCenter(xCoord + truckXoffset, yCoord + truckYoffset);
             if (yCoord + truckYoffset < dayList[currentDay].missionBoundU){
                 drivingMissionView.setCenter(drivingMissionView.getCenter().x, dayList[currentDay].missionBoundU);
@@ -527,6 +530,7 @@ int main(){
             PlayerTruck.sprite.setPosition(xCoord, yCoord);
 
             ss.str(string());
+            ss << drivingSpeed;
             ss << "\n\n\nPROGRESS\n ";
             for(int i = dayList[currentDay].missionBoundR/10; i <= xCoord; i += (dayList[currentDay].missionBoundR / 10)){
                 ss << "_";
